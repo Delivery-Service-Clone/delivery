@@ -2,9 +2,7 @@ package com.example.delivery.domain.user.entity;
 
 import com.example.delivery.global.common.BaseEntity;
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

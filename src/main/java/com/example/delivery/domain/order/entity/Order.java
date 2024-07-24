@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "orders")  // 테이블 이름 변경
+@Table(name = "orders") // 테이블 이름 변경
 public class Order extends BaseEntity {
 
   @Id
