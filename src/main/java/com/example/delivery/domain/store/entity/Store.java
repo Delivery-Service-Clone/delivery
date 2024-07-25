@@ -17,6 +17,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -66,4 +67,22 @@ public class Store extends BaseEntity {
 
   @Column(nullable = false, length = 45)
   private String introduction;
+
+  @Builder
+  public Store(
+      Owner owner,
+      Category category,
+      String name,
+      String phone,
+      String address,
+      String openStatus,
+      String introduction) {
+    this.owner = owner;
+    this.category = category;
+    this.name = name;
+    this.phone = phone;
+    this.address = address;
+    this.openStatus = openStatus;
+    this.introduction = introduction;
+  }
 }

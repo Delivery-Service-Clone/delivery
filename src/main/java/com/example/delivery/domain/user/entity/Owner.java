@@ -13,6 +13,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -47,4 +48,13 @@ public class Owner extends BaseEntity {
 
   @Column(nullable = false, length = 45)
   private String address;
+
+  @Builder
+  public Owner(String email, String name, String password, String phone, String address) {
+    this.email = email;
+    this.name = name;
+    this.password = password;
+    this.phone = phone;
+    this.address = address;
+  }
 }
