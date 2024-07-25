@@ -1,5 +1,6 @@
 package com.example.delivery.domain.order.entity;
 
+import com.example.delivery.domain.menu.entity.Menu;
 import com.example.delivery.domain.menu.entity.MenuOption;
 import com.example.delivery.global.common.BaseEntity;
 import jakarta.persistence.Entity;
@@ -25,8 +26,12 @@ public class OrderMenuOption extends BaseEntity {
   private Long id;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "order_menu_id")
-  private OrderMenu orderMenu;
+  @JoinColumn(name = "order_id")
+  private Order order;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "menu_id")
+  private Menu menu;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "menu_option_id")
