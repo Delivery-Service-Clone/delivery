@@ -1,8 +1,11 @@
 package com.example.delivery.domain.order.entity;
 
+import com.example.delivery.domain.pay.entity.Pay;
+import com.example.delivery.domain.rider.entity.Rider;
 import com.example.delivery.domain.store.entity.Store;
 import com.example.delivery.domain.user.entity.User;
 import com.example.delivery.global.common.BaseEntity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -11,7 +14,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,6 +39,31 @@ public class Order extends BaseEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "store_id")
   private Store store;
+
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "rider_id")
+  private Rider rider;
+
+  @OneToMany(
+      mappedBy = "order",
+      fetch = FetchType.LAZY,
+      cascade = CascadeType.ALL,
+      orphanRemoval = true)
+  private List<Pay> pays;
+
+  @OneToMany(
+      mappedBy = "order",
+      fetch = FetchType.LAZY,
+      cascade = CascadeType.ALL,
+      orphanRemoval = true)
+  private List<OrderMenu> orderMenus;
+
+  @OneToMany(
+      mappedBy = "order",
+      fetch = FetchType.LAZY,
+      cascade = CascadeType.ALL,
+      orphanRemoval = true)
+  private List<OrderMenuOption> orderMenuOptions;
 
   @Column(nullable = false, length = 45)
   private String address;
