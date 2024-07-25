@@ -69,8 +69,16 @@ public class Store extends BaseEntity {
   private String introduction;
 
   @Builder
-  public Store(Owner owner, Category category, List<Menu> menus, List<Order> orders,
-      String name, String phone, String address, String openStatus, String introduction) {
+  public Store(
+      Owner owner,
+      Category category,
+      List<Menu> menus,
+      List<Order> orders,
+      String name,
+      String phone,
+      String address,
+      String openStatus,
+      String introduction) {
     this.owner = owner;
     this.category = category;
     this.menus = menus;

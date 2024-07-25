@@ -1,6 +1,5 @@
 package com.example.delivery.domain.store.dto;
 
-import com.example.delivery.domain.user.entity.Owner;
 import lombok.Getter;
 
 public class StoreDto {

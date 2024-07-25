@@ -18,8 +18,8 @@ public class StoreController {
   private final StoreService storeService;
 
   @PostMapping("/stores")
-  private ResponseEntity<String> add(HttpSession session,
-      @Validated @RequestBody StoreDto.request storeRequest) {
+  private ResponseEntity<String> add(
+      HttpSession session, @Validated @RequestBody StoreDto.request storeRequest) {
 
     storeService.registerStore(storeRequest);
 

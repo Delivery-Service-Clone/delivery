@@ -12,13 +12,14 @@ public class OwnerService {
   private final OwnerRepository ownerRepository;
 
   public void registerUser(OwnerDto.Request request) {
-    Owner user = Owner.builder()
-        .name(request.getName())
-        .password(request.getPassword())
-        .phone(request.getPhone())
-        .email(request.getEmail())
-        .address(request.getAddress())
-        .build();
+    Owner user =
+        Owner.builder()
+            .name(request.getName())
+            .password(request.getPassword())
+            .phone(request.getPhone())
+            .email(request.getEmail())
+            .address(request.getAddress())
+            .build();
 
     ownerRepository.save(user);
   }

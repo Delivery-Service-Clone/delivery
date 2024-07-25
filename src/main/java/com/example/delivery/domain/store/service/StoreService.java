@@ -13,18 +13,20 @@ import org.springframework.stereotype.Service;
 public class StoreService {
   private final StoreRepository storeRepository;
   private final OwnerRepository ownerRepository;
+
   public void registerStore(StoreDto.request request) {
 
     Owner owner = ownerRepository.findById(request.getOwnerId()).orElseThrow();
 
-    Store store = Store.builder()
-        .owner(owner)
-        .name(request.getStoreName())
-        .address(request.getStoreAddress())
-        .phone(request.getStorePhone())
-        .openStatus(request.getOpenStatus())
-        .introduction(request.getIntroduction())
-        .build();
+    Store store =
+        Store.builder()
+            .owner(owner)
+            .name(request.getStoreName())
+            .address(request.getStoreAddress())
+            .phone(request.getStorePhone())
+            .openStatus(request.getOpenStatus())
+            .introduction(request.getIntroduction())
+            .build();
 
     storeRepository.save(store);
   }
