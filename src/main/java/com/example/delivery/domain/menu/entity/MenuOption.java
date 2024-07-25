@@ -1,6 +1,5 @@
 package com.example.delivery.domain.menu.entity;
 
-import com.example.delivery.domain.order.entity.OrderMenu;
 import com.example.delivery.domain.order.entity.OrderMenuOption;
 import com.example.delivery.global.common.BaseEntity;
 import jakarta.persistence.CascadeType;
@@ -33,7 +32,11 @@ public class MenuOption extends BaseEntity {
   @JoinColumn(name = "menu_id")
   private Menu menu;
 
-  @OneToMany(mappedBy = "menuOption", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(
+      mappedBy = "menuOption",
+      fetch = FetchType.LAZY,
+      cascade = CascadeType.ALL,
+      orphanRemoval = true)
   private List<OrderMenuOption> orderMenuOptions;
 
   @Column(nullable = false, length = 45)
