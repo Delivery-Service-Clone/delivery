@@ -1,6 +1,5 @@
 package com.example.delivery.global.handler;
 
-
 import static com.example.delivery.global.error.ResponseEntity.failureResponse;
 
 import com.example.delivery.global.error.ResponseEntity;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-
 @Slf4j
 @RestControllerAdvice // controller의 exception catch
 public class GlobalExceptionHandler {
@@ -31,8 +29,8 @@ public class GlobalExceptionHandler {
   protected ResponseEntity handleException(BaseException e, HttpServletResponse response) {
     response.setStatus(e.getResponseType().getStatus());
     StackTraceElement ste = e.getStackTrace()[0];
-    log.error("[{}-{}] : {}", ste.getClassName(), ste.getLineNumber(),
-        e.getResponseType().getMessage());
+    log.error(
+        "[{}-{}] : {}", ste.getClassName(), ste.getLineNumber(), e.getResponseType().getMessage());
     return failureResponse(e.getResponseType());
   }
 
@@ -70,18 +68,15 @@ public class GlobalExceptionHandler {
       response.setStatus(ResponseType.UNAUTHORIZED_REQUEST.getStatus());
       return failureResponse(ResponseType.UNAUTHORIZED_REQUEST);
     } else {
-      return failureResponse(String.valueOf(HttpStatus.UNAUTHORIZED.value()),
-          e.getMessage());
+      return failureResponse(String.valueOf(HttpStatus.UNAUTHORIZED.value()), e.getMessage());
     }
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
   @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-  public ResponseEntity handleMethodArgumentNotValidException(
-      MethodArgumentNotValidException e) {
+  public ResponseEntity handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
     return failureResponse(
         String.valueOf(HttpStatus.BAD_REQUEST.value()),
         e.getBindingResult().getAllErrors().get(0).getDefaultMessage());
   }
-
 }

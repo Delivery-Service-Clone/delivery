@@ -47,7 +47,6 @@ public enum ResponseType {
   INVALID_REDIRECT_URL(UNAUTHORIZED.value(), "AU07", "redirect url이 유효하지 않습니다"),
   REDIRECT_URL_NOT_FOUND(BAD_REQUEST.value(), "AU08", "요청에 redirect url이 포함되지 않았습니다."),
 
-
   // USER
   USER_NOT_FOUND(UNAUTHORIZED.value(), "US01", "유저를 찾을 수 없습니다."),
   USER_ACCOUNT_EXPIRED(UNAUTHORIZED.value(), "US02", "유저 계정이 만료되었습니다."),
@@ -55,7 +54,6 @@ public enum ResponseType {
   USER_ACCOUNT_DISABLED(UNAUTHORIZED.value(), "US04", "유저 계정이 비활성화인 상태입니다."),
   USER_PASSWORD_EXPIRED(UNAUTHORIZED.value(), "US05", "유저 패스워드가 만료되었습니다."),
   INVALID_USER_PASSWORD(UNAUTHORIZED.value(), "US06", "유저 패스워드가 일치하지 않습니다."),
-
 
   // POST
   POST_NOT_FOUND(NOT_FOUND.value(), "PO01", "해당 게시글을 찾을 수 없습니다."),

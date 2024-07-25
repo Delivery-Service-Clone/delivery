@@ -12,8 +12,7 @@ public class ResponseEntity<T> {
   String message;
   T data;
 
-  public ResponseEntity() {
-  }
+  public ResponseEntity() {}
 
   public ResponseEntity(String responseCode, String message, T data) {
     this.responseCode = responseCode;
@@ -56,5 +55,4 @@ public class ResponseEntity<T> {
   public static <T> ResponseEntity<T> failureResponse(String responseCode, String message) {
     return new ResponseEntity<>(responseCode, message, null);
   }
-
 }
