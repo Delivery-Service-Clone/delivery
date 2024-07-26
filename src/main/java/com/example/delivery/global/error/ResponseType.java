@@ -72,7 +72,10 @@ public enum ResponseType {
   // IMAGE
   UNSUPPORTED_FILE_TYPE(UNSUPPORTED_MEDIA_TYPE.value(), "I001", "해당 파일은 지원하는 파일 형식이 아닙니다."),
   FILE_NOT_UPLOAD(BAD_REQUEST.value(), "I002", "이미지를 업로드하지 않았습니다."),
-  MAX_UPLOAD_SIZE_EXCEEDED(PAYLOAD_TOO_LARGE.value(), "I003", "이미지 용량이 초과되었습니다.");
+  MAX_UPLOAD_SIZE_EXCEEDED(PAYLOAD_TOO_LARGE.value(), "I003", "이미지 용량이 초과되었습니다."),
+
+  // Owner
+  OWNER_NOT_FOUND(NOT_FOUND.value(), "OW01", "사장을 찾을 수 없습니다.");
 
   private final int status;
   private final String code;

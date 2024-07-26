@@ -8,14 +8,6 @@ import com.example.delivery.global.exception.BaseException;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AccountExpiredException;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.CredentialsExpiredException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
-import org.springframework.security.authentication.LockedException;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -43,34 +35,34 @@ public class GlobalExceptionHandler {
     return failureResponse(ResponseType.FAILURE);
   }
 
-  @ExceptionHandler(AuthenticationException.class)
-  public ResponseEntity handleAuthentication(
-      AuthenticationException e, HttpServletResponse response) {
-    if (e instanceof UsernameNotFoundException) {
-      response.setStatus(ResponseType.USER_NOT_FOUND.getStatus());
-      return failureResponse(ResponseType.USER_NOT_FOUND);
-    } else if (e instanceof BadCredentialsException) {
-      response.setStatus(ResponseType.INVALID_USER_PASSWORD.getStatus());
-      return failureResponse(ResponseType.INVALID_USER_PASSWORD);
-    } else if (e instanceof AccountExpiredException) {
-      response.setStatus(ResponseType.USER_ACCOUNT_EXPIRED.getStatus());
-      return failureResponse(ResponseType.USER_ACCOUNT_EXPIRED);
-    } else if (e instanceof CredentialsExpiredException) {
-      response.setStatus(ResponseType.USER_PASSWORD_EXPIRED.getStatus());
-      return failureResponse(ResponseType.USER_PASSWORD_EXPIRED);
-    } else if (e instanceof LockedException) {
-      response.setStatus(ResponseType.USER_ACCOUNT_LOCKED.getStatus());
-      return failureResponse(ResponseType.USER_ACCOUNT_LOCKED);
-    } else if (e instanceof DisabledException) {
-      response.setStatus(ResponseType.USER_ACCOUNT_DISABLED.getStatus());
-      return failureResponse(ResponseType.USER_ACCOUNT_DISABLED);
-    } else if (e instanceof InsufficientAuthenticationException) {
-      response.setStatus(ResponseType.UNAUTHORIZED_REQUEST.getStatus());
-      return failureResponse(ResponseType.UNAUTHORIZED_REQUEST);
-    } else {
-      return failureResponse(String.valueOf(HttpStatus.UNAUTHORIZED.value()), e.getMessage());
-    }
-  }
+  //  @ExceptionHandler(AuthenticationException.class)
+  //  public ResponseEntity handleAuthentication(
+  //      AuthenticationException e, HttpServletResponse response) {
+  //    if (e instanceof UsernameNotFoundException) {
+  //      response.setStatus(ResponseType.USER_NOT_FOUND.getStatus());
+  //      return failureResponse(ResponseType.USER_NOT_FOUND);
+  //    } else if (e instanceof BadCredentialsException) {
+  //      response.setStatus(ResponseType.INVALID_USER_PASSWORD.getStatus());
+  //      return failureResponse(ResponseType.INVALID_USER_PASSWORD);
+  //    } else if (e instanceof AccountExpiredException) {
+  //      response.setStatus(ResponseType.USER_ACCOUNT_EXPIRED.getStatus());
+  //      return failureResponse(ResponseType.USER_ACCOUNT_EXPIRED);
+  //    } else if (e instanceof CredentialsExpiredException) {
+  //      response.setStatus(ResponseType.USER_PASSWORD_EXPIRED.getStatus());
+  //      return failureResponse(ResponseType.USER_PASSWORD_EXPIRED);
+  //    } else if (e instanceof LockedException) {
+  //      response.setStatus(ResponseType.USER_ACCOUNT_LOCKED.getStatus());
+  //      return failureResponse(ResponseType.USER_ACCOUNT_LOCKED);
+  //    } else if (e instanceof DisabledException) {
+  //      response.setStatus(ResponseType.USER_ACCOUNT_DISABLED.getStatus());
+  //      return failureResponse(ResponseType.USER_ACCOUNT_DISABLED);
+  //    } else if (e instanceof InsufficientAuthenticationException) {
+  //      response.setStatus(ResponseType.UNAUTHORIZED_REQUEST.getStatus());
+  //      return failureResponse(ResponseType.UNAUTHORIZED_REQUEST);
+  //    } else {
+  //      return failureResponse(String.valueOf(HttpStatus.UNAUTHORIZED.value()), e.getMessage());
+  //    }
+  //  }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
   @ResponseStatus(value = HttpStatus.BAD_REQUEST)

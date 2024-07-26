@@ -1,5 +1,6 @@
 package com.example.delivery.domain.store.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 public class StoreDto {
@@ -7,11 +8,11 @@ public class StoreDto {
   @Getter
   public static class request {
 
-    private Long ownerId;
-    private String storeName;
-    private String storePhone;
-    private String storeAddress;
-    private String openStatus;
-    private String introduction;
+    @NotNull private Long ownerId;
+    @NotNull private String storeName;
+    @NotNull private String storePhone;
+    @NotNull private String storeAddress;
+    @NotNull private String openStatus;
+    @NotNull private String introduction;
   }
 }
