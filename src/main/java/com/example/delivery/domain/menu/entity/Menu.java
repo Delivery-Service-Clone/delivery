@@ -1,7 +1,6 @@
 package com.example.delivery.domain.menu.entity;
 
 import com.example.delivery.domain.order.entity.OrderMenu;
-import com.example.delivery.domain.order.entity.OrderMenuOption;
 import com.example.delivery.domain.store.entity.Store;
 import com.example.delivery.global.common.BaseEntity;
 import jakarta.persistence.CascadeType;
@@ -17,6 +16,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -41,20 +41,6 @@ public class Menu extends BaseEntity {
       orphanRemoval = true)
   private List<OrderMenu> orderMenus;
 
-  @OneToMany(
-      mappedBy = "menu",
-      fetch = FetchType.LAZY,
-      cascade = CascadeType.ALL,
-      orphanRemoval = true)
-  private List<MenuOption> menuOptions;
-
-  @OneToMany(
-      mappedBy = "menu",
-      fetch = FetchType.LAZY,
-      cascade = CascadeType.ALL,
-      orphanRemoval = true)
-  private List<OrderMenuOption> orderMenuOptions;
-
   @Column(nullable = false, length = 45)
   private String name;
 
@@ -66,4 +52,15 @@ public class Menu extends BaseEntity {
 
   @Column(nullable = false, length = 255)
   private String photo;
+
+  @Builder
+  public Menu(Store store, String name, Integer price,
+      String description,
+      String photo) {
+    this.store = store;
+    this.name = name;
+    this.price = price;
+    this.description = description;
+    this.photo = photo;
+  }
 }

@@ -22,7 +22,11 @@ public enum ErrorCode {
   NOT_FOUND_SEARCH_KEYWORD(400, "S006", "해당 검색어를 삭제할 수 없습니다."),
 
   // Owner
-  OWNER_NOT_FOUND_ERROR(400, "O001", "가게 주인을 찾을 수 없음");
+  OWNER_NOT_FOUND_ERROR(400, "O001", "가게 주인을 찾을 수 없음"),
+
+  // Store
+  STORE_NOT_FOUND_ERROR(400, "S001", "가게를 찾을 수 없음");
+  ;
 
   private final int status;
   private final String code;
