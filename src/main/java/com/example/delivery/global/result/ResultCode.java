@@ -17,9 +17,8 @@ public enum ResultCode {
   LOGIN_SUCCESS("U005", "200", "정상적으로 로그인 되었습니다."),
   CREATE_NICKNAME_SUCCESS("U006", "200", "닉네임이 정상적으로 생성되었습니다."),
 
-  //store
+  // store
   STORE_REGISTRATION_SUCCESS("S001", "200", "식당이 정상적으로 등록되었습니다."),
-
   ;
 
   private final String code;
