@@ -1,12 +1,11 @@
 package com.example.delivery.domain.store.service;
 
-import com.example.delivery.domain.store.dto.StoreDto;
+import com.example.delivery.domain.store.dto.request.StoreCreateDto;
 import com.example.delivery.domain.store.entity.Store;
 import com.example.delivery.domain.store.repository.StoreRepository;
 import com.example.delivery.domain.user.entity.Owner;
+import com.example.delivery.domain.user.exception.owner.OwnerNotFoundException;
 import com.example.delivery.domain.user.repository.OwnerRepository;
-import com.example.delivery.global.error.ResponseType;
-import com.example.delivery.global.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,22 +16,14 @@ public class StoreService {
   private final StoreRepository storeRepository;
   private final OwnerRepository ownerRepository;
 
-  public void registerStore(StoreDto.request request) {
+  public void registerStore(StoreCreateDto storeCreateDto) {
 
     Owner owner =
         ownerRepository
-            .findById(request.getOwnerId())
-            .orElseThrow(() -> new NotFoundException(ResponseType.OWNER_NOT_FOUND));
+            .findById(storeCreateDto.getOwnerId())
+            .orElseThrow(OwnerNotFoundException::new);
 
-    Store store =
-        Store.builder()
-            .owner(owner)
-            .name(request.getStoreName())
-            .address(request.getStoreAddress())
-            .phone(request.getStorePhone())
-            .openStatus(request.getOpenStatus())
-            .introduction(request.getIntroduction())
-            .build();
+    Store store = storeCreateDto.toEntity(storeCreateDto, owner);
 
     storeRepository.save(store);
   }
