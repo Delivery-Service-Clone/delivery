@@ -16,7 +16,7 @@ public class OwnerConrtoller {
   private final OwnerService ownerService;
 
   @PostMapping("/owners")
-  private ResponseEntity<String> add(
+  public ResponseEntity<String> add(
       HttpSession session, @Validated @RequestBody OwnerDto.Request userRequestDto) {
 
     ownerService.registerUser(userRequestDto);
