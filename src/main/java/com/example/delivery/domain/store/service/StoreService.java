@@ -19,8 +19,10 @@ public class StoreService {
 
   public void registerStore(StoreDto.request request) {
 
-    Owner owner = ownerRepository.findById(request.getOwnerId())
-        .orElseThrow(() -> new NotFoundException(ResponseType.OWNER_NOT_FOUND));
+    Owner owner =
+        ownerRepository
+            .findById(request.getOwnerId())
+            .orElseThrow(() -> new NotFoundException(ResponseType.OWNER_NOT_FOUND));
 
     Store store =
         Store.builder()
