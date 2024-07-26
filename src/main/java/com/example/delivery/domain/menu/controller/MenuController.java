@@ -19,7 +19,8 @@ public class MenuController {
   private final MenuService menuService;
 
   @PostMapping("/menus")
-  public ResponseEntity<ResultResponse> registerMenu(@Valid @RequestBody MenuCreateDto menuCreateDto) {
+  public ResponseEntity<ResultResponse> registerMenu(
+      @Valid @RequestBody MenuCreateDto menuCreateDto) {
     menuService.registerMenu(menuCreateDto);
     return ResponseEntity.ok(ResultResponse.of(MENU_REGISTRATION_SUCCESS));
   }

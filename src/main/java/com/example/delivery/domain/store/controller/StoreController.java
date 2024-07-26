@@ -19,7 +19,8 @@ public class StoreController {
   private final StoreService storeService;
 
   @PostMapping("/stores")
-  public ResponseEntity<ResultResponse> registerStore(@Valid @RequestBody StoreCreateDto storeCreateDto) {
+  public ResponseEntity<ResultResponse> registerStore(
+      @Valid @RequestBody StoreCreateDto storeCreateDto) {
 
     storeService.registerStore(storeCreateDto);
 
