@@ -17,9 +17,7 @@ import com.example.delivery.global.error.ErrorCode;
 import com.example.delivery.global.error.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -73,8 +71,10 @@ public class AuthService {
 
   @Transactional
   public String Memberlogin(MemberLoginRequest request) {
-    Member member = memberRepository.findByEmail(request.getEmail())
-        .orElseThrow(() -> new BusinessException(USER_NOT_FOUND_ERROR));
+    Member member =
+        memberRepository
+            .findByEmail(request.getEmail())
+            .orElseThrow(() -> new BusinessException(USER_NOT_FOUND_ERROR));
 
     if (!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
       throw new BusinessException(ErrorCode.INVALID_PASSWORD);
@@ -87,8 +87,10 @@ public class AuthService {
 
   @Transactional
   public String Ownerlogin(OwnerLoginRequest request) {
-    Owner owner = ownerRepository.findByEmail(request.getEmail())
-        .orElseThrow(() -> new BusinessException(OWNER_NOT_FOUND_ERROR));
+    Owner owner =
+        ownerRepository
+            .findByEmail(request.getEmail())
+            .orElseThrow(() -> new BusinessException(OWNER_NOT_FOUND_ERROR));
 
     if (!passwordEncoder.matches(request.getPassword(), owner.getPassword())) {
       throw new BusinessException(ErrorCode.INVALID_PASSWORD);

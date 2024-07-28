@@ -71,8 +71,7 @@ public class AuthController {
   }
 
   @PostMapping("/owner/login")
-  public ResponseEntity<ResultResponse> loginOwner(
-      @Valid @RequestBody OwnerLoginRequest request) {
+  public ResponseEntity<ResultResponse> loginOwner(@Valid @RequestBody OwnerLoginRequest request) {
     String token = AuthService.Ownerlogin(request);
     return ResponseEntity.ok(ResultResponse.of(LOGIN_SUCCESS, token));
   }

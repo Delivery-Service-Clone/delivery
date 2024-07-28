@@ -10,13 +10,10 @@ import io.jsonwebtoken.security.Keys;
 import io.micrometer.common.util.StringUtils;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
-import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.util.Base64;
 import java.util.Date;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -36,8 +33,8 @@ public class JwtTokenProvider {
 
   @Value("${jwt.secret}")
   private String secretKey;
-  private Key key;
 
+  private Key key;
 
   // application.yml에서 secret 값 가져와서 key에 저장하는 초기화 메서드
   @PostConstruct
@@ -52,12 +49,13 @@ public class JwtTokenProvider {
     claims.put("email", email);
     Date now = new Date();
     Date expiryDate = new Date(now.getTime() + ACCESS_TOKEN_EXPIRE_TIME);
-    return BEARER_PREFIX + Jwts.builder()
-        .setClaims(claims)
-        .setIssuedAt(now)
-        .setExpiration(expiryDate)
-        .signWith(key, SignatureAlgorithm.HS256) // HMAC 알고리즘 사용
-        .compact();
+    return BEARER_PREFIX
+        + Jwts.builder()
+            .setClaims(claims)
+            .setIssuedAt(now)
+            .setExpiration(expiryDate)
+            .signWith(key, SignatureAlgorithm.HS256) // HMAC 알고리즘 사용
+            .compact();
   }
 
   @Transactional

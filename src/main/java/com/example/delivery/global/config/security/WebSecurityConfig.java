@@ -44,8 +44,7 @@ public class WebSecurityConfig {
                         "/v3/api-docs/swagger-config/**",
                         "/chat/**",
                         "/webjars/**",
-                        "/ws-stomp/**"
-                    )
+                        "/ws-stomp/**")
                     .permitAll()
                     .anyRequest()
                     .authenticated())
