@@ -1,4 +1,4 @@
-package com.example.delivery.domain.user.exception.owner;
+package com.example.delivery.domain.user.exception;
 
 import com.example.delivery.global.error.ErrorCode;
 import com.example.delivery.global.error.exception.BusinessException;

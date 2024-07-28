@@ -15,7 +15,8 @@ public enum ResultCode {
   GET_USER_SUCCESS("U003", "200", "지정 사용자를 정상적으로 불러왔습니다."),
   DELETE_USER_SUCCESS("U004", "200", "지정 사용자를 정상적으로 삭제했습니다."),
   LOGIN_SUCCESS("U005", "200", "정상적으로 로그인 되었습니다."),
-  CREATE_NICKNAME_SUCCESS("U006", "200", "닉네임이 정상적으로 생성되었습니다."),
+  CHECK_EMAIL_GOOD("U006", "200", "사용 가능한 이메일입니다."),
+  CHECK_EMAIL_BAD("U007", "200", "사용 불가능한 이메일입니다."),
 
   // store
   STORE_REGISTRATION_SUCCESS("S001", "200", "식당이 정상적으로 등록되었습니다."),

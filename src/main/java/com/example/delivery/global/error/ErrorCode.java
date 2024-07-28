@@ -24,9 +24,13 @@ public enum ErrorCode {
   // Owner
   OWNER_NOT_FOUND_ERROR(400, "O001", "가게 주인을 찾을 수 없음"),
 
+  // JWT
+  JWT_INVALID(401, "J001", "유효하지 않은 토큰입니다."),
+  JWT_EXPIRED(401, "J002", "만료된 토큰입니다."),
+  EXPIRED_REFRESH_TOKEN(401, "J003", "만료된 REFRESH 토큰입니다. 재로그인 해주십시오."),
+
   // Store
   STORE_NOT_FOUND_ERROR(400, "S001", "가게를 찾을 수 없음");
-  ;
 
   private final int status;
   private final String code;
