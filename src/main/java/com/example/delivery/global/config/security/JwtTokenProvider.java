@@ -5,14 +5,18 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import io.micrometer.common.util.StringUtils;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,18 +28,22 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 @RequiredArgsConstructor
 public class JwtTokenProvider {
-  
-  private static final String BEARER_PREFIX = "Bearer ";
-  private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 60; // 토큰 유효시간 60분
-
-  @Value("${jwt.key}")
-  private String key;
 
   private final CustomUserDetailService customUserDetailService;
 
+  private static final String BEARER_PREFIX = "Bearer ";
+  private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 60; // 토큰 유효시간 60분
+
+  @Value("${jwt.secret}")
+  private String secretKey;
+  private Key key;
+
+
+  // application.yml에서 secret 값 가져와서 key에 저장하는 초기화 메서드
   @PostConstruct
   protected void init() {
-    key = Base64.getEncoder().encodeToString(key.getBytes(StandardCharsets.UTF_8));
+    byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+    this.key = Keys.hmacShaKeyFor(keyBytes);
   }
 
   // JWT 토큰 생성
@@ -48,7 +56,7 @@ public class JwtTokenProvider {
         .setClaims(claims)
         .setIssuedAt(now)
         .setExpiration(expiryDate)
-        .signWith(SignatureAlgorithm.ES256, key)
+        .signWith(key, SignatureAlgorithm.HS256) // HMAC 알고리즘 사용
         .compact();
   }
 
