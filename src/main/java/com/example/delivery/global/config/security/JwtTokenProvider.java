@@ -45,18 +45,19 @@ public class JwtTokenProvider {
     claims.put("email", email);
     Date now = new Date();
     Date expiryDate = new Date(now.getTime() + ACCESS_TOKEN_EXPIRE_TIME);
-    return "Bearer " + Jwts.builder()
-        .setClaims(claims)
-        .setIssuedAt(now)
-        .setExpiration(expiryDate)
-        .signWith(SignatureAlgorithm.ES256, key)
-        .compact();
+    return "Bearer "
+        + Jwts.builder()
+            .setClaims(claims)
+            .setIssuedAt(now)
+            .setExpiration(expiryDate)
+            .signWith(SignatureAlgorithm.ES256, key)
+            .compact();
   }
 
   @Transactional
   public Authentication getAuthentication(String token) {
-    UserDetails userDetails = customUserDetailService.loadUserByUsername(
-        this.getMemberEmail(token));
+    UserDetails userDetails =
+        customUserDetailService.loadUserByUsername(this.getMemberEmail(token));
     return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
   }
 
