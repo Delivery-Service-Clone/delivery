@@ -3,7 +3,7 @@ package com.example.delivery.domain.order.entity;
 import com.example.delivery.domain.pay.entity.Pay;
 import com.example.delivery.domain.rider.entity.Rider;
 import com.example.delivery.domain.store.entity.Store;
-import com.example.delivery.domain.user.entity.User;
+import com.example.delivery.domain.user.entity.Member;
 import com.example.delivery.global.common.BaseEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -33,8 +33,8 @@ public class Order extends BaseEntity {
   private Long id;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id")
-  private User user;
+  @JoinColumn(name = "member_id")
+  private Member member;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "store_id")

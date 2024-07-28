@@ -4,7 +4,7 @@ import com.example.delivery.domain.store.dto.request.StoreCreateDto;
 import com.example.delivery.domain.store.entity.Store;
 import com.example.delivery.domain.store.repository.StoreRepository;
 import com.example.delivery.domain.user.entity.Owner;
-import com.example.delivery.domain.user.exception.owner.OwnerNotFoundException;
+import com.example.delivery.domain.user.exception.OwnerNotFoundException;
 import com.example.delivery.domain.user.repository.OwnerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
