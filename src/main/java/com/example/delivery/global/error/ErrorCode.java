@@ -3,7 +3,9 @@ package com.example.delivery.global.error;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-/** {주체}_{이유} message 는 동사 명사형으로 마무리 */
+/**
+ * {주체}_{이유} message 는 동사 명사형으로 마무리
+ */
 @Getter
 @AllArgsConstructor
 public enum ErrorCode {
@@ -22,7 +24,12 @@ public enum ErrorCode {
   NOT_FOUND_SEARCH_KEYWORD(400, "S006", "해당 검색어를 삭제할 수 없습니다."),
 
   // Owner
-  OWNER_NOT_FOUND_ERROR(400, "O001", "가게 주인을 찾을 수 없음");
+  OWNER_NOT_FOUND_ERROR(400, "O001", "가게 주인을 찾을 수 없음"),
+
+  // JWT
+  JWT_INVALID(401, "J001", "유효하지 않은 토큰입니다."),
+  JWT_EXPIRED(401, "J002", "만료된 토큰입니다."),
+  EXPIRED_REFRESH_TOKEN(401, "J003", "만료된 REFRESH 토큰입니다. 재로그인 해주십시오.");
 
   private final int status;
   private final String code;

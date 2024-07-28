@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "members")
-public class Member extends BaseEntity {
+public class Member extends BaseEntity implements UserDetails {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,5 +48,43 @@ public class Member extends BaseEntity {
     this.password = password;
     this.phone = phone;
     this.address = address;
+  }
+
+  public void changePassword(String password) {
+    this.password = password;
+  }
+
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return null;
+  }
+
+  @Override
+  public String getUsername() {
+    if (email != null && !email.equals("")) {
+      return email;
+    } else {
+      return id.toString();
+    }
+  }
+
+  @Override
+  public boolean isAccountNonExpired() {
+    return false;
+  }
+
+  @Override
+  public boolean isAccountNonLocked() {
+    return false;
+  }
+
+  @Override
+  public boolean isCredentialsNonExpired() {
+    return false;
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return false;
   }
 }
