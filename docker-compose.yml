@@ -1,0 +1,50 @@
+version: "3"
+
+services:
+  mysql:
+    container_name: db-mysql
+    image: mysql/mysql-server:8.0
+    tty: true
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      TZ: Asia/Seoul
+    volumes:
+      - mysql-data:/var/lib/mysql
+    command:
+      - '--character-set-server=utf8mb4'
+      - '--collation-server=utf8mb4_unicode_ci'
+    ports:
+      - '3306:3306'
+    expose:
+      - "3306"
+    networks:
+      - app-tier
+
+  backend:
+    container_name: backend-springboot
+    build: .
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db-mysql:3306/delivery
+      SPRING_DATASOURCE_USERNAME: ${MYSQL_USER}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    expose:
+      - 8080
+    networks:
+      - app-tier
+
+networks:
+  app-tier:
+    driver: bridge
+    
+volumes:
+  mysql-data:
+

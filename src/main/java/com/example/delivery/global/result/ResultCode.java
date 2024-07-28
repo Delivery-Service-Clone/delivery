@@ -20,6 +20,9 @@ public enum ResultCode {
 
   // store
   STORE_REGISTRATION_SUCCESS("S001", "200", "식당이 정상적으로 등록되었습니다."),
+
+  // menu
+  MENU_REGISTRATION_SUCCESS("M001", "200", "메뉴가 정상적으로 등록되었습니다."),
   ;
 
   private final String code;

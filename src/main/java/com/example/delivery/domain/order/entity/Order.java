@@ -58,13 +58,6 @@ public class Order extends BaseEntity {
       orphanRemoval = true)
   private List<OrderMenu> orderMenus;
 
-  @OneToMany(
-      mappedBy = "order",
-      fetch = FetchType.LAZY,
-      cascade = CascadeType.ALL,
-      orphanRemoval = true)
-  private List<OrderMenuOption> orderMenuOptions;
-
   @Column(nullable = false, length = 45)
   private String address;
 
