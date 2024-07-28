@@ -54,8 +54,8 @@ public class JwtTokenProvider {
 
   @Transactional
   public Authentication getAuthentication(String token) {
-    UserDetails userDetails = customUserDetailService.loadUserByUsername(
-        this.getMemberEmail(token));
+    UserDetails userDetails =
+        customUserDetailService.loadUserByUsername(this.getMemberEmail(token));
     return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
   }
 

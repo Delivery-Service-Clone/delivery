@@ -33,20 +33,22 @@ public class WebSecurityConfig {
         .cors(Customizer.withDefaults())
         .sessionManagement(
             configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .authorizeHttpRequests(authorize ->
-            authorize
-                .requestMatchers(
-                    "/api/v1/**",
-                    "/swagger-ui/**",
-                    "/swagger-ui.html",
-                    "/v3/api-docs/**",
-                    "/v3/api-docs/swagger-config/**",
-                    "/chat/**",
-                    "/webjars/**",
-                    "/ws-stomp/**",
-                    "**/pub/**").permitAll()
-                .anyRequest().authenticated()
-        )
+        .authorizeHttpRequests(
+            authorize ->
+                authorize
+                    .requestMatchers(
+                        "/api/v1/**",
+                        "/swagger-ui/**",
+                        "/swagger-ui.html",
+                        "/v3/api-docs/**",
+                        "/v3/api-docs/swagger-config/**",
+                        "/chat/**",
+                        "/webjars/**",
+                        "/ws-stomp/**",
+                        "**/pub/**")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated())
         .addFilterBefore(
             new JwtAuthenticationFilter(jwtTokenProvider),
             UsernamePasswordAuthenticationFilter.class);
