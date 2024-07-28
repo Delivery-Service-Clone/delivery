@@ -24,8 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 @RequiredArgsConstructor
 public class JwtTokenProvider {
-
-  private static final String AUTHORIZATION_HEADER = "Authorization";
+  
   private static final String BEARER_PREFIX = "Bearer ";
   private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 60; // 토큰 유효시간 60분
 
@@ -45,7 +44,7 @@ public class JwtTokenProvider {
     claims.put("email", email);
     Date now = new Date();
     Date expiryDate = new Date(now.getTime() + ACCESS_TOKEN_EXPIRE_TIME);
-    return "Bearer " + Jwts.builder()
+    return BEARER_PREFIX + Jwts.builder()
         .setClaims(claims)
         .setIssuedAt(now)
         .setExpiration(expiryDate)

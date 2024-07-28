@@ -3,11 +3,14 @@ package com.example.delivery.domain.user.entity;
 import com.example.delivery.domain.order.entity.Order;
 import com.example.delivery.global.common.BaseEntity;
 import jakarta.persistence.*;
+import java.util.Collection;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Getter
 @Entity
