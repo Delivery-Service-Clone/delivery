@@ -1,12 +1,12 @@
 package com.example.delivery.domain.user.repository;
 
-import com.example.delivery.domain.user.entity.Owner;
+import com.example.delivery.domain.user.entity.Member;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface OwnerRepository extends JpaRepository<Owner, Long> {
+public interface MemberRepository extends JpaRepository<Member, Long> {
 
-  Optional<Owner> findByEmail(String email);
+  Optional<Member> findByEmail(String email);
 
   boolean existsByEmail(String email);
 }
