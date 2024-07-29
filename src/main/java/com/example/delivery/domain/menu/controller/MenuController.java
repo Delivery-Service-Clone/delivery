@@ -12,16 +12,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/menus")
 @Tag(name = "메뉴", description = "메뉴 관련 API")
 public class MenuController {
 
   private final MenuService menuService;
 
-  @PostMapping("/menus")
+  @PostMapping("/")
   @Operation(summary = "메뉴 생성", description = "새로운 메뉴를 생성한다.")
   public ResponseEntity<ResultResponse> registerMenu(
       @Valid @RequestBody MenuCreateDto menuCreateDto) {
