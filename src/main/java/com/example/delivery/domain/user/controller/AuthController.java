@@ -47,19 +47,19 @@ public class AuthController {
     }
   }
 
-  @PostMapping(value = "/member/register")
-  public ResponseEntity<ResultResponse> registerMember(
+  @PostMapping(value = "/member/signup")
+  public ResponseEntity<ResultResponse> signupMember(
       @Valid @RequestBody MemberRegisterRequest request) {
 
-    AuthService.registerMember(request);
+    AuthService.signupMember(request);
     return ResponseEntity.ok(ResultResponse.of(USER_REGISTRATION_SUCCESS));
   }
 
-  @PostMapping(value = "/owner/register")
-  public ResponseEntity<ResultResponse> registerOwner(
+  @PostMapping(value = "/owner/signup")
+  public ResponseEntity<ResultResponse> signupOwner(
       @Valid @RequestBody OwnerRegisterRequest request) {
 
-    AuthService.registerOwner(request);
+    AuthService.signupOwner(request);
     return ResponseEntity.ok(ResultResponse.of(USER_REGISTRATION_SUCCESS));
   }
 
