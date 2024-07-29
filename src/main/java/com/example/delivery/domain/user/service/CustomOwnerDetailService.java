@@ -1,6 +1,5 @@
 package com.example.delivery.domain.user.service;
 
-import com.example.delivery.domain.user.entity.Member;
 import com.example.delivery.domain.user.entity.Owner;
 import com.example.delivery.domain.user.repository.OwnerRepository;
 import com.example.delivery.global.error.ErrorCode;
