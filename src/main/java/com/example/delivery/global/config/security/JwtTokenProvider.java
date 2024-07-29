@@ -2,11 +2,14 @@ package com.example.delivery.global.config.security;
 
 import com.example.delivery.domain.user.service.CustomUserDetailService;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import io.micrometer.common.util.StringUtils;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
@@ -51,11 +54,11 @@ public class JwtTokenProvider {
     Date expiryDate = new Date(now.getTime() + ACCESS_TOKEN_EXPIRE_TIME);
     return BEARER_PREFIX
         + Jwts.builder()
-            .setClaims(claims)
-            .setIssuedAt(now)
-            .setExpiration(expiryDate)
-            .signWith(key, SignatureAlgorithm.HS256) // HMAC 알고리즘 사용
-            .compact();
+        .setClaims(claims)
+        .setIssuedAt(now)
+        .setExpiration(expiryDate)
+        .signWith(key, SignatureAlgorithm.HS256) // HMAC 알고리즘 사용
+        .compact();
   }
 
   @Transactional
@@ -73,8 +76,14 @@ public class JwtTokenProvider {
     try {
       Jws<Claims> claims = Jwts.parser().setSigningKey(key).parseClaimsJws(jwtToken);
       return !claims.getBody().getExpiration().before(new Date());
+    } catch (SignatureException e) {
+      throw e; // 서명 예외를 다시 던집니다.
+    } catch (MalformedJwtException e) {
+      throw e; // 잘못된 JWT 예외를 다시 던집니다.
+    } catch (ExpiredJwtException e) {
+      throw e; // 만료된 JWT 예외를 다시 던집니다.
     } catch (Exception e) {
-      return false;
+      throw new RuntimeException("토큰 검증 중 오류 발생", e); // 일반 예외를 다시 던집니다.
     }
   }
 
