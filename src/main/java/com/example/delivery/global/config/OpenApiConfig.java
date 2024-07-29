@@ -39,6 +39,5 @@ public class OpenApiConfig {
     SpringDocUtils.getConfig().addAnnotationsToIgnore(AuthenticationPrincipal.class);
 
     return new OpenAPI().info(info).addSecurityItem(securityRequirement).components(components);
-
   }
 }

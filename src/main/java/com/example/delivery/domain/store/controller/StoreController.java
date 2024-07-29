@@ -39,7 +39,8 @@ public class StoreController {
 
   @PutMapping("/{storeId}/status")
   @Operation(summary = "가게 상태 변경", description = "가게를 열 것인지 닫을 것인지 변경한다.")
-  public ResponseEntity<ResultResponse> changeStoreStatus(@PathVariable Long storeId, @Valid @RequestBody StoreStatus storeStatus) {
+  public ResponseEntity<ResultResponse> changeStoreStatus(
+      @PathVariable Long storeId, @Valid @RequestBody StoreStatus storeStatus) {
     storeService.changeStoreStatus(storeId, storeStatus);
     return ResponseEntity.ok(ResultResponse.of(CHANGE_STORESTATUS_SUCCESS));
   }
