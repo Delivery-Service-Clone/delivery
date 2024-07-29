@@ -44,7 +44,7 @@ public class AuthService {
   }
 
   @Transactional
-  public void registerMember(MemberRegisterRequest request) {
+  public void signupMember(MemberRegisterRequest request) {
     if (memberRepository.existsByEmail(request.getEmail())) {
       throw new EntityAlreadyExistException();
     }
@@ -57,7 +57,7 @@ public class AuthService {
   }
 
   @Transactional
-  public void registerOwner(OwnerRegisterRequest request) {
+  public void signupOwner(OwnerRegisterRequest request) {
     if (ownerRepository.existsByEmail(request.getEmail())) {
       throw new EntityAlreadyExistException();
     }

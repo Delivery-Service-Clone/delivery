@@ -27,7 +27,9 @@ public enum ErrorCode {
   // JWT
   JWT_INVALID(401, "J001", "유효하지 않은 토큰입니다."),
   JWT_EXPIRED(401, "J002", "만료된 토큰입니다."),
-  EXPIRED_REFRESH_TOKEN(401, "J003", "만료된 REFRESH 토큰입니다. 재로그인 해주십시오."),
+  JWT_INVALID_FORMAT(401, "J003", "올바르지 않은 토큰 형식입니다."),
+  JWT_MISSING(401, "J004", "토큰이 없습니다."),
+  ACCESS_DENIED(403, "J005", "유효하지 않은 접근입니다."),
 
   // Store
   STORE_NOT_FOUND_ERROR(400, "S001", "가게를 찾을 수 없음");

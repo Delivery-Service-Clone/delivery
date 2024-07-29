@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ErrorResponse {
+
   private String businessCode;
   private String errorMessage;
   private List<FieldError> errors;
@@ -37,9 +38,14 @@ public class ErrorResponse {
     return new ErrorResponse(code);
   }
 
+  public void setErrorMessage(String errorMessage) {
+    this.errorMessage = errorMessage;
+  }
+
   @Getter
   @AllArgsConstructor
   public static class FieldError {
+
     private String field;
     private String value;
     private String reason;
