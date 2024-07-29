@@ -7,6 +7,8 @@ import com.example.delivery.global.common.BaseEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -62,8 +64,8 @@ public class Store extends BaseEntity {
   @Column(nullable = false, length = 45)
   private String address;
 
-  @Column(nullable = false, length = 45)
-  private String openStatus;
+  @Enumerated(EnumType.STRING)
+  private StoreStatus storeStatus;
 
   @Column(nullable = false, length = 45)
   private String introduction;
@@ -75,14 +77,18 @@ public class Store extends BaseEntity {
       String name,
       String phone,
       String address,
-      String openStatus,
+      StoreStatus storeStatus,
       String introduction) {
     this.owner = owner;
     this.category = category;
     this.name = name;
     this.phone = phone;
     this.address = address;
-    this.openStatus = openStatus;
+    this.storeStatus = storeStatus;
     this.introduction = introduction;
+  }
+
+  public void updateStatus(StoreStatus status) {
+    this.storeStatus = status;
   }
 }

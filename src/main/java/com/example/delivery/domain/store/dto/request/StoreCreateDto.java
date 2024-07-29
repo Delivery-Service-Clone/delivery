@@ -1,6 +1,7 @@
 package com.example.delivery.domain.store.dto.request;
 
 import com.example.delivery.domain.store.entity.Store;
+import com.example.delivery.domain.store.entity.StoreStatus;
 import com.example.delivery.domain.user.entity.Owner;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -12,7 +13,8 @@ public class StoreCreateDto {
   @NotNull private String storeName;
   @NotNull private String storePhone;
   @NotNull private String storeAddress;
-  @NotNull private String openStatus;
+  @NotNull private StoreStatus storeStatus;
+
   @NotNull private String introduction;
 
   public Store toEntity(StoreCreateDto storeCreateRequest, Owner owner) {
@@ -22,7 +24,7 @@ public class StoreCreateDto {
         .name(storeCreateRequest.getStoreName())
         .address(storeCreateRequest.getStoreAddress())
         .phone(storeCreateRequest.getStorePhone())
-        .openStatus(storeCreateRequest.getOpenStatus())
+        .storeStatus(storeCreateRequest.getStoreStatus())
         .introduction(storeCreateRequest.getIntroduction())
         .build();
   }
