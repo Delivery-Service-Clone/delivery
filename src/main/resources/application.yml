@@ -20,17 +20,17 @@ jwt:
   secret: f46399d13753c46d03c1d90971b3d1072f470434a2f8266b0b1021281e46f69a
 
 springdoc:
-  version: v1.0.0
-  packages-to-scan: com.example.delivery
-  swagger-ui:
-    path: /api-docs
-    tags-sorter: alpha
-    operations-sorter: alpha
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
   api-docs:
-    path: /api-docs/json
     groups:
       enabled: true
-  cache:
-    disabled: true
-  default-consumes-media-type: application/json;charset=UTF-8
-  default-produces-media-type: application/json;charset=UTF-8
+  swagger-ui:
+    operations-sorter: alpha    # alpha(알파벳 오름차순), method(HTTP메소드순)
+    tags-sorter: alpha          # 태그 정렬 기준
+    path: /swagger-ui.html      # html 문서 접속 경로
+    disable-swagger-default-url: true
+    display-query-params-without-oauth2: true
+    doc-expansion: none         # tag, operation 펼치는 방식
+  paths-to-match:
+    - /**
