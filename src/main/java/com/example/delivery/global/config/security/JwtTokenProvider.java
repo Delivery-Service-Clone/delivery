@@ -1,5 +1,6 @@
 package com.example.delivery.global.config.security;
 
+import com.example.delivery.domain.user.service.CustomOwnerDetailService;
 import com.example.delivery.domain.user.service.CustomUserDetailService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -30,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class JwtTokenProvider {
 
   private final CustomUserDetailService customUserDetailService;
+  private final CustomOwnerDetailService customOwnerDetailService;
 
   private static final String BEARER_PREFIX = "Bearer ";
   private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 60; // 토큰 유효시간 60분
@@ -47,29 +49,42 @@ public class JwtTokenProvider {
   }
 
   // JWT 토큰 생성
-  public String createToken(String email) {
+  public String createToken(String email, String userType) {
     Claims claims = Jwts.claims().setSubject(email); // Jwt payload에 저장되는 정보단위
     claims.put("email", email);
+    claims.put("userType", userType);
     Date now = new Date();
     Date expiryDate = new Date(now.getTime() + ACCESS_TOKEN_EXPIRE_TIME);
     return BEARER_PREFIX
         + Jwts.builder()
-            .setClaims(claims)
-            .setIssuedAt(now)
-            .setExpiration(expiryDate)
-            .signWith(key, SignatureAlgorithm.HS256) // HMAC 알고리즘 사용
-            .compact();
+        .setClaims(claims)
+        .setIssuedAt(now)
+        .setExpiration(expiryDate)
+        .signWith(key, SignatureAlgorithm.HS256) // HMAC 알고리즘 사용
+        .compact();
   }
 
   @Transactional
   public Authentication getAuthentication(String token) {
-    UserDetails userDetails =
-        customUserDetailService.loadUserByUsername(this.getMemberEmail(token));
+    String userType = getUserTypeFromToken(token);
+    UserDetails userDetails;
+
+    if ("OWNER".equals(userType)) {
+      userDetails = customOwnerDetailService.loadUserByUsername(getMemberEmail(token));
+    } else {
+      userDetails = customUserDetailService.loadUserByUsername(getMemberEmail(token));
+    }
+
     return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
   }
 
-  public String getMemberEmail(String token) {
+  private String getMemberEmail(String token) {
     return Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody().getSubject();
+  }
+
+  private String getUserTypeFromToken(String token) {
+    Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
+    return claims.get("userType", String.class);
   }
 
   public boolean validateToken(String jwtToken) {
