@@ -17,7 +17,6 @@ import com.example.delivery.global.error.ErrorCode;
 import com.example.delivery.global.error.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthService {
 
   private final JwtTokenProvider jwtTokenProvider;
-  private final AuthenticationManagerBuilder authenticationManagerBuilder;
   private final MemberRepository memberRepository;
   private final OwnerRepository ownerRepository;
   private final PasswordEncoder passwordEncoder;
@@ -80,7 +78,7 @@ public class AuthService {
       throw new BusinessException(ErrorCode.INVALID_PASSWORD);
     }
 
-    String token = jwtTokenProvider.createToken(member.getEmail());
+    String token = jwtTokenProvider.createToken(member.getEmail(), "MEMBER");
 
     return token;
   }
@@ -96,7 +94,7 @@ public class AuthService {
       throw new BusinessException(ErrorCode.INVALID_PASSWORD);
     }
 
-    String token = jwtTokenProvider.createToken(owner.getEmail());
+    String token = jwtTokenProvider.createToken(owner.getEmail(), "OWNER");
 
     return token;
   }
