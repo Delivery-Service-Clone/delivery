@@ -24,12 +24,13 @@ public class MemberController {
       throw new BusinessException(ErrorCode.INVALID_AUTH_TOKEN);
     }
 
-    MemberDto memberDto = MemberDto.builder()
-        .email(member.getEmail())
-        .name(member.getName())
-        .phone(member.getPhone())
-        .address(member.getAddress())
-        .build();
+    MemberDto memberDto =
+        MemberDto.builder()
+            .email(member.getEmail())
+            .name(member.getName())
+            .phone(member.getPhone())
+            .address(member.getAddress())
+            .build();
 
     return ResponseEntity.ok(ResultResponse.of(ResultCode.GET_USER_SUCCESS, memberDto));
   }

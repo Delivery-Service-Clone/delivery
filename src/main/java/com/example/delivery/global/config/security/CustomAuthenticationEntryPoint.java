@@ -19,8 +19,11 @@ import org.springframework.stereotype.Component;
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
   @Override
-  public void commence(HttpServletRequest request, HttpServletResponse response,
-      AuthenticationException authException) throws IOException, ServletException {
+  public void commence(
+      HttpServletRequest request,
+      HttpServletResponse response,
+      AuthenticationException authException)
+      throws IOException, ServletException {
     ErrorResponse errorResponse = ErrorResponse.of(ErrorCode.JWT_MISSING);
     ObjectMapper objectMapper = new ObjectMapper();
     String jsonErrorResponse = objectMapper.writeValueAsString(errorResponse);

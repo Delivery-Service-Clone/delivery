@@ -27,10 +27,10 @@ public class WebSecurityConfig {
 
   private final JwtTokenProvider jwtTokenProvider;
 
-
   @Bean
-  public SecurityFilterChain filterChain(HttpSecurity http,
-      AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+  public SecurityFilterChain filterChain(
+      HttpSecurity http, AuthenticationManagerBuilder authenticationManagerBuilder)
+      throws Exception {
     http.httpBasic(HttpBasicConfigurer::disable)
         .csrf(CsrfConfigurer::disable)
         .cors(Customizer.withDefaults())
@@ -51,10 +51,11 @@ public class WebSecurityConfig {
                     .permitAll()
                     .anyRequest()
                     .authenticated())
-        .exceptionHandling(authenticationManager -> authenticationManager
-            .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
-            .accessDeniedHandler(new CustomAccessDeniedHandler())
-        )
+        .exceptionHandling(
+            authenticationManager ->
+                authenticationManager
+                    .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                    .accessDeniedHandler(new CustomAccessDeniedHandler()))
         .addFilterBefore(
             new JwtAuthenticationFilter(jwtTokenProvider),
             UsernamePasswordAuthenticationFilter.class);
