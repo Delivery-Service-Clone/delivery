@@ -37,10 +37,6 @@ public class Store extends BaseEntity {
   @JoinColumn(name = "owner_id")
   private Owner owner;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "category_id")
-  private Category category;
-
   @OneToMany(
       mappedBy = "store",
       fetch = FetchType.LAZY,
@@ -54,6 +50,9 @@ public class Store extends BaseEntity {
       cascade = CascadeType.ALL,
       orphanRemoval = true)
   private List<Order> orders;
+
+  @Enumerated(EnumType.STRING)
+  private Category category;
 
   @Column(nullable = false, length = 45)
   private String name;
