@@ -8,7 +8,6 @@ import com.example.delivery.domain.store.dto.StoreDto;
 import com.example.delivery.domain.store.dto.request.StoreCreateDto;
 import com.example.delivery.domain.store.entity.StoreStatus;
 import com.example.delivery.domain.store.service.StoreService;
-import com.example.delivery.domain.user.entity.Member;
 import com.example.delivery.domain.user.entity.Owner;
 import com.example.delivery.global.error.ErrorCode;
 import com.example.delivery.global.error.exception.BusinessException;
@@ -46,11 +45,14 @@ public class StoreController {
   }
 
   @PostMapping
-  @Operation(summary = "가게 등록", description = "새로운 가게를 등록한다.", security = {@SecurityRequirement(name = "jwtAuth")})
+  @Operation(
+      summary = "가게 등록",
+      description = "새로운 가게를 등록한다.",
+      security = {@SecurityRequirement(name = "jwtAuth")})
   public ResponseEntity<ResultResponse> registerStore(
       @Valid @RequestBody StoreCreateDto storeCreateDto, @AuthenticationPrincipal Owner owner) {
 
-    if(owner == null){
+    if (owner == null) {
       throw new BusinessException(ErrorCode.INVALID_AUTH_TOKEN);
     }
     storeService.registerStore(storeCreateDto, owner);

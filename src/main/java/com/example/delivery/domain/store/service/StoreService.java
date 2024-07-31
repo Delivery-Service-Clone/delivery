@@ -8,7 +8,6 @@ import com.example.delivery.domain.store.exception.StoreNotFoundException;
 import com.example.delivery.domain.store.repository.StoreRepository;
 import com.example.delivery.domain.user.entity.Owner;
 import com.example.delivery.domain.user.repository.OwnerRepository;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -39,15 +38,19 @@ public class StoreService {
 
     List<Store> stores = storeRepository.findAll();
 
-    List<StoreDto> storeDtos = stores.stream().map(store -> StoreDto.builder()
-            .ownerId(store.getOwner().getId())
-            .storeAddress(store.getAddress())
-            .storeName(store.getName())
-            .storePhone(store.getPhone())
-            .storeStatus(store.getStoreStatus())
-            .introduction(store.getIntroduction())
-            .build())
-        .collect(Collectors.toList());
+    List<StoreDto> storeDtos =
+        stores.stream()
+            .map(
+                store ->
+                    StoreDto.builder()
+                        .ownerId(store.getOwner().getId())
+                        .storeAddress(store.getAddress())
+                        .storeName(store.getName())
+                        .storePhone(store.getPhone())
+                        .storeStatus(store.getStoreStatus())
+                        .introduction(store.getIntroduction())
+                        .build())
+            .collect(Collectors.toList());
 
     return storeDtos;
   }
