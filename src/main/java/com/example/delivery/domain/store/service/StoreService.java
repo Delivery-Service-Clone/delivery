@@ -69,14 +69,16 @@ public class StoreService {
     }
 
     return stores.stream()
-        .map(store -> StoreDto.builder()
-            .ownerId(store.getOwner().getId())
-            .storeAddress(store.getAddress())
-            .storeName(store.getName())
-            .storePhone(store.getPhone())
-            .storeStatus(store.getStoreStatus())
-            .introduction(store.getIntroduction())
-            .build())
+        .map(
+            store ->
+                StoreDto.builder()
+                    .ownerId(store.getOwner().getId())
+                    .storeAddress(store.getAddress())
+                    .storeName(store.getName())
+                    .storePhone(store.getPhone())
+                    .storeStatus(store.getStoreStatus())
+                    .introduction(store.getIntroduction())
+                    .build())
         .collect(Collectors.toList());
   }
 }
