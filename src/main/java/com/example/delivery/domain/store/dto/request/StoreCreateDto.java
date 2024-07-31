@@ -9,12 +9,10 @@ import lombok.Getter;
 @Getter
 public class StoreCreateDto {
 
-  @NotNull private Long ownerId;
   @NotNull private String storeName;
   @NotNull private String storePhone;
   @NotNull private String storeAddress;
   @NotNull private StoreStatus storeStatus;
-
   @NotNull private String introduction;
 
   public Store toEntity(StoreCreateDto storeCreateRequest, Owner owner) {
