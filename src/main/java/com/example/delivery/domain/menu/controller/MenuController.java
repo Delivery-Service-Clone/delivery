@@ -23,7 +23,7 @@ public class MenuController {
 
   private final MenuService menuService;
 
-  @PostMapping("/")
+  @PostMapping
   @Operation(summary = "메뉴 생성", description = "새로운 메뉴를 생성한다.")
   public ResponseEntity<ResultResponse> registerMenu(
       @Valid @RequestBody MenuCreateDto menuCreateDto) {

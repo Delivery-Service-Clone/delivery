@@ -1,18 +1,19 @@
 package com.example.delivery.domain.store.dto;
 
-import jakarta.validation.constraints.NotNull;
+import com.example.delivery.domain.store.entity.StoreStatus;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
+@Builder
+@Getter
+@AllArgsConstructor
 public class StoreDto {
 
-  @Getter
-  public static class request {
-
-    @NotNull private Long ownerId;
-    @NotNull private String storeName;
-    @NotNull private String storePhone;
-    @NotNull private String storeAddress;
-    @NotNull private String openStatus;
-    @NotNull private String introduction;
-  }
+  private Long ownerId;
+  private String storeName;
+  private String storePhone;
+  private String storeAddress;
+  private StoreStatus storeStatus;
+  private String introduction;
 }
