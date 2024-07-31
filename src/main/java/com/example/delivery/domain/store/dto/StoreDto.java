@@ -1,5 +1,6 @@
 package com.example.delivery.domain.store.dto;
 
+import com.example.delivery.domain.store.entity.Category;
 import com.example.delivery.domain.store.entity.StoreStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,4 +17,5 @@ public class StoreDto {
   private String storeAddress;
   private StoreStatus storeStatus;
   private String introduction;
+  private Category category;
 }

@@ -1,5 +1,6 @@
 package com.example.delivery.domain.store.dto.request;
 
+import com.example.delivery.domain.store.entity.Category;
 import com.example.delivery.domain.store.entity.Store;
 import com.example.delivery.domain.store.entity.StoreStatus;
 import com.example.delivery.domain.user.entity.Owner;
@@ -14,6 +15,7 @@ public class StoreCreateDto {
   @NotNull private String storeAddress;
   @NotNull private StoreStatus storeStatus;
   @NotNull private String introduction;
+  @NotNull private Category category;
 
   public Store toEntity(StoreCreateDto storeCreateRequest, Owner owner) {
 
@@ -24,6 +26,7 @@ public class StoreCreateDto {
         .phone(storeCreateRequest.getStorePhone())
         .storeStatus(storeCreateRequest.getStoreStatus())
         .introduction(storeCreateRequest.getIntroduction())
+        .category(storeCreateRequest.getCategory())
         .build();
   }
 }
