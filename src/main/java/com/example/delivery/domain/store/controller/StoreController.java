@@ -6,6 +6,7 @@ import static com.example.delivery.global.result.ResultCode.STORE_REGISTRATION_S
 
 import com.example.delivery.domain.store.dto.StoreDto;
 import com.example.delivery.domain.store.dto.request.StoreCreateDto;
+import com.example.delivery.domain.store.entity.Category;
 import com.example.delivery.domain.store.entity.StoreStatus;
 import com.example.delivery.domain.store.service.StoreService;
 import com.example.delivery.domain.user.entity.Owner;
@@ -39,8 +40,14 @@ public class StoreController {
   @GetMapping("/list")
   @Operation(summary = "가게 조회", description = "모든 가게를 조회한다.")
   public ResponseEntity<ResultResponse> getStores() {
-    System.out.println("가게 조회 시작 성공");
     List<StoreDto> stores = storeService.getAllStores();
+    return ResponseEntity.ok(ResultResponse.of(GET_STORES_SUCCESS, stores));
+  }
+
+  @GetMapping("/{category}")
+  @Operation(summary = "카테고리별 가게 조회", description = "카테고리별 가게를 조회한다.")
+  public ResponseEntity<ResultResponse> getStoresByCategory(@PathVariable Category category) {
+    List<StoreDto> stores = storeService.getStoresByCategory(category);
     return ResponseEntity.ok(ResultResponse.of(GET_STORES_SUCCESS, stores));
   }
 

@@ -2,6 +2,7 @@ package com.example.delivery.domain.store.service;
 
 import com.example.delivery.domain.store.dto.StoreDto;
 import com.example.delivery.domain.store.dto.request.StoreCreateDto;
+import com.example.delivery.domain.store.entity.Category;
 import com.example.delivery.domain.store.entity.Store;
 import com.example.delivery.domain.store.entity.StoreStatus;
 import com.example.delivery.domain.store.exception.StoreNotFoundException;
@@ -38,6 +39,10 @@ public class StoreService {
 
     List<Store> stores = storeRepository.findAll();
 
+    if (stores.isEmpty()) {
+      throw new StoreNotFoundException();
+    }
+
     List<StoreDto> storeDtos =
         stores.stream()
             .map(
@@ -49,9 +54,29 @@ public class StoreService {
                         .storePhone(store.getPhone())
                         .storeStatus(store.getStoreStatus())
                         .introduction(store.getIntroduction())
+                        .category(store.getCategory())
                         .build())
             .collect(Collectors.toList());
 
     return storeDtos;
+  }
+
+  public List<StoreDto> getStoresByCategory(Category category) {
+    List<Store> stores = storeRepository.findByCategory(category);
+
+    if (stores.isEmpty()) {
+      throw new StoreNotFoundException();
+    }
+
+    return stores.stream()
+        .map(store -> StoreDto.builder()
+            .ownerId(store.getOwner().getId())
+            .storeAddress(store.getAddress())
+            .storeName(store.getName())
+            .storePhone(store.getPhone())
+            .storeStatus(store.getStoreStatus())
+            .introduction(store.getIntroduction())
+            .build())
+        .collect(Collectors.toList());
   }
 }
