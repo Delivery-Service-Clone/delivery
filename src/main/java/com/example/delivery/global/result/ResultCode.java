@@ -24,6 +24,7 @@ public enum ResultCode {
   GET_STORES_SUCCESS("S003", "200", "모든 식장을 정상적으로 불러왔습니다."),
   // menu
   MENU_REGISTRATION_SUCCESS("M001", "200", "메뉴가 정상적으로 등록되었습니다."),
+  MENU_GET_SUCCESS("M002", "200", "메뉴가 정상적으로 불러왔습니다."),
   ;
 
   private final String code;

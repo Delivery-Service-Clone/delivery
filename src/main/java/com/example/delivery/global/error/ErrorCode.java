@@ -32,7 +32,10 @@ public enum ErrorCode {
   ACCESS_DENIED(403, "J005", "유효하지 않은 접근입니다."),
 
   // Store
-  STORE_NOT_FOUND_ERROR(400, "S001", "가게를 찾을 수 없음");
+  STORE_NOT_FOUND_ERROR(400, "S001", "가게를 찾을 수 없음"),
+
+  // Store
+  MENU_NOT_FOUND_ERROR(400, "M001", "메뉴를 찾을 수 없음");
 
   private final int status;
   private final String code;
