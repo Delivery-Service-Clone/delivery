@@ -1,6 +1,5 @@
 package com.example.delivery.domain.menu.service;
 
-import static com.example.delivery.global.error.ErrorCode.STORE_NOT_FOUND_ERROR;
 
 import com.example.delivery.domain.menu.dto.MenuDto;
 import com.example.delivery.domain.menu.dto.request.MenuCreateDto;
@@ -10,8 +9,6 @@ import com.example.delivery.domain.menu.repository.MenuRepository;
 import com.example.delivery.domain.store.entity.Store;
 import com.example.delivery.domain.store.exception.StoreNotFoundException;
 import com.example.delivery.domain.store.repository.StoreRepository;
-import com.example.delivery.global.error.ErrorCode;
-import com.example.delivery.global.error.exception.BusinessException;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -44,8 +41,7 @@ public class MenuService {
 
   public List<MenuDto> getMenusByStoreId(Long storeId) {
 
-    Store store = storeRepository.findById(storeId)
-        .orElseThrow(StoreNotFoundException::new);
+    Store store = storeRepository.findById(storeId).orElseThrow(StoreNotFoundException::new);
 
     List<Menu> menus = menuRepository.findByStore(store);
 
@@ -53,15 +49,18 @@ public class MenuService {
       throw new MenuNotFoundException();
     }
 
-    List<MenuDto> menuDtos = menus.stream()
-        .map(menu -> MenuDto.builder()
-            .id(menu.getId())
-            .name(menu.getName())
-            .price(menu.getPrice())
-            .description(menu.getDescription())
-            .photo(menu.getPhoto())
-            .build())
-        .collect(Collectors.toList());
+    List<MenuDto> menuDtos =
+        menus.stream()
+            .map(
+                menu ->
+                    MenuDto.builder()
+                        .id(menu.getId())
+                        .name(menu.getName())
+                        .price(menu.getPrice())
+                        .description(menu.getDescription())
+                        .photo(menu.getPhoto())
+                        .build())
+            .collect(Collectors.toList());
 
     return menuDtos;
   }
