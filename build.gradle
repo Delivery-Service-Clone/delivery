@@ -33,6 +33,9 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
     implementation 'javax.validation:validation-api:2.0.1.Final'
 
+    //firebase
+    implementation 'com.google.firebase:firebase-admin:9.1.1'
+
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.mysql:mysql-connector-j'
 
