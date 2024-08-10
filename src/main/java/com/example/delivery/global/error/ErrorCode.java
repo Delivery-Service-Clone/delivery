@@ -37,7 +37,7 @@ public enum ErrorCode {
   // Menu
   MENU_NOT_FOUND_ERROR(400, "M001", "메뉴를 찾을 수 없음"),
 
-  //Rider
+  // Rider
   RIDER_NOT_FOUND_ERROR(400, "R001", "라이더를 찾을 수 없음");
 
   private final int status;

@@ -15,13 +15,13 @@ public class FCMConfig {
 
   @Bean
   public FirebaseApp firebaseApp() throws IOException {
-    FileInputStream aboutFirebaseFile = new FileInputStream(
-        ResourceUtils.getFile("delivery-service-key.json"));
+    FileInputStream aboutFirebaseFile =
+        new FileInputStream(ResourceUtils.getFile("delivery-service-key.json"));
 
-    FirebaseOptions options = FirebaseOptions
-        .builder()
-        .setCredentials(GoogleCredentials.fromStream(aboutFirebaseFile))
-        .build();
+    FirebaseOptions options =
+        FirebaseOptions.builder()
+            .setCredentials(GoogleCredentials.fromStream(aboutFirebaseFile))
+            .build();
     return FirebaseApp.initializeApp(options);
   }
 

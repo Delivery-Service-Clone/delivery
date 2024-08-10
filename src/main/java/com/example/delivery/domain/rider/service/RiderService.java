@@ -16,11 +16,12 @@ public class RiderService {
   @Transactional
   public void registerRider(RiderCreateDto riderCreateDto) {
 
-    Rider rider = Rider.builder()
-        .name(riderCreateDto.getName())
-        .phone(riderCreateDto.getPhone())
-        .address(riderCreateDto.getAddress())
-        .build();
+    Rider rider =
+        Rider.builder()
+            .name(riderCreateDto.getName())
+            .phone(riderCreateDto.getPhone())
+            .address(riderCreateDto.getAddress())
+            .build();
 
     riderRepository.save(rider);
   }
