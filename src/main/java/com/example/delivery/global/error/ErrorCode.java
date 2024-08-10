@@ -34,8 +34,11 @@ public enum ErrorCode {
   // Store
   STORE_NOT_FOUND_ERROR(400, "S001", "가게를 찾을 수 없음"),
 
-  // Store
-  MENU_NOT_FOUND_ERROR(400, "M001", "메뉴를 찾을 수 없음");
+  // Menu
+  MENU_NOT_FOUND_ERROR(400, "M001", "메뉴를 찾을 수 없음"),
+
+  // Rider
+  RIDER_NOT_FOUND_ERROR(400, "R001", "라이더를 찾을 수 없음");
 
   private final int status;
   private final String code;

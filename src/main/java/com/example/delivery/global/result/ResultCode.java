@@ -25,6 +25,13 @@ public enum ResultCode {
   // menu
   MENU_REGISTRATION_SUCCESS("M001", "200", "메뉴가 정상적으로 등록되었습니다."),
   MENU_GET_SUCCESS("M002", "200", "메뉴가 정상적으로 불러왔습니다."),
+
+  // rider
+  RIDER_REGISTRATION_SUCCESS("R001", "200", "라이더가 정상적으로 등록되었습니다."),
+
+  // FCM
+  FCM_SEND_SUCCESS("F001", "200", "메시지가 정상적으로 전송되었습니다."),
+  FCM_SEND_FAIL("F001", "400", "메시지 전송이 실패했습니다"),
   ;
 
   private final String code;

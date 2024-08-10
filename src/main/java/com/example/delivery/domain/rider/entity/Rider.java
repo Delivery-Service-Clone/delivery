@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -36,6 +37,14 @@ public class Rider extends BaseEntity {
   @Column(nullable = false, length = 45)
   private String address;
 
-  @Column(nullable = false, length = 255)
+  @Column(length = 255)
   private String fcmToken;
+
+  @Builder
+  public Rider(String name, String phone, String address, String fcmToken) {
+    this.name = name;
+    this.phone = phone;
+    this.address = address;
+    this.fcmToken = fcmToken;
+  }
 }
