@@ -26,7 +26,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
       throws IOException, ServletException {
     log.info("Authentication error: ", authException);
 
-    ErrorResponse errorResponse = ErrorResponse.of(ErrorCode.JWT_MISSING);
+    ErrorResponse errorResponse = ErrorResponse.of(ErrorCode.INTERNAL_SERVER_ERROR);
     ObjectMapper objectMapper = new ObjectMapper();
     String jsonErrorResponse = objectMapper.writeValueAsString(errorResponse);
 
