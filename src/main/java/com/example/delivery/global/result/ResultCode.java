@@ -28,6 +28,9 @@ public enum ResultCode {
 
   // rider
   RIDER_REGISTRATION_SUCCESS("R001", "200", "라이더가 정상적으로 등록되었습니다."),
+  RIDER_WORK_STARTED("R002", "200", "라이더가 근무를 시작했습니다."),
+  RIDER_DELIVERY_STARTED("R003", "200", "라이더가 배달을 시작했습니다."),
+  RIDER_WORK_FINISHED("R004", "200", "라이더가 근무를 종료했습니다."),
 
   // FCM
   FCM_SEND_SUCCESS("F001", "200", "메시지가 정상적으로 전송되었습니다."),

@@ -23,6 +23,16 @@ services:
     networks:
       - app-tier
 
+  redis:
+    container_name: redis
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    networks:
+      - app-tier
+    volumes:
+      - redis-data:/data
+
   backend:
     container_name: backend-springboot
     build: .
@@ -31,11 +41,14 @@ services:
       - "8080:8080"
     depends_on:
       - mysql
+      - redis
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db-mysql:3306/delivery
       SPRING_DATASOURCE_USERNAME: ${MYSQL_USER}
       SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
     expose:
       - 8080
     networks:
@@ -44,7 +57,7 @@ services:
 networks:
   app-tier:
     driver: bridge
-    
+
 volumes:
   mysql-data:
-
+  redis-data:

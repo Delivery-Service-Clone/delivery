@@ -36,6 +36,9 @@ dependencies {
     //firebase
     implementation 'com.google.firebase:firebase-admin:9.1.1'
 
+    //redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.mysql:mysql-connector-j'
 
