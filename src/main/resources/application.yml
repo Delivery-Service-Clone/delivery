@@ -15,6 +15,10 @@ spring:
         format_sql: true
         use_sql_comments: true
     show-sql: true
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
 
 jwt:
   secret: f46399d13753c46d03c1d90971b3d1072f470434a2f8266b0b1021281e46f69a
