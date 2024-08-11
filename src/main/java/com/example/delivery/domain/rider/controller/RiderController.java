@@ -42,8 +42,7 @@ public class RiderController {
   // 라이더가 배달을 시작할 때 호출되는 엔드포인트
   @PutMapping("/{riderId}/delivery")
   public ResponseEntity<ResultResponse> updateRiderStatusToDelivering(
-      @PathVariable Long riderId,
-      @RequestParam String address) {
+      @PathVariable Long riderId, @RequestParam String address) {
     riderService.updateRiderStatusToDelivering(riderId, address);
     return ResponseEntity.ok(ResultResponse.of(RIDER_DELIVERY_STARTED));
   }

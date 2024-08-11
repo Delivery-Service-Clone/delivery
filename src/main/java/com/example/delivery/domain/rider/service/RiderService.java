@@ -48,7 +48,6 @@ public class RiderService {
 
     Rider rider = riderRepository.findByName(riderDto.getName());
 
-    redisTemplate.opsForHash()
-        .delete((rider.getAddress()), String.valueOf(rider.getId()));
+    redisTemplate.opsForHash().delete((rider.getAddress()), String.valueOf(rider.getId()));
   }
 }
