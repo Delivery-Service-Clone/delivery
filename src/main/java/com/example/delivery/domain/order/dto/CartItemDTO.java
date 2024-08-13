@@ -8,28 +8,23 @@ import lombok.Getter;
 @Getter
 public class CartItemDTO {
 
-  @NotNull
-  private String name;
+  @NotNull private String name;
 
-  @NotNull
-  private Long price;
+  @NotNull private Long price;
 
-  @NotNull
-  private Long menuId;
+  @NotNull private Long menuId;
 
-  @NotNull
-  private Long storeId;
+  @NotNull private Long storeId;
 
-  @NotNull
-  private Long count;
+  @NotNull private Long count;
 
   @JsonCreator
-  public CartItemDTO(@JsonProperty(value = "name") String name,
+  public CartItemDTO(
+      @JsonProperty(value = "name") String name,
       @JsonProperty(value = "price") Long price,
       @JsonProperty(value = "menuId") Long menuId,
       @JsonProperty(value = "storeId") Long storeId,
-      @JsonProperty(value = "count") Long count
-  ) {
+      @JsonProperty(value = "count") Long count) {
     this.name = name;
     this.price = price;
     this.menuId = menuId;

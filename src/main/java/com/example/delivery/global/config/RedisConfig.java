@@ -66,8 +66,8 @@ public class RedisConfig {
   @Bean
   @Qualifier("cartItemDTORedisTemplate")
   public RedisTemplate<String, CartItemDTO> cartItemRedisTemplate() {
-    GenericJackson2JsonRedisSerializer genericJackson2JsonRedisSerializer
-        = new GenericJackson2JsonRedisSerializer();
+    GenericJackson2JsonRedisSerializer genericJackson2JsonRedisSerializer =
+        new GenericJackson2JsonRedisSerializer();
 
     RedisTemplate<String, CartItemDTO> redisTemplate = new RedisTemplate<>();
 

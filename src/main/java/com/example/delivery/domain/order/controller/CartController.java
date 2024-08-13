@@ -22,8 +22,8 @@ public class CartController {
   private final CartService cartService;
 
   @PostMapping
-  public void registerMenuInCart(@AuthenticationPrincipal Member member,
-      @Valid @RequestBody CartItemDTO cart) {
+  public void registerMenuInCart(
+      @AuthenticationPrincipal Member member, @Valid @RequestBody CartItemDTO cart) {
     String memberEmail = member.getEmail();
 
     cartService.registerMenuInCart(memberEmail, cart);
