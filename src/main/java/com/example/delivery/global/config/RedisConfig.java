@@ -1,5 +1,6 @@
 package com.example.delivery.global.config;
 
+import com.example.delivery.domain.order.dto.CartItemDTO;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -58,6 +59,21 @@ public class RedisConfig {
     redisTemplate.setHashKeySerializer(new StringRedisSerializer());
     redisTemplate.setValueSerializer(genericJackson2JsonRedisSerializer);
     redisTemplate.setHashValueSerializer(genericJackson2JsonRedisSerializer);
+
+    return redisTemplate;
+  }
+
+  @Bean
+  @Qualifier("cartItemDTORedisTemplate")
+  public RedisTemplate<String, CartItemDTO> cartItemRedisTemplate() {
+    GenericJackson2JsonRedisSerializer genericJackson2JsonRedisSerializer
+        = new GenericJackson2JsonRedisSerializer();
+
+    RedisTemplate<String, CartItemDTO> redisTemplate = new RedisTemplate<>();
+
+    redisTemplate.setConnectionFactory(redisConnectionFactory());
+    redisTemplate.setKeySerializer(new StringRedisSerializer());
+    redisTemplate.setValueSerializer(genericJackson2JsonRedisSerializer);
 
     return redisTemplate;
   }
