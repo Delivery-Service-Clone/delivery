@@ -1,6 +1,7 @@
 package com.example.delivery.global.config.security;
 
 import com.example.delivery.domain.user.service.CustomOwnerDetailService;
+import com.example.delivery.domain.user.service.CustomRiderDetailService;
 import com.example.delivery.domain.user.service.CustomUserDetailService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -32,6 +33,7 @@ public class JwtTokenProvider {
 
   private final CustomUserDetailService customUserDetailService;
   private final CustomOwnerDetailService customOwnerDetailService;
+  private final CustomRiderDetailService customRiderDetailService;
 
   private static final String BEARER_PREFIX = "Bearer ";
   private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 60; // 토큰 유효시간 60분
@@ -57,11 +59,11 @@ public class JwtTokenProvider {
     Date expiryDate = new Date(now.getTime() + ACCESS_TOKEN_EXPIRE_TIME);
     return BEARER_PREFIX
         + Jwts.builder()
-            .setClaims(claims)
-            .setIssuedAt(now)
-            .setExpiration(expiryDate)
-            .signWith(key, SignatureAlgorithm.HS256) // HMAC 알고리즘 사용
-            .compact();
+        .setClaims(claims)
+        .setIssuedAt(now)
+        .setExpiration(expiryDate)
+        .signWith(key, SignatureAlgorithm.HS256) // HMAC 알고리즘 사용
+        .compact();
   }
 
   @Transactional
@@ -71,6 +73,8 @@ public class JwtTokenProvider {
 
     if ("OWNER".equals(userType)) {
       userDetails = customOwnerDetailService.loadUserByUsername(getMemberEmail(token));
+    } else if ("RIDER".equals(userType)) {
+      userDetails = customRiderDetailService.loadUserByUsername(getMemberEmail(token));
     } else {
       userDetails = customUserDetailService.loadUserByUsername(getMemberEmail(token));
     }

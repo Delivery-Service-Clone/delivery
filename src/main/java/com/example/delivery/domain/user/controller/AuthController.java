@@ -9,6 +9,8 @@ import com.example.delivery.domain.user.dto.MemberLoginRequest;
 import com.example.delivery.domain.user.dto.MemberRegisterRequest;
 import com.example.delivery.domain.user.dto.OwnerLoginRequest;
 import com.example.delivery.domain.user.dto.OwnerRegisterRequest;
+import com.example.delivery.domain.user.dto.RiderLoginRequest;
+import com.example.delivery.domain.user.dto.RiderRegisterRequest;
 import com.example.delivery.domain.user.service.AuthService;
 import com.example.delivery.global.result.ResultResponse;
 import jakarta.validation.Valid;
@@ -47,6 +49,16 @@ public class AuthController {
     }
   }
 
+  @GetMapping("/rider/checkid")
+  public ResponseEntity<ResultResponse> checkRiderEmail(@RequestBody String email) {
+    final boolean check = AuthService.checkRiderEmail(email);
+    if (check) {
+      return ResponseEntity.ok(ResultResponse.of(CHECK_EMAIL_GOOD, true));
+    } else {
+      return ResponseEntity.ok(ResultResponse.of(CHECK_EMAIL_BAD, false));
+    }
+  }
+
   @PostMapping(value = "/member/signup")
   public ResponseEntity<ResultResponse> signupMember(
       @Valid @RequestBody MemberRegisterRequest request) {
@@ -63,6 +75,13 @@ public class AuthController {
     return ResponseEntity.ok(ResultResponse.of(USER_REGISTRATION_SUCCESS));
   }
 
+  @PostMapping(value = "/rider/signup")
+  public ResponseEntity<ResultResponse> signupRider(
+      @Valid @RequestBody RiderRegisterRequest request) {
+    AuthService.signupRider(request);
+    return ResponseEntity.ok(ResultResponse.of(USER_REGISTRATION_SUCCESS));
+  }
+
   @PostMapping("/member/login")
   public ResponseEntity<ResultResponse> loginMember(
       @Valid @RequestBody MemberLoginRequest request) {
@@ -73,6 +92,12 @@ public class AuthController {
   @PostMapping("/owner/login")
   public ResponseEntity<ResultResponse> loginOwner(@Valid @RequestBody OwnerLoginRequest request) {
     String token = AuthService.Ownerlogin(request);
+    return ResponseEntity.ok(ResultResponse.of(LOGIN_SUCCESS, token));
+  }
+
+  @PostMapping("/rider/login")
+  public ResponseEntity<ResultResponse> loginRider(@Valid @RequestBody RiderLoginRequest request) {
+    String token = AuthService.Riderlogin(request);
     return ResponseEntity.ok(ResultResponse.of(LOGIN_SUCCESS, token));
   }
 
