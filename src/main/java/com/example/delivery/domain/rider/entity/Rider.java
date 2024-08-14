@@ -1,14 +1,11 @@
 package com.example.delivery.domain.rider.entity;
 
-import com.example.delivery.domain.order.entity.Order;
 import com.example.delivery.global.common.BaseEntity;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.Collection;
 import lombok.AccessLevel;
@@ -42,7 +39,6 @@ public class Rider extends BaseEntity implements UserDetails {
 
   @Column(nullable = false, length = 45)
   private String address;
-
 
   @Builder
   public Rider(String email, String name, String password, String phone, String address) {
