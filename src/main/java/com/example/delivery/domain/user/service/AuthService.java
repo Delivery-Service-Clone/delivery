@@ -125,8 +125,10 @@ public class AuthService {
 
   @Transactional
   public String Riderlogin(RiderLoginRequest request) {
-    Rider rider = riderRepository.findByEmail(request.getEmail())
-        .orElseThrow(() -> new BusinessException(RIDER_NOT_FOUND_ERROR));
+    Rider rider =
+        riderRepository
+            .findByEmail(request.getEmail())
+            .orElseThrow(() -> new BusinessException(RIDER_NOT_FOUND_ERROR));
 
     if (!passwordEncoder.matches(request.getPassword(), rider.getPassword())) {
       throw new BusinessException(ErrorCode.INVALID_PASSWORD);

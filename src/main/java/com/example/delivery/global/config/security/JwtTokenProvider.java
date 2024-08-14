@@ -59,11 +59,11 @@ public class JwtTokenProvider {
     Date expiryDate = new Date(now.getTime() + ACCESS_TOKEN_EXPIRE_TIME);
     return BEARER_PREFIX
         + Jwts.builder()
-        .setClaims(claims)
-        .setIssuedAt(now)
-        .setExpiration(expiryDate)
-        .signWith(key, SignatureAlgorithm.HS256) // HMAC 알고리즘 사용
-        .compact();
+            .setClaims(claims)
+            .setIssuedAt(now)
+            .setExpiration(expiryDate)
+            .signWith(key, SignatureAlgorithm.HS256) // HMAC 알고리즘 사용
+            .compact();
   }
 
   @Transactional
