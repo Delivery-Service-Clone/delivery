@@ -1,0 +1,76 @@
+package com.example.delivery.domain.store.repository;
+
+import com.example.delivery.domain.store.entity.Category;
+import com.example.delivery.domain.store.entity.Store;
+import com.example.delivery.domain.store.entity.StoreStatus;
+import com.example.delivery.domain.user.entity.Owner;
+import com.example.delivery.domain.user.repository.OwnerRepository;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.jdbc.Sql;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+@DataJpaTest
+class StoreRepositoryTest {
+
+  @Autowired
+  private StoreRepository storeRepository;
+
+  @Autowired
+  private OwnerRepository ownerRepository;
+
+  private Owner owner;
+
+  @BeforeEach
+  void setUp() {
+    // 테스트에 사용할 Owner를 미리 저장
+    owner = Owner.builder()
+        .email("owner@example.com")
+        .name("John Doe")
+        .password("securepassword")
+        .phone("123-456-7890")
+        .address("123 Main St")
+        .build();
+
+    ownerRepository.save(owner);
+  }
+
+  @Test
+  void testFindByCategory() {
+    // Given
+    Store store1 = Store.builder()
+        .owner(owner)
+        .category(Category.KOREAN)
+        .name("Korean BBQ")
+        .phone("111-111-1111")
+        .address("Address 1")
+        .storeStatus(StoreStatus.STORE_OPEN)
+        .introduction("Delicious Korean BBQ")
+        .build();
+
+    Store store2 = Store.builder()
+        .owner(owner)
+        .category(Category.BURGER)
+        .name("Burger King")
+        .phone("222-222-2222")
+        .address("Address 2")
+        .storeStatus(StoreStatus.STORE_OPEN)
+        .introduction("Fast and tasty")
+        .build();
+
+    storeRepository.save(store1);
+    storeRepository.save(store2);
+
+    // When
+    List<Store> koreanStores = storeRepository.findByCategory(Category.KOREAN);
+
+    // Then
+    assertThat(koreanStores).hasSize(1);
+    assertThat(koreanStores.get(0).getName()).isEqualTo("Korean BBQ");
+  }
+}
