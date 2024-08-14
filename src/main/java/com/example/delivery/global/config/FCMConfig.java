@@ -15,14 +15,18 @@ public class FCMConfig {
 
   @Bean
   public FirebaseApp firebaseApp() throws IOException {
-    FileInputStream aboutFirebaseFile =
-        new FileInputStream(ResourceUtils.getFile("delivery-service-key.json"));
+    if (FirebaseApp.getApps().isEmpty()) {
+      FileInputStream serviceAccount =
+          new FileInputStream("delivery-service-key.json");
 
-    FirebaseOptions options =
-        FirebaseOptions.builder()
-            .setCredentials(GoogleCredentials.fromStream(aboutFirebaseFile))
-            .build();
-    return FirebaseApp.initializeApp(options);
+      FirebaseOptions options = FirebaseOptions.builder()
+          .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+          .build();
+
+      return FirebaseApp.initializeApp(options);
+    } else {
+      return FirebaseApp.getInstance(); // 이미 초기화된 인스턴스를 반환
+    }
   }
 
   @Bean
