@@ -1,9 +1,11 @@
 package com.example.delivery.domain.rider.service;
 
+import com.example.delivery.domain.rider.dao.DeliveryDao;
 import com.example.delivery.domain.rider.dto.RiderCreateDto;
 import com.example.delivery.domain.rider.dto.RiderDto;
 import com.example.delivery.domain.rider.entity.Rider;
 import com.example.delivery.domain.rider.repository.RiderRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 public class RiderService {
 
   private final RiderRepository riderRepository;
+  private final DeliveryDao deliveryDao;
   private final RedisTemplate<String, Object> redisTemplate;
 
   public void registerRider(RiderCreateDto riderCreateDto) {
@@ -28,20 +31,12 @@ public class RiderService {
   }
 
   public void registerStandbyRiderWhenStartWork(RiderDto riderDto) {
-
-    Rider rider = riderRepository.findByName(riderDto.getName());
-
-    String hashKey = riderDto.getAddress(); // 해시 키 (예: "riders"라는 해시 안에 여러 라이더 정보를 저장)
-    String field = String.valueOf(rider.getId()); // 필드 (예: 라이더의 고유 ID를 필드로 사용)
-
-    redisTemplate.opsForHash().put(hashKey, field, "STANDBY");
+    deliveryDao.registerRiderWhenStartWork(riderDto);
   }
 
-  public void updateRiderStatusToDelivering(Long riderId, String address) {
+  public void updateRiderStatusToDelivering(RiderDto riderDto) {
 
-    String field = String.valueOf(riderId);
-
-    redisTemplate.opsForHash().put(address, field, "DELIVERING");
+    deliveryDao.updateRiderStatusToDelivering(riderDto);
   }
 
   public void deleteStandbyRiderWhenStopWork(RiderDto riderDto) {
@@ -49,5 +44,9 @@ public class RiderService {
     Rider rider = riderRepository.findByName(riderDto.getName());
 
     redisTemplate.opsForHash().delete((rider.getAddress()), String.valueOf(rider.getId()));
+  }
+
+  public List<String> loadOrderList(String riderAddress) {
+    return deliveryDao.selectOrderList(riderAddress);
   }
 }

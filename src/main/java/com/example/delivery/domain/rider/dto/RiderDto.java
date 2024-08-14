@@ -5,6 +5,7 @@ import lombok.Getter;
 @Getter
 public class RiderDto {
 
+  private String id;
   private String name;
   private String address;
   private String fcmToken;
