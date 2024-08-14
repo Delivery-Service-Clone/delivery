@@ -5,9 +5,11 @@ import com.example.delivery.domain.store.entity.Store;
 import com.example.delivery.domain.store.entity.StoreStatus;
 import com.example.delivery.domain.user.entity.Owner;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public class StoreCreateDto {
 
   @NotNull private String storeName;
