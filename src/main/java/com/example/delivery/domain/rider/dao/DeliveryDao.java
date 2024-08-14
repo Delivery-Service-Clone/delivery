@@ -1,6 +1,7 @@
 package com.example.delivery.domain.rider.dao;
 
 import com.example.delivery.domain.order.dto.OrderReceiptDto;
+import com.example.delivery.domain.rider.dto.DeliveryRiderDTO;
 import com.example.delivery.domain.rider.dto.RiderDto;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -38,7 +39,7 @@ public class DeliveryDao {
   }
 
   // 출근시 라이더 등록
-  public void registerRiderWhenStartWork(RiderDto riderDto) {
+  public void registerRiderWhenStartWork(DeliveryRiderDTO riderDto) {
 
     redisTemplate
         .opsForHash()
@@ -49,7 +50,7 @@ public class DeliveryDao {
   }
 
   // 배달하는 동안 레디스에서 라이더 토큰 값 삭제
-  public void updateRiderStatusToDelivering(RiderDto riderDto) {
+  public void updateRiderStatusToDelivering(DeliveryRiderDTO riderDto) {
 
     redisTemplate
         .opsForHash()

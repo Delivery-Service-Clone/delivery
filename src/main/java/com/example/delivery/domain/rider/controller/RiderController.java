@@ -6,6 +6,7 @@ import static com.example.delivery.global.result.ResultCode.RIDER_WORK_STARTED;
 
 import com.example.delivery.domain.fcm.dto.PushsRequestDto;
 import com.example.delivery.domain.fcm.service.FCMService;
+import com.example.delivery.domain.rider.dto.DeliveryRiderDTO;
 import com.example.delivery.domain.rider.dto.RiderCreateDto;
 import com.example.delivery.domain.rider.dto.RiderDto;
 import com.example.delivery.domain.rider.entity.Rider;
@@ -59,13 +60,14 @@ public class RiderController {
 
   // 라이더가 근무를 시작할 때 호출되는 엔드포인트
   @PostMapping("/work")
-  public ResponseEntity<ResultResponse> registerStandbyRider(@RequestBody RiderDto riderDto) {
+  public ResponseEntity<ResultResponse> registerStandbyRider(
+      @RequestBody DeliveryRiderDTO riderDto) {
     riderService.registerStandbyRiderWhenStartWork(riderDto);
     return ResponseEntity.ok(ResultResponse.of(RIDER_WORK_STARTED));
   }
 
   @DeleteMapping("/finish")
-  public ResponseEntity<ResultResponse> finishStandbyRider(@RequestBody RiderDto riderDto) {
+  public ResponseEntity<ResultResponse> finishStandbyRider(@RequestBody DeliveryRiderDTO riderDto) {
     riderService.deleteStandbyRiderWhenStopWork(riderDto);
     return ResponseEntity.ok(ResultResponse.of(RIDER_WORK_FINISHED));
   }
