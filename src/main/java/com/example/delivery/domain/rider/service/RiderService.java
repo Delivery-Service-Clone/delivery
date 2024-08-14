@@ -1,8 +1,8 @@
 package com.example.delivery.domain.rider.service;
 
 import com.example.delivery.domain.rider.dao.DeliveryDao;
+import com.example.delivery.domain.rider.dto.DeliveryRiderDTO;
 import com.example.delivery.domain.rider.dto.RiderCreateDto;
-import com.example.delivery.domain.rider.dto.RiderDto;
 import com.example.delivery.domain.rider.entity.Rider;
 import com.example.delivery.domain.rider.repository.RiderRepository;
 import java.util.List;
@@ -30,16 +30,16 @@ public class RiderService {
     riderRepository.save(rider);
   }
 
-  public void registerStandbyRiderWhenStartWork(RiderDto riderDto) {
+  public void registerStandbyRiderWhenStartWork(DeliveryRiderDTO riderDto) {
     deliveryDao.registerRiderWhenStartWork(riderDto);
   }
 
-  public void updateRiderStatusToDelivering(RiderDto riderDto) {
+  public void updateRiderStatusToDelivering(DeliveryRiderDTO riderDto) {
 
     deliveryDao.updateRiderStatusToDelivering(riderDto);
   }
 
-  public void deleteStandbyRiderWhenStopWork(RiderDto riderDto) {
+  public void deleteStandbyRiderWhenStopWork(DeliveryRiderDTO riderDto) {
 
     Rider rider = riderRepository.findByName(riderDto.getName());
 

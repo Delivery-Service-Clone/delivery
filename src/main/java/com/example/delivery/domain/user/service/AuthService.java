@@ -1,12 +1,17 @@
 package com.example.delivery.domain.user.service;
 
 import static com.example.delivery.global.error.ErrorCode.OWNER_NOT_FOUND_ERROR;
+import static com.example.delivery.global.error.ErrorCode.RIDER_NOT_FOUND_ERROR;
 import static com.example.delivery.global.error.ErrorCode.USER_NOT_FOUND_ERROR;
 
+import com.example.delivery.domain.rider.entity.Rider;
+import com.example.delivery.domain.rider.repository.RiderRepository;
 import com.example.delivery.domain.user.dto.MemberLoginRequest;
 import com.example.delivery.domain.user.dto.MemberRegisterRequest;
 import com.example.delivery.domain.user.dto.OwnerLoginRequest;
 import com.example.delivery.domain.user.dto.OwnerRegisterRequest;
+import com.example.delivery.domain.user.dto.RiderLoginRequest;
+import com.example.delivery.domain.user.dto.RiderRegisterRequest;
 import com.example.delivery.domain.user.entity.Member;
 import com.example.delivery.domain.user.entity.Owner;
 import com.example.delivery.domain.user.exception.EntityAlreadyExistException;
@@ -29,6 +34,7 @@ public class AuthService {
   private final JwtTokenProvider jwtTokenProvider;
   private final MemberRepository memberRepository;
   private final OwnerRepository ownerRepository;
+  private final RiderRepository riderRepository;
   private final PasswordEncoder passwordEncoder;
 
   @Transactional(readOnly = true)
@@ -38,7 +44,12 @@ public class AuthService {
 
   @Transactional(readOnly = true)
   public boolean checkOwnerEmail(String email) {
-    return !memberRepository.existsByEmail(email);
+    return !ownerRepository.existsByEmail(email);
+  }
+
+  @Transactional(readOnly = true)
+  public boolean checkRiderEmail(String email) {
+    return !riderRepository.existsByEmail(email);
   }
 
   @Transactional
@@ -62,6 +73,19 @@ public class AuthService {
     try {
       final Owner owner = convertRegisterRequestToOwner(request);
       ownerRepository.save(owner);
+    } catch (Exception e) {
+      throw new BusinessException(ErrorCode.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @Transactional
+  public void signupRider(RiderRegisterRequest request) {
+    if (riderRepository.existsByEmail(request.getEmail())) {
+      throw new EntityAlreadyExistException();
+    }
+    try {
+      final Rider rider = convertRegisterRequestToRider(request);
+      riderRepository.save(rider);
     } catch (Exception e) {
       throw new BusinessException(ErrorCode.INTERNAL_SERVER_ERROR);
     }
@@ -99,6 +123,22 @@ public class AuthService {
     return token;
   }
 
+  @Transactional
+  public String Riderlogin(RiderLoginRequest request) {
+    Rider rider =
+        riderRepository
+            .findByEmail(request.getEmail())
+            .orElseThrow(() -> new BusinessException(RIDER_NOT_FOUND_ERROR));
+
+    if (!passwordEncoder.matches(request.getPassword(), rider.getPassword())) {
+      throw new BusinessException(ErrorCode.INVALID_PASSWORD);
+    }
+
+    String token = jwtTokenProvider.createToken(rider.getEmail(), "RIDER");
+
+    return token;
+  }
+
   private Member convertRegisterRequestToMember(MemberRegisterRequest request) {
     return Member.builder()
         .email(request.getEmail())
@@ -111,6 +151,16 @@ public class AuthService {
 
   private Owner convertRegisterRequestToOwner(OwnerRegisterRequest request) {
     return Owner.builder()
+        .email(request.getEmail())
+        .name(request.getName())
+        .password(passwordEncoder.encode(request.getPassword()))
+        .phone(request.getPhone())
+        .address(request.getAddress())
+        .build();
+  }
+
+  private Rider convertRegisterRequestToRider(RiderRegisterRequest request) {
+    return Rider.builder()
         .email(request.getEmail())
         .name(request.getName())
         .password(passwordEncoder.encode(request.getPassword()))

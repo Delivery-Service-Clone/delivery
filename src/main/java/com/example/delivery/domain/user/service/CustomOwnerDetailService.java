@@ -20,13 +20,13 @@ public class CustomOwnerDetailService implements UserDetailsService {
   @Override
   public UserDetails loadUserByUsername(String ownerEmail) throws UsernameNotFoundException {
     if (ownerEmail == null || ownerEmail.equals("")) {
-      throw new BusinessException(ErrorCode.OWNER_NOT_FOUND_ERROR);
+      throw new BusinessException(ErrorCode.INPUT_INVALID_VALUE);
     }
 
     Optional<Owner> owner = ownerRepository.findByEmail(ownerEmail);
     if (owner.isPresent()) {
       return owner.get();
     }
-    throw new BusinessException(ErrorCode.USER_NOT_FOUND_ERROR);
+    throw new BusinessException(ErrorCode.OWNER_NOT_FOUND_ERROR);
   }
 }

@@ -1,7 +1,7 @@
 package com.example.delivery.domain.user.service;
 
-import com.example.delivery.domain.user.entity.Member;
-import com.example.delivery.domain.user.repository.MemberRepository;
+import com.example.delivery.domain.rider.entity.Rider;
+import com.example.delivery.domain.rider.repository.RiderRepository;
 import com.example.delivery.global.error.ErrorCode;
 import com.example.delivery.global.error.exception.BusinessException;
 import java.util.Optional;
@@ -13,20 +13,20 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class CustomUserDetailService implements UserDetailsService {
+public class CustomRiderDetailService implements UserDetailsService {
 
-  private final MemberRepository memberRepository;
+  private final RiderRepository riderRepository;
 
   @Override
-  public UserDetails loadUserByUsername(String memberEmail) throws UsernameNotFoundException {
-    if (memberEmail == null || memberEmail.equals("")) {
+  public UserDetails loadUserByUsername(String riderEmail) throws UsernameNotFoundException {
+    if (riderEmail == null || riderEmail.equals("")) {
       throw new BusinessException(ErrorCode.INPUT_INVALID_VALUE);
     }
 
-    Optional<Member> member = memberRepository.findByEmail(memberEmail);
-    if (member.isPresent()) {
-      return member.get();
+    Optional<Rider> rider = riderRepository.findByEmail(riderEmail);
+    if (rider.isPresent()) {
+      return rider.get();
     }
-    throw new BusinessException(ErrorCode.USER_NOT_FOUND_ERROR);
+    throw new BusinessException(ErrorCode.RIDER_NOT_FOUND_ERROR);
   }
 }

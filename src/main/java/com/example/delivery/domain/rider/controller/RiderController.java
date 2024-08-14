@@ -6,9 +6,13 @@ import static com.example.delivery.global.result.ResultCode.RIDER_WORK_STARTED;
 
 import com.example.delivery.domain.fcm.dto.PushsRequestDto;
 import com.example.delivery.domain.fcm.service.FCMService;
+import com.example.delivery.domain.rider.dto.DeliveryRiderDTO;
 import com.example.delivery.domain.rider.dto.RiderCreateDto;
 import com.example.delivery.domain.rider.dto.RiderDto;
+import com.example.delivery.domain.rider.entity.Rider;
 import com.example.delivery.domain.rider.service.RiderService;
+import com.example.delivery.global.error.ErrorCode;
+import com.example.delivery.global.error.exception.BusinessException;
 import com.example.delivery.global.result.ResultCode;
 import com.example.delivery.global.result.ResultResponse;
 import com.google.firebase.messaging.FirebaseMessagingException;
@@ -17,6 +21,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -36,15 +41,33 @@ public class RiderController {
     return ResponseEntity.ok(ResultResponse.of(RIDER_REGISTRATION_SUCCESS));
   }
 
+  @GetMapping("/me")
+  public ResponseEntity<ResultResponse> getMember(@AuthenticationPrincipal Rider rider) {
+    if (rider == null) {
+      throw new BusinessException(ErrorCode.INVALID_AUTH_TOKEN);
+    }
+
+    RiderDto riderDto =
+        RiderDto.builder()
+            .email(rider.getEmail())
+            .name(rider.getName())
+            .phone(rider.getPhone())
+            .address(rider.getAddress())
+            .build();
+
+    return ResponseEntity.ok(ResultResponse.of(ResultCode.GET_USER_SUCCESS, riderDto));
+  }
+
   // 라이더가 근무를 시작할 때 호출되는 엔드포인트
   @PostMapping("/work")
-  public ResponseEntity<ResultResponse> registerStandbyRider(@RequestBody RiderDto riderDto) {
+  public ResponseEntity<ResultResponse> registerStandbyRider(
+      @RequestBody DeliveryRiderDTO riderDto) {
     riderService.registerStandbyRiderWhenStartWork(riderDto);
     return ResponseEntity.ok(ResultResponse.of(RIDER_WORK_STARTED));
   }
 
   @DeleteMapping("/finish")
-  public ResponseEntity<ResultResponse> finishStandbyRider(@RequestBody RiderDto riderDto) {
+  public ResponseEntity<ResultResponse> finishStandbyRider(@RequestBody DeliveryRiderDTO riderDto) {
     riderService.deleteStandbyRiderWhenStopWork(riderDto);
     return ResponseEntity.ok(ResultResponse.of(RIDER_WORK_FINISHED));
   }
