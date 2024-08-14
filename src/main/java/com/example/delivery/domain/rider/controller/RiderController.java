@@ -1,13 +1,11 @@
 package com.example.delivery.domain.rider.controller;
 
-import static com.example.delivery.global.result.ResultCode.RIDER_DELIVERY_STARTED;
 import static com.example.delivery.global.result.ResultCode.RIDER_REGISTRATION_SUCCESS;
 import static com.example.delivery.global.result.ResultCode.RIDER_WORK_FINISHED;
 import static com.example.delivery.global.result.ResultCode.RIDER_WORK_STARTED;
 
 import com.example.delivery.domain.fcm.dto.PushsRequestDto;
 import com.example.delivery.domain.fcm.service.FCMService;
-import com.example.delivery.domain.rider.dao.DeliveryDao;
 import com.example.delivery.domain.rider.dto.RiderCreateDto;
 import com.example.delivery.domain.rider.dto.RiderDto;
 import com.example.delivery.domain.rider.service.RiderService;
@@ -17,8 +15,6 @@ import com.google.firebase.messaging.FirebaseMessagingException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import java.util.List;
-import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

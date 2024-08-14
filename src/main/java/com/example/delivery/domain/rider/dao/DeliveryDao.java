@@ -37,29 +37,36 @@ public class DeliveryDao {
     return STANDBY_ORDERS_KEY + address;
   }
 
-  //출근시 라이더 등록
+  // 출근시 라이더 등록
   public void registerRiderWhenStartWork(RiderDto riderDto) {
 
-    redisTemplate.opsForHash()
-        .put(generateStandbyRiderKey(riderDto.getAddress()), riderDto.getId(),
+    redisTemplate
+        .opsForHash()
+        .put(
+            generateStandbyRiderKey(riderDto.getAddress()),
+            riderDto.getId(),
             riderDto.getFcmToken());
   }
 
-  //배달하는 동안 레디스에서 라이더 토큰 값 삭제
+  // 배달하는 동안 레디스에서 라이더 토큰 값 삭제
   public void updateRiderStatusToDelivering(RiderDto riderDto) {
 
-    redisTemplate.opsForHash()
+    redisTemplate
+        .opsForHash()
         .delete(generateStandbyRiderKey(riderDto.getAddress()), riderDto.getId());
   }
 
-  //주문이 완료되면 동시에 실행
+  // 주문이 완료되면 동시에 실행
   public void insertStandbyOrder(Long orderId, OrderReceiptDto orderReceipt) {
-    redisTemplate.opsForHash()
-        .put(generateStandbyOrderKey(orderReceipt.getUserInfo().getAddress()),
-            generateOrderHashKey(orderId), orderReceipt);
+    redisTemplate
+        .opsForHash()
+        .put(
+            generateStandbyOrderKey(orderReceipt.getUserInfo().getAddress()),
+            generateOrderHashKey(orderId),
+            orderReceipt);
   }
 
-  //같은 지역의 출근한 라이더들에게 메시지를 보내기 위한 Token값 조회하기
+  // 같은 지역의 출근한 라이더들에게 메시지를 보내기 위한 Token값 조회하기
   public Set<String> getRiderTokensByAddress(String address) {
 
     String key = generateStandbyRiderKey(address);
@@ -69,8 +76,8 @@ public class DeliveryDao {
           @Override
           public Set<String> doInRedis(RedisConnection connection) throws DataAccessException {
             ScanOptions scanOptions = ScanOptions.scanOptions().match("*").count(100).build();
-            Cursor<Entry<byte[], byte[]>> cursor = connection.hScan(
-                redisTemplate.getStringSerializer().serialize(key), scanOptions);
+            Cursor<Entry<byte[], byte[]>> cursor =
+                connection.hScan(redisTemplate.getStringSerializer().serialize(key), scanOptions);
 
             Set<String> result = new HashSet<>();
 
@@ -81,11 +88,10 @@ public class DeliveryDao {
 
             return result;
           }
-        }
-    );
+        });
   }
 
-  //라이더 배달 가능한 지역 리스트 조회
+  // 라이더 배달 가능한 지역 리스트 조회
   public List<String> selectOrderList(String address) {
 
     String key = generateStandbyOrderKey(address);
@@ -95,8 +101,8 @@ public class DeliveryDao {
           @Override
           public List<String> doInRedis(RedisConnection connection) throws DataAccessException {
             ScanOptions scanOptions = ScanOptions.scanOptions().match("*").count(100).build();
-            Cursor<Entry<byte[], byte[]>> cursor = connection.hScan(
-                redisTemplate.getStringSerializer().serialize(key), scanOptions);
+            Cursor<Entry<byte[], byte[]>> cursor =
+                connection.hScan(redisTemplate.getStringSerializer().serialize(key), scanOptions);
 
             List<String> result = new ArrayList<>();
 
@@ -107,12 +113,8 @@ public class DeliveryDao {
 
             return result;
           }
-        }
-    );
+        });
   }
-  //라이더가 배달을 시작할 때 사용되는 메서드
+  // 라이더가 배달을 시작할 때 사용되는 메서드
 
 }
-
-
-
