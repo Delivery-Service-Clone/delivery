@@ -2,7 +2,6 @@ package com.example.delivery.domain.rider.dao;
 
 import com.example.delivery.domain.order.dto.OrderReceiptDto;
 import com.example.delivery.domain.rider.dto.DeliveryRiderDTO;
-import com.example.delivery.domain.rider.dto.RiderDto;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
