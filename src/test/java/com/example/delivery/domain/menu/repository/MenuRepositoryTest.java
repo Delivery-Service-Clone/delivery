@@ -1,5 +1,7 @@
 package com.example.delivery.domain.menu.repository;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.example.delivery.domain.menu.entity.Menu;
 import com.example.delivery.domain.store.entity.Category;
 import com.example.delivery.domain.store.entity.Store;
@@ -7,26 +9,19 @@ import com.example.delivery.domain.store.entity.StoreStatus;
 import com.example.delivery.domain.store.repository.StoreRepository;
 import com.example.delivery.domain.user.entity.Owner;
 import com.example.delivery.domain.user.repository.OwnerRepository;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
-
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @DisplayName("MenuRepository 테스트")
 class MenuRepositoryTest {
 
-  @Autowired
-  private MenuRepository menuRepository;
-  @Autowired
-  private OwnerRepository ownerRepository;
-  @Autowired
-  private StoreRepository storeRepository;
+  @Autowired private MenuRepository menuRepository;
+  @Autowired private OwnerRepository ownerRepository;
+  @Autowired private StoreRepository storeRepository;
 
   @Test
   @DisplayName("특정 가게에 대한 메뉴를 조회할 수 있다")
@@ -56,21 +51,23 @@ class MenuRepositoryTest {
 
     storeRepository.save(store);
 
-    Menu menu1 = Menu.builder()
-        .store(store)
-        .name("Menu 1")
-        .price(10000)
-        .description("Delicious food")
-        .photo("photo1.jpg")
-        .build();
+    Menu menu1 =
+        Menu.builder()
+            .store(store)
+            .name("Menu 1")
+            .price(10000)
+            .description("Delicious food")
+            .photo("photo1.jpg")
+            .build();
 
-    Menu menu2 = Menu.builder()
-        .store(store)
-        .name("Menu 2")
-        .price(15000)
-        .description("Even more delicious food")
-        .photo("photo2.jpg")
-        .build();
+    Menu menu2 =
+        Menu.builder()
+            .store(store)
+            .name("Menu 2")
+            .price(15000)
+            .description("Even more delicious food")
+            .photo("photo2.jpg")
+            .build();
 
     // When
     menuRepository.save(menu1);
