@@ -8,6 +8,8 @@ import com.example.delivery.global.common.BaseEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,6 +21,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -62,8 +65,26 @@ public class Order extends BaseEntity {
   private String address;
 
   @Column(nullable = false)
-  private Integer totalPrice;
+  private Long totalPrice;
 
-  @Column(nullable = false, length = 45)
-  private String orderStatus;
+  @Enumerated(EnumType.STRING)
+  private OrderStatus orderStatus;
+
+  @Builder
+  public Order(Member member, Store store, OrderStatus orderStatus, String address,
+      Long totalPrice) {
+    this.member = member;
+    this.store = store;
+    this.orderStatus = orderStatus;
+    this.address = address;
+    this.totalPrice = totalPrice;
+  }
+
+  public void updateStatus(OrderStatus status) {
+    this.orderStatus = status;
+  }
+
+  public void updateTotalPrice(Long totalPrice) {
+    this.totalPrice = totalPrice;
+  }
 }
