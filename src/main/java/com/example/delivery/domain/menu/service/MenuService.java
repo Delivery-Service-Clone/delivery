@@ -63,4 +63,13 @@ public class MenuService {
 
     return menuDtos;
   }
+
+  public Menu getMenuByStoreIdAndMenuId(Long storeId, Long menuId) {
+    Store store = storeRepository.findByStoreId(storeId).orElseThrow(StoreNotFoundException::new);
+
+    Menu menu = menuRepository.findMenuByStoreAndMenuId(store, menuId)
+        .orElseThrow(MenuNotFoundException::new);
+
+    return menu;
+  }
 }
