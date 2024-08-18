@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.Cursor;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class DeliveryDao {
 
+  @Qualifier("deliveryRedisTemplate")
   private final RedisTemplate<String, Object> redisTemplate;
 
   private static final String STANDBY_ORDERS_KEY = "STANDBY_ORDERS:";
@@ -83,7 +85,7 @@ public class DeliveryDao {
 
             while (cursor.hasNext()) {
               Entry<byte[], byte[]> entry = cursor.next();
-              result.add(redisTemplate.getStringSerializer().deserialize(entry.getValue()));
+              result.add((String) redisTemplate.getValueSerializer().deserialize(entry.getValue()));
             }
 
             return result;
@@ -116,5 +118,24 @@ public class DeliveryDao {
         });
   }
   // 라이더가 배달을 시작할 때 사용되는 메서드
+  // redis에서 order 및 rider 빼기
+  // 이미 배달을 하고 있다면? order만 빼기
+  public void updateOrderToDelivering(Long orderId, DeliveryRiderDTO riderDto) {
+    String orderKey = generateStandbyOrderKey(riderDto.getAddress());
+    String riderKey = generateStandbyRiderKey(riderDto.getAddress());
+    String orderHashKey = generateOrderHashKey(orderId);
+    String riderHashKey = riderDto.getId();
 
+    // Redis에서 해당 라이더가 있는지 확인
+    Boolean riderExists = redisTemplate.opsForHash().hasKey(riderKey, riderHashKey);
+
+    if (Boolean.TRUE.equals(riderExists)) {
+      // 라이더가 존재하면 라이더 정보 삭제
+      redisTemplate.opsForHash().delete(riderKey, riderHashKey);
+      redisTemplate.opsForHash().delete(orderKey, orderHashKey);
+    } else {
+      // 라이더가 존재하지 않으면 orderKey의 hashKey만 삭제
+      redisTemplate.opsForHash().delete(orderKey, orderHashKey);
+    }
+  }
 }
