@@ -46,11 +46,8 @@ public class OrderService {
 
       Menu menu = menuService.getMenuByStoreIdAndMenuId(cart.getStoreId(), cart.getMenuId());
 
-      OrderMenu orderMenu = OrderMenu.builder()
-          .order(order)
-          .menu(menu)
-          .count(cart.getCount())
-          .build();
+      OrderMenu orderMenu =
+          OrderMenu.builder().order(order).menu(menu).count(cart.getCount()).build();
 
       orderMenuRepository.save(orderMenu);
     }
@@ -60,11 +57,7 @@ public class OrderService {
 
   private Order addUserInfo(Member member, Long storeId) {
     Store store = storeService.getStoreByStoreId(storeId);
-    Order order = Order.builder()
-        .member(member)
-        .store(store)
-        .address(member.getAddress())
-        .build();
+    Order order = Order.builder().member(member).store(store).address(member.getAddress()).build();
 
     return order;
   }

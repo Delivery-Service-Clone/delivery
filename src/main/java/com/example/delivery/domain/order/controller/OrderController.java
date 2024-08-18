@@ -17,8 +17,8 @@ public class OrderController {
   private final OrderService orderService;
 
   @PostMapping
-  public void registerOrder(@AuthenticationPrincipal Member member,
-      @PathVariable("storeId") Long storeId) {
+  public void registerOrder(
+      @AuthenticationPrincipal Member member, @PathVariable("storeId") Long storeId) {
     orderService.registerOrder(member, storeId);
   }
 }

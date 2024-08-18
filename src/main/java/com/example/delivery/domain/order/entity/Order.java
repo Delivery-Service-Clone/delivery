@@ -71,8 +71,8 @@ public class Order extends BaseEntity {
   private OrderStatus orderStatus;
 
   @Builder
-  public Order(Member member, Store store, OrderStatus orderStatus, String address,
-      Long totalPrice) {
+  public Order(
+      Member member, Store store, OrderStatus orderStatus, String address, Long totalPrice) {
     this.member = member;
     this.store = store;
     this.orderStatus = orderStatus;
