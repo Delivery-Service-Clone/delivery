@@ -1,9 +1,13 @@
 package com.example.delivery.domain.rider.dao;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.example.delivery.TestContainerConfig;
 import com.example.delivery.domain.order.dto.OrderReceiptDto;
 import com.example.delivery.domain.rider.dto.DeliveryRiderDTO;
 import com.example.delivery.domain.user.dto.MemberInfoDto;
+import java.util.List;
+import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,11 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.List;
-import java.util.Set;
 
 @SpringBootTest
 @ExtendWith(TestContainerConfig.class)
@@ -68,7 +67,8 @@ public class DeliveryDaoTest {
   @DisplayName("주문이 레디스에 정상 등록되는지 테스트")
   public void testInsertStandbyOrder() {
     // Given
-    MemberInfoDto memberInfo = new MemberInfoDto("user@example.com", "John Doe", "010-1234-5678", "고등동");
+    MemberInfoDto memberInfo =
+        new MemberInfoDto("user@example.com", "John Doe", "010-1234-5678", "고등동");
     OrderReceiptDto orderReceipt = new OrderReceiptDto(1L, "배달대기", 15000L, memberInfo);
     String orderKey = "STANDBY_ORDERS:고등동";
 
@@ -82,7 +82,8 @@ public class DeliveryDaoTest {
     assertThat(((OrderReceiptDto) storedOrder).getOrderStatus()).isEqualTo("배달대기");
     assertThat(((OrderReceiptDto) storedOrder).getTotalPrice()).isEqualTo(15000L);
     assertThat(((OrderReceiptDto) storedOrder).getUserInfo().getAddress()).isEqualTo("고등동");
-    assertThat(((OrderReceiptDto) storedOrder).getUserInfo().getEmail()).isEqualTo("user@example.com");
+    assertThat(((OrderReceiptDto) storedOrder).getUserInfo().getEmail())
+        .isEqualTo("user@example.com");
     assertThat(((OrderReceiptDto) storedOrder).getUserInfo().getName()).isEqualTo("John Doe");
     assertThat(((OrderReceiptDto) storedOrder).getUserInfo().getPhone()).isEqualTo("010-1234-5678");
   }
@@ -108,10 +109,12 @@ public class DeliveryDaoTest {
   @DisplayName("라이더가 배달 가능한 지역의 주문 리스트 조회 테스트")
   void testSelectOrderList() {
     // Given
-    MemberInfoDto userInfo1 = new MemberInfoDto("user1@example.com", "User One", "010-1234-5678", "고등동");
+    MemberInfoDto userInfo1 =
+        new MemberInfoDto("user1@example.com", "User One", "010-1234-5678", "고등동");
     OrderReceiptDto orderReceipt1 = new OrderReceiptDto(1L, "대기중", 10000L, userInfo1);
 
-    MemberInfoDto userInfo2 = new MemberInfoDto("user2@example.com", "User Two", "010-8765-4321", "고등동");
+    MemberInfoDto userInfo2 =
+        new MemberInfoDto("user2@example.com", "User Two", "010-8765-4321", "고등동");
     OrderReceiptDto orderReceipt2 = new OrderReceiptDto(2L, "대기중", 20000L, userInfo2);
 
     deliveryDao.insertStandbyOrder(1L, orderReceipt1);
@@ -130,7 +133,8 @@ public class DeliveryDaoTest {
     // Given
     DeliveryRiderDTO rider = new DeliveryRiderDTO("1", "fcmToken123", "John Doe", "고등동");
 
-    MemberInfoDto userInfo = new MemberInfoDto("user1@example.com", "User One", "010-1234-5678", "고등동");
+    MemberInfoDto userInfo =
+        new MemberInfoDto("user1@example.com", "User One", "010-1234-5678", "고등동");
     OrderReceiptDto orderReceipt = new OrderReceiptDto(1L, "READY", 10000L, userInfo);
 
     deliveryDao.registerRiderWhenStartWork(rider);
@@ -153,7 +157,8 @@ public class DeliveryDaoTest {
     // Given
     DeliveryRiderDTO rider = new DeliveryRiderDTO("1", "fcmToken123", "John Doe", "고등동");
 
-    MemberInfoDto userInfo = new MemberInfoDto("user1@example.com", "User One", "010-1234-5678", "고등동");
+    MemberInfoDto userInfo =
+        new MemberInfoDto("user1@example.com", "User One", "010-1234-5678", "고등동");
     OrderReceiptDto orderReceipt = new OrderReceiptDto(1L, "READY", 10000L, userInfo);
 
     deliveryDao.insertStandbyOrder(1L, orderReceipt);

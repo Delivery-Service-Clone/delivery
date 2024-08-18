@@ -117,6 +117,7 @@ public class DeliveryDao {
           }
         });
   }
+
   // 라이더가 배달을 시작할 때 사용되는 메서드
   // redis에서 order 및 rider 빼기
   // 이미 배달을 하고 있다면? order만 빼기
