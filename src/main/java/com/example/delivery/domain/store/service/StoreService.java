@@ -81,4 +81,9 @@ public class StoreService {
                     .build())
         .collect(Collectors.toList());
   }
+
+  public Store getStoreByStoreId(Long storeId) {
+    Store store = storeRepository.findByStoreId(storeId).orElseThrow(StoreNotFoundException::new);
+    return store;
+  }
 }
