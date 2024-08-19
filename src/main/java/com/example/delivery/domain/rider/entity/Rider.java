@@ -1,7 +1,6 @@
 package com.example.delivery.domain.rider.entity;
 
 import com.example.delivery.domain.order.entity.Order;
-import com.example.delivery.domain.pay.entity.Pay;
 import com.example.delivery.global.common.BaseEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

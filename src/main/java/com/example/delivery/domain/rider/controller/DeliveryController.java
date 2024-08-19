@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -22,6 +21,7 @@ public class DeliveryController {
   @GetMapping("/{riderAddress}")
   public ResponseEntity<ResultResponse> loadOrderList(@PathVariable String riderAddress) {
     List<String> orderList = deliveryService.loadOrderList(riderAddress);
-    return ResponseEntity.ok(ResultResponse.of(ResultCode.ORDER_LIST_LOADED_SUCCESSFULLY, orderList));
+    return ResponseEntity.ok(
+        ResultResponse.of(ResultCode.ORDER_LIST_LOADED_SUCCESSFULLY, orderList));
   }
 }

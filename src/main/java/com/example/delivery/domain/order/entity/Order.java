@@ -17,7 +17,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.List;
 import lombok.AccessLevel;
@@ -72,7 +71,12 @@ public class Order extends BaseEntity {
 
   @Builder
   public Order(
-      Member member, Store store, Rider rider, OrderStatus orderStatus, String address, Long totalPrice) {
+      Member member,
+      Store store,
+      Rider rider,
+      OrderStatus orderStatus,
+      String address,
+      Long totalPrice) {
     this.member = member;
     this.store = store;
     this.rider = rider;

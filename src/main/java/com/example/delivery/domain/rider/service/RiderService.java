@@ -31,8 +31,10 @@ public class RiderService {
 
   @Transactional
   public void acceptStandbyOrder(Long orderId, DeliveryRiderDTO riderDto) {
-    Rider rider = riderRepository.findById(Long.parseLong(riderDto.getId())).orElseThrow(
-        RiderNotFoundException::new);
+    Rider rider =
+        riderRepository
+            .findById(Long.parseLong(riderDto.getId()))
+            .orElseThrow(RiderNotFoundException::new);
     Order order = orderRepository.findById(orderId).orElseThrow(OrderNotFoundException::new);
     order.updateOrderToDelivering(rider, OrderStatus.DELIVERING);
     orderRepository.save(order);

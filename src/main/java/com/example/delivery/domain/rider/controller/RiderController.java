@@ -59,7 +59,7 @@ public class RiderController {
       security = {@SecurityRequirement(name = "jwtAuth")})
   public ResponseEntity<ResultResponse> registerStandbyRider(
       @RequestBody DeliveryRiderDTO riderDto, @AuthenticationPrincipal Rider rider) {
-    if(rider == null) {
+    if (rider == null) {
       throw new BusinessException(ErrorCode.INVALID_AUTH_TOKEN);
     }
     riderService.registerStandbyRiderWhenStartWork(riderDto);
@@ -71,8 +71,9 @@ public class RiderController {
       summary = "라이더 퇴근",
       description = "라이더가 퇴근했음을 알린다.",
       security = {@SecurityRequirement(name = "jwtAuth")})
-  public ResponseEntity<ResultResponse> finishStandbyRider(@RequestBody DeliveryRiderDTO riderDto, @AuthenticationPrincipal Rider rider) {
-    if(rider == null) {
+  public ResponseEntity<ResultResponse> finishStandbyRider(
+      @RequestBody DeliveryRiderDTO riderDto, @AuthenticationPrincipal Rider rider) {
+    if (rider == null) {
       throw new BusinessException(ErrorCode.INVALID_AUTH_TOKEN);
     }
     riderService.deleteStandbyRiderWhenStopWork(riderDto);
@@ -94,8 +95,7 @@ public class RiderController {
   @PatchMapping("/accept-order")
   @Operation(summary = "라이더 배달 수락", description = "라이더는 해당 주문을 승인한다.")
   public ResponseEntity<ResultResponse> acceptStandbyOrder(
-      @RequestParam Long orderId,
-      @RequestBody @Valid DeliveryRiderDTO riderDto) {
+      @RequestParam Long orderId, @RequestBody @Valid DeliveryRiderDTO riderDto) {
     riderService.acceptStandbyOrder(orderId, riderDto);
     return ResponseEntity.ok(ResultResponse.of(ResultCode.RIDER_DELIVERY_STARTED));
   }
@@ -103,8 +103,7 @@ public class RiderController {
   @PatchMapping("/finish-order")
   @Operation(summary = "라이더 배달 완료", description = "라이더는 배달을 완료한다.")
   public ResponseEntity<ResultResponse> finishDeliveringOrder(
-      @RequestParam Long orderId,
-      @RequestBody @Valid DeliveryRiderDTO riderDto) {
+      @RequestParam Long orderId, @RequestBody @Valid DeliveryRiderDTO riderDto) {
     riderService.finishDeliveringOrder(orderId, riderDto);
     return ResponseEntity.ok(ResultResponse.of(ResultCode.ORDER_DELIVERY_COMPLETED));
   }
