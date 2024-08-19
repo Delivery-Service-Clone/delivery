@@ -58,8 +58,14 @@ public class OrderService {
 
   private Order addUserInfo(Member member, Long storeId) {
     Store store = storeService.getStoreByStoreId(storeId);
-    Order order = Order.builder().member(member).store(store).orderStatus(OrderStatus.BEFORE_ORDER)
-        .address(member.getAddress()).totalPrice(0L).build();
+    Order order =
+        Order.builder()
+            .member(member)
+            .store(store)
+            .orderStatus(OrderStatus.BEFORE_ORDER)
+            .address(member.getAddress())
+            .totalPrice(0L)
+            .build();
 
     return order;
   }

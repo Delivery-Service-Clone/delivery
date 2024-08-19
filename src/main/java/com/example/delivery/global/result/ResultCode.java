@@ -3,9 +3,7 @@ package com.example.delivery.global.result;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-/**
- * {행위}_{목적어}_{성공여부} message 는 동사 명사형으로 마무리
- */
+/** {행위}_{목적어}_{성공여부} message 는 동사 명사형으로 마무리 */
 @Getter
 @AllArgsConstructor
 public enum ResultCode {
@@ -28,7 +26,7 @@ public enum ResultCode {
   MENU_REGISTRATION_SUCCESS("M001", "200", "메뉴가 정상적으로 등록되었습니다."),
   MENU_GET_SUCCESS("M002", "200", "메뉴가 정상적으로 불러왔습니다."),
 
-  //order, cart
+  // order, cart
   ORDER_REGISTRATION_SUCCESS("O001", "200", "성공적으로 주문하였습니다."),
   MENU_IN_CART_SUCCESS("C001", "200", "장바구니에 음식을 정상적으로 담았습니다."),
   CART_GET_SUCCESS("C002", "200", "장바구니 리스트를 불러오는 것에 성공했습니다."),
