@@ -6,6 +6,7 @@ import com.example.delivery.domain.order.dao.CartItemDAO;
 import com.example.delivery.domain.order.dto.CartItemDTO;
 import com.example.delivery.domain.order.entity.Order;
 import com.example.delivery.domain.order.entity.OrderMenu;
+import com.example.delivery.domain.order.entity.OrderStatus;
 import com.example.delivery.domain.order.repository.OrderMenuRepository;
 import com.example.delivery.domain.order.repository.OrderRepository;
 import com.example.delivery.domain.store.entity.Store;
@@ -57,7 +58,8 @@ public class OrderService {
 
   private Order addUserInfo(Member member, Long storeId) {
     Store store = storeService.getStoreByStoreId(storeId);
-    Order order = Order.builder().member(member).store(store).address(member.getAddress()).build();
+    Order order = Order.builder().member(member).store(store).orderStatus(OrderStatus.BEFORE_ORDER)
+        .address(member.getAddress()).totalPrice(0L).build();
 
     return order;
   }

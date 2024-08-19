@@ -9,6 +9,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface StoreRepository extends JpaRepository<Store, Long> {
 
   List<Store> findByCategory(Category category);
-
-  Optional<Store> findByStoreId(Long storeId);
 }
