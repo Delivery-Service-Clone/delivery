@@ -56,7 +56,7 @@ public class DeliveryDaoTest {
     deliveryDao.registerRiderWhenStartWork(riderDto);
 
     // When
-    deliveryDao.updateRiderStatusToDelivering(riderDto);
+    deliveryDao.deleteRider(riderDto);
 
     // Then
     Object storedToken = redisTemplate.opsForHash().get("STANDBY_RIDERS:고등동", "1");

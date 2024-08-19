@@ -1,15 +1,14 @@
 package com.example.delivery.domain.rider.controller;
 
-import static com.example.delivery.global.result.ResultCode.RIDER_REGISTRATION_SUCCESS;
 import static com.example.delivery.global.result.ResultCode.RIDER_WORK_FINISHED;
 import static com.example.delivery.global.result.ResultCode.RIDER_WORK_STARTED;
 
 import com.example.delivery.domain.fcm.dto.PushsRequestDto;
 import com.example.delivery.domain.fcm.service.FCMService;
 import com.example.delivery.domain.rider.dto.DeliveryRiderDTO;
-import com.example.delivery.domain.rider.dto.RiderCreateDto;
 import com.example.delivery.domain.rider.dto.RiderDto;
 import com.example.delivery.domain.rider.entity.Rider;
+import com.example.delivery.domain.rider.service.DeliveryService;
 import com.example.delivery.domain.rider.service.RiderService;
 import com.example.delivery.global.error.ErrorCode;
 import com.example.delivery.global.error.exception.BusinessException;
@@ -17,6 +16,7 @@ import com.example.delivery.global.result.ResultCode;
 import com.example.delivery.global.result.ResultResponse;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,15 +31,8 @@ import org.springframework.web.bind.annotation.*;
 public class RiderController {
 
   private final RiderService riderService;
+  private final DeliveryService deliveryService;
   private final FCMService fcmService;
-
-  @PostMapping
-  @Operation(summary = "라이더 생성", description = "라이더를 등록한다.")
-  public ResponseEntity<ResultResponse> registerRider(
-      @Valid @RequestBody RiderCreateDto riderCreateDto) {
-    riderService.registerRider(riderCreateDto);
-    return ResponseEntity.ok(ResultResponse.of(RIDER_REGISTRATION_SUCCESS));
-  }
 
   @GetMapping("/me")
   public ResponseEntity<ResultResponse> getMember(@AuthenticationPrincipal Rider rider) {
@@ -60,14 +53,29 @@ public class RiderController {
 
   // 라이더가 근무를 시작할 때 호출되는 엔드포인트
   @PostMapping("/work")
+  @Operation(
+      summary = "라이더 출근 등록",
+      description = "라이더가 출근했음을 알린다.",
+      security = {@SecurityRequirement(name = "jwtAuth")})
   public ResponseEntity<ResultResponse> registerStandbyRider(
-      @RequestBody DeliveryRiderDTO riderDto) {
+      @RequestBody DeliveryRiderDTO riderDto, @AuthenticationPrincipal Rider rider) {
+    if (rider == null) {
+      throw new BusinessException(ErrorCode.INVALID_AUTH_TOKEN);
+    }
     riderService.registerStandbyRiderWhenStartWork(riderDto);
     return ResponseEntity.ok(ResultResponse.of(RIDER_WORK_STARTED));
   }
 
   @DeleteMapping("/finish")
-  public ResponseEntity<ResultResponse> finishStandbyRider(@RequestBody DeliveryRiderDTO riderDto) {
+  @Operation(
+      summary = "라이더 퇴근",
+      description = "라이더가 퇴근했음을 알린다.",
+      security = {@SecurityRequirement(name = "jwtAuth")})
+  public ResponseEntity<ResultResponse> finishStandbyRider(
+      @RequestBody DeliveryRiderDTO riderDto, @AuthenticationPrincipal Rider rider) {
+    if (rider == null) {
+      throw new BusinessException(ErrorCode.INVALID_AUTH_TOKEN);
+    }
     riderService.deleteStandbyRiderWhenStopWork(riderDto);
     return ResponseEntity.ok(ResultResponse.of(RIDER_WORK_FINISHED));
   }
@@ -82,5 +90,21 @@ public class RiderController {
     } catch (FirebaseMessagingException e) {
       return ResponseEntity.ok(ResultResponse.of(ResultCode.FCM_SEND_FAIL));
     }
+  }
+
+  @PatchMapping("/accept-order")
+  @Operation(summary = "라이더 배달 수락", description = "라이더는 해당 주문을 승인한다.")
+  public ResponseEntity<ResultResponse> acceptStandbyOrder(
+      @RequestParam Long orderId, @RequestBody @Valid DeliveryRiderDTO riderDto) {
+    riderService.acceptStandbyOrder(orderId, riderDto);
+    return ResponseEntity.ok(ResultResponse.of(ResultCode.RIDER_DELIVERY_STARTED));
+  }
+
+  @PatchMapping("/finish-order")
+  @Operation(summary = "라이더 배달 완료", description = "라이더는 배달을 완료한다.")
+  public ResponseEntity<ResultResponse> finishDeliveringOrder(
+      @RequestParam Long orderId, @RequestBody @Valid DeliveryRiderDTO riderDto) {
+    riderService.finishDeliveringOrder(orderId, riderDto);
+    return ResponseEntity.ok(ResultResponse.of(ResultCode.ORDER_DELIVERY_COMPLETED));
   }
 }

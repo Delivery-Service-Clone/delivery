@@ -38,7 +38,10 @@ public enum ErrorCode {
   MENU_NOT_FOUND_ERROR(400, "M001", "메뉴를 찾을 수 없음"),
 
   // Rider
-  RIDER_NOT_FOUND_ERROR(400, "R001", "라이더를 찾을 수 없음");
+  RIDER_NOT_FOUND_ERROR(400, "R001", "라이더를 찾을 수 없음"),
+
+  // Order
+  ORDER_NOT_FOUND_ERROR(400, "OR001", "주문을 찾을 수 없음");
 
   private final int status;
   private final String code;

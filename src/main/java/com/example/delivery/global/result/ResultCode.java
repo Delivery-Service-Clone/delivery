@@ -31,13 +31,13 @@ public enum ResultCode {
   MENU_IN_CART_SUCCESS("C001", "200", "장바구니에 음식을 정상적으로 담았습니다."),
   CART_GET_SUCCESS("C002", "200", "장바구니 리스트를 불러오는 것에 성공했습니다."),
   CART_DELETE_SUCCESS("C003", "200", "장바구니 리스트 삭제에 성공했습니다."),
-
+  ORDER_LIST_LOADED_SUCCESSFULLY("O001", "200", "배달 가능한 주문 목록 조회 성공했습니다."),
   // rider
   RIDER_REGISTRATION_SUCCESS("R001", "200", "라이더가 정상적으로 등록되었습니다."),
   RIDER_WORK_STARTED("R002", "200", "라이더가 근무를 시작했습니다."),
   RIDER_DELIVERY_STARTED("R003", "200", "라이더가 배달을 시작했습니다."),
   RIDER_WORK_FINISHED("R004", "200", "라이더가 근무를 종료했습니다."),
-
+  ORDER_DELIVERY_COMPLETED("R005", "200", "라이더가 배달을 완료했습니다."),
   // FCM
   FCM_SEND_SUCCESS("F001", "200", "메시지가 정상적으로 전송되었습니다."),
   FCM_SEND_FAIL("F001", "400", "메시지 전송이 실패했습니다"),
