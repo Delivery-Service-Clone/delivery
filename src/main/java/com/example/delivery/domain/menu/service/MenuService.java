@@ -65,12 +65,10 @@ public class MenuService {
   }
 
   public Menu getMenuByStoreIdAndMenuId(Long storeId, Long menuId) {
-    Store store = storeRepository.findByStoreId(storeId).orElseThrow(StoreNotFoundException::new);
+    Store store = storeRepository.findById(storeId).orElseThrow(StoreNotFoundException::new);
 
     Menu menu =
-        menuRepository
-            .findMenuByStoreAndMenuId(store, menuId)
-            .orElseThrow(MenuNotFoundException::new);
+        menuRepository.findMenuByStoreAndId(store, menuId).orElseThrow(MenuNotFoundException::new);
 
     return menu;
   }

@@ -83,7 +83,7 @@ public class StoreService {
   }
 
   public Store getStoreByStoreId(Long storeId) {
-    Store store = storeRepository.findByStoreId(storeId).orElseThrow(StoreNotFoundException::new);
+    Store store = storeRepository.findById(storeId).orElseThrow(StoreNotFoundException::new);
     return store;
   }
 }

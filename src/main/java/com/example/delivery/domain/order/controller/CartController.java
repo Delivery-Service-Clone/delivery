@@ -3,9 +3,12 @@ package com.example.delivery.domain.order.controller;
 import com.example.delivery.domain.order.dto.CartItemDTO;
 import com.example.delivery.domain.order.service.CartService;
 import com.example.delivery.domain.user.entity.Member;
+import com.example.delivery.global.result.ResultCode;
+import com.example.delivery.global.result.ResultResponse;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,21 +25,25 @@ public class CartController {
   private final CartService cartService;
 
   @PostMapping
-  public void registerMenuInCart(
+  public ResponseEntity<ResultResponse> registerMenuInCart(
       @AuthenticationPrincipal Member member, @Valid @RequestBody CartItemDTO cart) {
     String memberEmail = member.getEmail();
 
     cartService.registerMenuInCart(memberEmail, cart);
+
+    return ResponseEntity.ok(ResultResponse.of(ResultCode.MENU_IN_CART_SUCCESS));
   }
 
   @GetMapping
-  public List<CartItemDTO> loadCart(@AuthenticationPrincipal Member member) {
+  public ResponseEntity<ResultResponse> loadCart(@AuthenticationPrincipal Member member) {
     List<CartItemDTO> cartList = cartService.loadCart(member.getEmail());
-    return cartList;
+    return ResponseEntity.ok(ResultResponse.of(ResultCode.CART_GET_SUCCESS, cartList));
   }
 
   @DeleteMapping
-  public void deleteAllMenuInCart(@AuthenticationPrincipal Member member) {
+  public ResponseEntity<ResultResponse> deleteAllMenuInCart(
+      @AuthenticationPrincipal Member member) {
     cartService.deleteAllMenuInCart(member.getEmail());
+    return ResponseEntity.ok(ResultResponse.of(ResultCode.CART_DELETE_SUCCESS));
   }
 }
