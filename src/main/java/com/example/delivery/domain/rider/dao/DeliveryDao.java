@@ -50,15 +50,12 @@ public class DeliveryDao {
             riderDto.getFcmToken());
   }
 
-  // 배달하는 동안 레디스에서 라이더 토큰 값 삭제
-  public void updateRiderStatusToDelivering(DeliveryRiderDTO riderDto) {
-
+  public void deleteRider(DeliveryRiderDTO riderDto) {
     redisTemplate
         .opsForHash()
         .delete(generateStandbyRiderKey(riderDto.getAddress()), riderDto.getId());
   }
 
-  // 주문이 완료되면 동시에 실행
   public void insertStandbyOrder(Long orderId, OrderReceiptDto orderReceipt) {
     redisTemplate
         .opsForHash()
@@ -118,7 +115,7 @@ public class DeliveryDao {
         });
   }
 
-  // 라이더가 배달을 시작할 때 사용되는 메서드
+  // 라이더가 주문을 수락 할 때 사용되는 메서드
   // redis에서 order 및 rider 빼기
   // 이미 배달을 하고 있다면? order만 빼기
   public void updateOrderToDelivering(Long orderId, DeliveryRiderDTO riderDto) {
