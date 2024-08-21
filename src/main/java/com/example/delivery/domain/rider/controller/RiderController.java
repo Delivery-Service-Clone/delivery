@@ -60,9 +60,9 @@ public class RiderController {
   public ResponseEntity<ResultResponse> registerStandbyRider(
       @RequestBody DeliveryRiderDTO riderDto, @AuthenticationPrincipal Rider rider) {
     if (rider == null) {
-      throw new BusinessException(ErrorCode.INVALID_AUTH_TOKEN);
+      throw new BusinessException(ErrorCode.RIDER_NOT_FOUND_ERROR);
     }
-    riderService.registerStandbyRiderWhenStartWork(riderDto);
+    riderService.registerStandbyRiderWhenStartWork(riderDto, rider);
     return ResponseEntity.ok(ResultResponse.of(RIDER_WORK_STARTED));
   }
 
@@ -74,9 +74,9 @@ public class RiderController {
   public ResponseEntity<ResultResponse> finishStandbyRider(
       @RequestBody DeliveryRiderDTO riderDto, @AuthenticationPrincipal Rider rider) {
     if (rider == null) {
-      throw new BusinessException(ErrorCode.INVALID_AUTH_TOKEN);
+      throw new BusinessException(ErrorCode.RIDER_NOT_FOUND_ERROR);
     }
-    riderService.deleteStandbyRiderWhenStopWork(riderDto);
+    riderService.deleteStandbyRiderWhenStopWork(riderDto, rider);
     return ResponseEntity.ok(ResultResponse.of(RIDER_WORK_FINISHED));
   }
 
@@ -93,18 +93,34 @@ public class RiderController {
   }
 
   @PatchMapping("/accept-order")
-  @Operation(summary = "라이더 배달 수락", description = "라이더는 해당 주문을 승인한다.")
+  @Operation(
+      summary = "라이더 배달 수락",
+      description = "라이더는 해당 주문을 승인한다.",
+      security = {@SecurityRequirement(name = "jwtAuth")})
   public ResponseEntity<ResultResponse> acceptStandbyOrder(
-      @RequestParam Long orderId, @RequestBody @Valid DeliveryRiderDTO riderDto) {
-    riderService.acceptStandbyOrder(orderId, riderDto);
+      @RequestParam Long orderId,
+      @RequestBody @Valid DeliveryRiderDTO riderDto,
+      @AuthenticationPrincipal Rider rider) {
+    if (rider == null) {
+      throw new BusinessException(ErrorCode.RIDER_NOT_FOUND_ERROR);
+    }
+    riderService.acceptStandbyOrder(orderId, riderDto, rider);
     return ResponseEntity.ok(ResultResponse.of(ResultCode.RIDER_DELIVERY_STARTED));
   }
 
   @PatchMapping("/finish-order")
-  @Operation(summary = "라이더 배달 완료", description = "라이더는 배달을 완료한다.")
+  @Operation(
+      summary = "라이더 배달 완료",
+      description = "라이더는 배달을 완료한다.",
+      security = {@SecurityRequirement(name = "jwtAuth")})
   public ResponseEntity<ResultResponse> finishDeliveringOrder(
-      @RequestParam Long orderId, @RequestBody @Valid DeliveryRiderDTO riderDto) {
-    riderService.finishDeliveringOrder(orderId, riderDto);
+      @RequestParam Long orderId,
+      @RequestBody @Valid DeliveryRiderDTO riderDto,
+      @AuthenticationPrincipal Rider rider) {
+    if (rider == null) {
+      throw new BusinessException(ErrorCode.RIDER_NOT_FOUND_ERROR);
+    }
+    riderService.finishDeliveringOrder(orderId, riderDto, rider);
     return ResponseEntity.ok(ResultResponse.of(ResultCode.ORDER_DELIVERY_COMPLETED));
   }
 }
