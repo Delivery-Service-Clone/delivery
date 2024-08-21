@@ -1,5 +1,6 @@
 package com.example.delivery.domain.order.dto;
 
+import com.example.delivery.domain.order.entity.OrderStatus;
 import com.example.delivery.domain.user.dto.MemberInfoDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +13,7 @@ public class OrderReceiptDto {
 
   private Long orderId;
 
-  private String orderStatus;
+  private OrderStatus orderStatus;
 
   private Long totalPrice;
 

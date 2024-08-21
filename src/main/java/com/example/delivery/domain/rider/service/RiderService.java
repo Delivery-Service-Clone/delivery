@@ -17,35 +17,32 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class RiderService {
 
-  private final RiderRepository riderRepository;
   private final DeliveryDao deliveryDao;
   private final OrderRepository orderRepository;
 
-  public void registerStandbyRiderWhenStartWork(DeliveryRiderDTO riderDto) {
-    deliveryDao.registerRiderWhenStartWork(riderDto);
+  public void registerStandbyRiderWhenStartWork(DeliveryRiderDTO riderDto, Rider rider) {
+    deliveryDao.registerRiderWhenStartWork(riderDto, rider);
   }
 
-  public void deleteStandbyRiderWhenStopWork(DeliveryRiderDTO riderDto) {
-    deliveryDao.deleteRider(riderDto);
+  public void deleteStandbyRiderWhenStopWork(DeliveryRiderDTO riderDto, Rider rider) {
+    deliveryDao.deleteRider(riderDto, rider);
   }
 
   @Transactional
-  public void acceptStandbyOrder(Long orderId, DeliveryRiderDTO riderDto) {
-    Rider rider =
-        riderRepository
-            .findById(Long.parseLong(riderDto.getId()))
-            .orElseThrow(RiderNotFoundException::new);
+  public void acceptStandbyOrder(Long orderId, DeliveryRiderDTO riderDto, Rider rider) {
+
     Order order = orderRepository.findById(orderId).orElseThrow(OrderNotFoundException::new);
     order.updateOrderToDelivering(rider, OrderStatus.DELIVERING);
+
     orderRepository.save(order);
-    deliveryDao.updateOrderToDelivering(orderId, riderDto);
+    deliveryDao.updateOrderToDelivering(orderId, riderDto, rider);
   }
 
   @Transactional
-  public void finishDeliveringOrder(Long orderId, DeliveryRiderDTO rider) {
+  public void finishDeliveringOrder(Long orderId, DeliveryRiderDTO riderDTO, Rider rider) {
     Order order = orderRepository.findById(orderId).orElseThrow(OrderNotFoundException::new);
     order.updateStatus(OrderStatus.COMPLETE_DELIVERY);
     orderRepository.save(order);
-    deliveryDao.registerRiderWhenStartWork(rider);
+    deliveryDao.registerRiderWhenStartWork(riderDTO, rider);
   }
 }

@@ -12,7 +12,7 @@ public class DeliveryService {
 
   private final DeliveryDao deliveryDao;
 
-  public void registerOrderWhenOrderApprove(long orderId, OrderReceiptDto orderReceipt) {
+  public void registerOrderWhenOrderApprove(Long orderId, OrderReceiptDto orderReceipt) {
     deliveryDao.insertStandbyOrder(orderId, orderReceipt);
   }
 

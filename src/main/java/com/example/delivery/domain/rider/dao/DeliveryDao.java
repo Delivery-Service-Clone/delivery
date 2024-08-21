@@ -2,6 +2,7 @@ package com.example.delivery.domain.rider.dao;
 
 import com.example.delivery.domain.order.dto.OrderReceiptDto;
 import com.example.delivery.domain.rider.dto.DeliveryRiderDTO;
+import com.example.delivery.domain.rider.entity.Rider;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -27,7 +28,11 @@ public class DeliveryDao {
   private static final String STANDBY_ORDERS_KEY = "STANDBY_ORDERS:";
   private static final String STANDBY_RIDERS_KEY = "STANDBY_RIDERS:";
 
-  private static String generateOrderHashKey(long orderId) {
+  private static String generateRiderHashKey(Long riderId) {
+    return String.valueOf(riderId);
+  }
+
+  private static String generateOrderHashKey(Long orderId) {
     return String.valueOf(orderId);
   }
 
@@ -40,20 +45,20 @@ public class DeliveryDao {
   }
 
   // 출근시 라이더 등록
-  public void registerRiderWhenStartWork(DeliveryRiderDTO riderDto) {
+  public void registerRiderWhenStartWork(DeliveryRiderDTO riderDto, Rider rider) {
 
     redisTemplate
         .opsForHash()
         .put(
             generateStandbyRiderKey(riderDto.getAddress()),
-            riderDto.getId(),
+            generateRiderHashKey(rider.getId()),
             riderDto.getFcmToken());
   }
 
-  public void deleteRider(DeliveryRiderDTO riderDto) {
+  public void deleteRider(DeliveryRiderDTO riderDto, Rider rider) {
     redisTemplate
         .opsForHash()
-        .delete(generateStandbyRiderKey(riderDto.getAddress()), riderDto.getId());
+        .delete(generateStandbyRiderKey(riderDto.getAddress()), generateRiderHashKey(rider.getId()));
   }
 
   public void insertStandbyOrder(Long orderId, OrderReceiptDto orderReceipt) {
@@ -118,11 +123,11 @@ public class DeliveryDao {
   // 라이더가 주문을 수락 할 때 사용되는 메서드
   // redis에서 order 및 rider 빼기
   // 이미 배달을 하고 있다면? order만 빼기
-  public void updateOrderToDelivering(Long orderId, DeliveryRiderDTO riderDto) {
+  public void updateOrderToDelivering(Long orderId, DeliveryRiderDTO riderDto, Rider rider) {
     String orderKey = generateStandbyOrderKey(riderDto.getAddress());
     String riderKey = generateStandbyRiderKey(riderDto.getAddress());
     String orderHashKey = generateOrderHashKey(orderId);
-    String riderHashKey = riderDto.getId();
+    String riderHashKey = generateRiderHashKey(rider.getId());
 
     // Redis에서 해당 라이더가 있는지 확인
     Boolean riderExists = redisTemplate.opsForHash().hasKey(riderKey, riderHashKey);
