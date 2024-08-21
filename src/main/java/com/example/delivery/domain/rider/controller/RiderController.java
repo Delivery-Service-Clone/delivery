@@ -93,9 +93,14 @@ public class RiderController {
   }
 
   @PatchMapping("/accept-order")
-  @Operation(summary = "라이더 배달 수락", description = "라이더는 해당 주문을 승인한다.", security = {@SecurityRequirement(name = "jwtAuth")})
+  @Operation(
+      summary = "라이더 배달 수락",
+      description = "라이더는 해당 주문을 승인한다.",
+      security = {@SecurityRequirement(name = "jwtAuth")})
   public ResponseEntity<ResultResponse> acceptStandbyOrder(
-      @RequestParam Long orderId, @RequestBody @Valid DeliveryRiderDTO riderDto ,@AuthenticationPrincipal Rider rider) {
+      @RequestParam Long orderId,
+      @RequestBody @Valid DeliveryRiderDTO riderDto,
+      @AuthenticationPrincipal Rider rider) {
     if (rider == null) {
       throw new BusinessException(ErrorCode.RIDER_NOT_FOUND_ERROR);
     }
@@ -104,9 +109,14 @@ public class RiderController {
   }
 
   @PatchMapping("/finish-order")
-  @Operation(summary = "라이더 배달 완료", description = "라이더는 배달을 완료한다.", security = {@SecurityRequirement(name = "jwtAuth")})
+  @Operation(
+      summary = "라이더 배달 완료",
+      description = "라이더는 배달을 완료한다.",
+      security = {@SecurityRequirement(name = "jwtAuth")})
   public ResponseEntity<ResultResponse> finishDeliveringOrder(
-      @RequestParam Long orderId, @RequestBody @Valid DeliveryRiderDTO riderDto, @AuthenticationPrincipal Rider rider) {
+      @RequestParam Long orderId,
+      @RequestBody @Valid DeliveryRiderDTO riderDto,
+      @AuthenticationPrincipal Rider rider) {
     if (rider == null) {
       throw new BusinessException(ErrorCode.RIDER_NOT_FOUND_ERROR);
     }

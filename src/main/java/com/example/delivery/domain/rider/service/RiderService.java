@@ -7,8 +7,6 @@ import com.example.delivery.domain.order.repository.OrderRepository;
 import com.example.delivery.domain.rider.dao.DeliveryDao;
 import com.example.delivery.domain.rider.dto.DeliveryRiderDTO;
 import com.example.delivery.domain.rider.entity.Rider;
-import com.example.delivery.domain.rider.exception.RiderNotFoundException;
-import com.example.delivery.domain.rider.repository.RiderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

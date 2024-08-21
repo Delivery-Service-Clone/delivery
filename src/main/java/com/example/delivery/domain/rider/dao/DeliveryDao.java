@@ -58,7 +58,8 @@ public class DeliveryDao {
   public void deleteRider(DeliveryRiderDTO riderDto, Rider rider) {
     redisTemplate
         .opsForHash()
-        .delete(generateStandbyRiderKey(riderDto.getAddress()), generateRiderHashKey(rider.getId()));
+        .delete(
+            generateStandbyRiderKey(riderDto.getAddress()), generateRiderHashKey(rider.getId()));
   }
 
   public void insertStandbyOrder(Long orderId, OrderReceiptDto orderReceipt) {
