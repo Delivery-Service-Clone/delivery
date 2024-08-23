@@ -11,7 +11,7 @@ spring:
       enabled: true
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
-    hibernate.ddl-auto: update
+    hibernate.ddl-auto: create-drop
     properties:
       hibernate:
         format_sql: true
