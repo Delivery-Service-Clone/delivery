@@ -1,5 +1,7 @@
 package com.example.delivery.domain.rider.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 import com.example.delivery.domain.order.entity.Order;
@@ -9,31 +11,24 @@ import com.example.delivery.domain.order.repository.OrderRepository;
 import com.example.delivery.domain.rider.dao.DeliveryDao;
 import com.example.delivery.domain.rider.dto.DeliveryRiderDTO;
 import com.example.delivery.domain.rider.entity.Rider;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.junit.jupiter.api.extension.ExtendWith;
-
-import java.util.Optional;
 import org.springframework.test.util.ReflectionTestUtils;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
 class RiderServiceTest {
 
-  @Mock
-  private DeliveryDao deliveryDao;
+  @Mock private DeliveryDao deliveryDao;
 
-  @Mock
-  private OrderRepository orderRepository;
+  @Mock private OrderRepository orderRepository;
 
-  @InjectMocks
-  private RiderService riderService;
+  @InjectMocks private RiderService riderService;
 
   private Rider rider;
   private DeliveryRiderDTO riderDto;
@@ -42,22 +37,19 @@ class RiderServiceTest {
   @BeforeEach
   void setUp() {
     // given
-    rider = Rider.builder()
-        .email("example@example.com")
-        .name("John Doe")
-        .password("password")
-        .phone("010-1234-5678")
-        .address("고등동")
-        .build();
+    rider =
+        Rider.builder()
+            .email("example@example.com")
+            .name("John Doe")
+            .password("password")
+            .phone("010-1234-5678")
+            .address("고등동")
+            .build();
 
     riderDto = new DeliveryRiderDTO("fcmToken123", "고등동");
 
-
-    order = Order.builder()
-        .orderStatus(OrderStatus.APPROVED_ORDER)
-        .build();
+    order = Order.builder().orderStatus(OrderStatus.APPROVED_ORDER).build();
     ReflectionTestUtils.setField(order, "id", 1L);
-
   }
 
   @Test
@@ -104,9 +96,11 @@ class RiderServiceTest {
     when(orderRepository.findById(1L)).thenReturn(Optional.empty());
 
     // when, then: 라이더가 주문을 수락하려 할 때 OrderNotFoundException 예외가 발생해야 한다.
-    assertThrows(OrderNotFoundException.class, () -> {
-      riderService.acceptStandbyOrder(1L, riderDto, rider);
-    });
+    assertThrows(
+        OrderNotFoundException.class,
+        () -> {
+          riderService.acceptStandbyOrder(1L, riderDto, rider);
+        });
   }
 
   @Test

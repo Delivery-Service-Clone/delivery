@@ -28,8 +28,7 @@ public class DeliveryDaoTest {
   @Qualifier("deliveryRedisTemplate")
   private RedisTemplate<String, Object> redisTemplate;
 
-  @Autowired
-  private RiderRepository riderRepository;
+  @Autowired private RiderRepository riderRepository;
 
   private DeliveryDao deliveryDao;
   private DeliveryRiderDTO riderDto;
@@ -43,13 +42,14 @@ public class DeliveryDaoTest {
     riderDto = new DeliveryRiderDTO("fcmToken123", "고등동");
 
     // 실제 Rider 엔티티 생성
-    rider = Rider.builder()
-        .email("example11@example.com")
-        .name("John Doe")
-        .password("password")
-        .phone("010-1234-5678")
-        .address("고등동")
-        .build();
+    rider =
+        Rider.builder()
+            .email("example11@example.com")
+            .name("John Doe")
+            .password("password")
+            .phone("010-1234-5678")
+            .address("고등동")
+            .build();
   }
 
   @Test
@@ -76,7 +76,8 @@ public class DeliveryDaoTest {
     deliveryDao.deleteRider(riderDto, rider);
 
     // Then
-    Object storedToken = redisTemplate.opsForHash().get("STANDBY_RIDERS:고등동", String.valueOf(rider.getId()));
+    Object storedToken =
+        redisTemplate.opsForHash().get("STANDBY_RIDERS:고등동", String.valueOf(rider.getId()));
     assertThat(storedToken).isNull();
   }
 
@@ -86,7 +87,8 @@ public class DeliveryDaoTest {
     // Given
     MemberInfoDto memberInfo =
         new MemberInfoDto("user@example.com", "John Doe", "010-1234-5678", "고등동");
-    OrderReceiptDto orderReceipt = new OrderReceiptDto(1L, OrderStatus.APPROVED_ORDER, 15000L, memberInfo);
+    OrderReceiptDto orderReceipt =
+        new OrderReceiptDto(1L, OrderStatus.APPROVED_ORDER, 15000L, memberInfo);
     String orderKey = "STANDBY_ORDERS:고등동";
 
     // When
@@ -96,7 +98,8 @@ public class DeliveryDaoTest {
     Object storedOrder = redisTemplate.opsForHash().get(orderKey, "1");
     assertThat(storedOrder).isNotNull();
     assertThat(((OrderReceiptDto) storedOrder).getOrderId()).isEqualTo(1L);
-    assertThat(((OrderReceiptDto) storedOrder).getOrderStatus()).isEqualTo(OrderStatus.APPROVED_ORDER);
+    assertThat(((OrderReceiptDto) storedOrder).getOrderStatus())
+        .isEqualTo(OrderStatus.APPROVED_ORDER);
     assertThat(((OrderReceiptDto) storedOrder).getTotalPrice()).isEqualTo(15000L);
     assertThat(((OrderReceiptDto) storedOrder).getUserInfo().getAddress()).isEqualTo("고등동");
     assertThat(((OrderReceiptDto) storedOrder).getUserInfo().getEmail())
@@ -109,24 +112,26 @@ public class DeliveryDaoTest {
   @DisplayName("같은 지역의 라이더들에게 메시지를 보내기 위한 토큰 조회 테스트")
   void testGetRiderTokensByAddress() {
     // Given
-    DeliveryRiderDTO riderDto1 = new DeliveryRiderDTO("fcmToken123",  "고등동");
-    DeliveryRiderDTO riderDto2 = new DeliveryRiderDTO("fcmToken456",  "고등동");
+    DeliveryRiderDTO riderDto1 = new DeliveryRiderDTO("fcmToken123", "고등동");
+    DeliveryRiderDTO riderDto2 = new DeliveryRiderDTO("fcmToken456", "고등동");
 
-    Rider riderEntity1 = Rider.builder()
-        .email("example1@example.com")
-        .name("John Doe")
-        .password("password")
-        .phone("010-1234-5678")
-        .address("고등동")
-        .build();
+    Rider riderEntity1 =
+        Rider.builder()
+            .email("example1@example.com")
+            .name("John Doe")
+            .password("password")
+            .phone("010-1234-5678")
+            .address("고등동")
+            .build();
 
-    Rider riderEntity2 = Rider.builder()
-        .email("example2@example.com")
-        .name("Jane Smith")
-        .password("password")
-        .phone("010-8765-4321")
-        .address("고등동")
-        .build();
+    Rider riderEntity2 =
+        Rider.builder()
+            .email("example2@example.com")
+            .name("Jane Smith")
+            .password("password")
+            .phone("010-8765-4321")
+            .address("고등동")
+            .build();
     // 영속화하여 ID 생성
     riderEntity1 = riderRepository.save(riderEntity1);
     riderEntity2 = riderRepository.save(riderEntity2);
@@ -149,11 +154,13 @@ public class DeliveryDaoTest {
     // Given
     MemberInfoDto userInfo1 =
         new MemberInfoDto("user1@example.com", "User One", "010-1234-5678", "고등동");
-    OrderReceiptDto orderReceipt1 = new OrderReceiptDto(1L, OrderStatus.APPROVED_ORDER, 10000L, userInfo1);
+    OrderReceiptDto orderReceipt1 =
+        new OrderReceiptDto(1L, OrderStatus.APPROVED_ORDER, 10000L, userInfo1);
 
     MemberInfoDto userInfo2 =
         new MemberInfoDto("user2@example.com", "User Two", "010-8765-4321", "고등동");
-    OrderReceiptDto orderReceipt2 = new OrderReceiptDto(2L, OrderStatus.APPROVED_ORDER, 20000L, userInfo2);
+    OrderReceiptDto orderReceipt2 =
+        new OrderReceiptDto(2L, OrderStatus.APPROVED_ORDER, 20000L, userInfo2);
 
     deliveryDao.insertStandbyOrder(1L, orderReceipt1);
     deliveryDao.insertStandbyOrder(2L, orderReceipt2);
@@ -171,7 +178,8 @@ public class DeliveryDaoTest {
     // Given
     MemberInfoDto userInfo =
         new MemberInfoDto("user1@example.com", "User One", "010-1234-5678", "고등동");
-    OrderReceiptDto orderReceipt = new OrderReceiptDto(1L, OrderStatus.APPROVED_ORDER, 10000L, userInfo);
+    OrderReceiptDto orderReceipt =
+        new OrderReceiptDto(1L, OrderStatus.APPROVED_ORDER, 10000L, userInfo);
 
     deliveryDao.registerRiderWhenStartWork(riderDto, rider);
     deliveryDao.insertStandbyOrder(1L, orderReceipt);
@@ -180,7 +188,8 @@ public class DeliveryDaoTest {
     deliveryDao.updateOrderToDelivering(1L, riderDto, rider);
 
     // Then
-    Object storedRiderToken = redisTemplate.opsForHash().get("STANDBY_RIDERS:고등동", String.valueOf(rider.getId()));
+    Object storedRiderToken =
+        redisTemplate.opsForHash().get("STANDBY_RIDERS:고등동", String.valueOf(rider.getId()));
     Object storedOrder = redisTemplate.opsForHash().get("STANDBY_ORDERS:고등동", "1");
 
     assertThat(storedRiderToken).isNull();
@@ -193,7 +202,8 @@ public class DeliveryDaoTest {
     // Given
     MemberInfoDto userInfo =
         new MemberInfoDto("user1@example.com", "User One", "010-1234-5678", "고등동");
-    OrderReceiptDto orderReceipt = new OrderReceiptDto(1L, OrderStatus.APPROVED_ORDER, 10000L, userInfo);
+    OrderReceiptDto orderReceipt =
+        new OrderReceiptDto(1L, OrderStatus.APPROVED_ORDER, 10000L, userInfo);
 
     deliveryDao.insertStandbyOrder(1L, orderReceipt);
 
@@ -201,7 +211,8 @@ public class DeliveryDaoTest {
     deliveryDao.updateOrderToDelivering(1L, riderDto, rider);
 
     // Then
-    Object storedRiderToken = redisTemplate.opsForHash().get("STANDBY_RIDERS:고등동", String.valueOf(rider.getId()));
+    Object storedRiderToken =
+        redisTemplate.opsForHash().get("STANDBY_RIDERS:고등동", String.valueOf(rider.getId()));
     Object storedOrder = redisTemplate.opsForHash().get("STANDBY_ORDERS:고등동", "1");
 
     assertThat(storedRiderToken).isNull();

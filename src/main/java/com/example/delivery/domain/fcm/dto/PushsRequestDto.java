@@ -1,6 +1,5 @@
 package com.example.delivery.domain.fcm.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
