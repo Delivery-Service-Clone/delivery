@@ -30,17 +30,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class MenuServiceTest {
 
-  @Mock
-  private OwnerRepository ownerRepository;
+  @Mock private OwnerRepository ownerRepository;
 
-  @Mock
-  private MenuRepository menuRepository;
+  @Mock private MenuRepository menuRepository;
 
-  @Mock
-  private StoreRepository storeRepository;
+  @Mock private StoreRepository storeRepository;
 
-  @InjectMocks
-  private MenuService menuService;
+  @InjectMocks private MenuService menuService;
 
   private Store store;
 

@@ -31,8 +31,7 @@ public class DeliveryDaoTest {
   @Qualifier("deliveryRedisTemplate")
   private RedisTemplate<String, Object> redisTemplate;
 
-  @Autowired
-  private RiderRepository riderRepository;
+  @Autowired private RiderRepository riderRepository;
 
   private DeliveryDao deliveryDao;
   private DeliveryRiderDTO riderDto;
@@ -91,16 +90,20 @@ public class DeliveryDaoTest {
     // Given
     MemberInfoDto memberInfo =
         new MemberInfoDto("user@example.com", "John Doe", "010-1234-5678", "고등동");
-    StoreInfoDTO storeInfoDTO =
-        new StoreInfoDTO(1L, "Burger King", "456 Elm St", "123-456-7890");
+    StoreInfoDTO storeInfoDTO = new StoreInfoDTO(1L, "Burger King", "456 Elm St", "123-456-7890");
 
     List<CartItemDTO> cartItemDTOList = new ArrayList<>();
     CartItemDTO cartItemDTO = new CartItemDTO("New Menu", 15000L, 1L, 1L, 1L);
     cartItemDTOList.add(cartItemDTO);
 
     OrderReceiptDto orderReceipt =
-        new OrderReceiptDto(1L, OrderStatus.APPROVED_ORDER.toString(), 15000L, memberInfo,
-            storeInfoDTO, cartItemDTOList);
+        new OrderReceiptDto(
+            1L,
+            OrderStatus.APPROVED_ORDER.toString(),
+            15000L,
+            memberInfo,
+            storeInfoDTO,
+            cartItemDTOList);
     String orderKey = "STANDBY_ORDERS:고등동";
 
     // When
@@ -117,16 +120,16 @@ public class DeliveryDaoTest {
     assertThat(((OrderReceiptDto) storedOrder).getMemberInfo().getEmail())
         .isEqualTo("user@example.com");
     assertThat(((OrderReceiptDto) storedOrder).getMemberInfo().getName()).isEqualTo("John Doe");
-    assertThat(((OrderReceiptDto) storedOrder).getMemberInfo().getPhone()).isEqualTo(
-        "010-1234-5678");
+    assertThat(((OrderReceiptDto) storedOrder).getMemberInfo().getPhone())
+        .isEqualTo("010-1234-5678");
     // 추가된 검증 코드
     assertThat(((OrderReceiptDto) storedOrder).getStoreInfo().getStoreId()).isEqualTo(1L);
-    assertThat(((OrderReceiptDto) storedOrder).getStoreInfo().getStoreName()).isEqualTo(
-        "Burger King");
-    assertThat(((OrderReceiptDto) storedOrder).getStoreInfo().getStoreAddress()).isEqualTo(
-        "456 Elm St");
-    assertThat(((OrderReceiptDto) storedOrder).getStoreInfo().getStorePhone()).isEqualTo(
-        "123-456-7890");
+    assertThat(((OrderReceiptDto) storedOrder).getStoreInfo().getStoreName())
+        .isEqualTo("Burger King");
+    assertThat(((OrderReceiptDto) storedOrder).getStoreInfo().getStoreAddress())
+        .isEqualTo("456 Elm St");
+    assertThat(((OrderReceiptDto) storedOrder).getStoreInfo().getStorePhone())
+        .isEqualTo("123-456-7890");
 
     List<CartItemDTO> storedCartItems = ((OrderReceiptDto) storedOrder).getCartList();
     assertThat(storedCartItems).isNotNull(); // 리스트가 null이 아닌지 확인
@@ -186,29 +189,37 @@ public class DeliveryDaoTest {
     // Given
     MemberInfoDto userInfo1 =
         new MemberInfoDto("user1@example.com", "User One", "010-1234-5678", "고등동");
-    StoreInfoDTO storeInfo1 =
-        new StoreInfoDTO(1L, "Burger King", "456 Elm St", "123-456-7890");
+    StoreInfoDTO storeInfo1 = new StoreInfoDTO(1L, "Burger King", "456 Elm St", "123-456-7890");
 
     List<CartItemDTO> cartItemDTOList1 = new ArrayList<>();
     CartItemDTO cartItemDTO1 = new CartItemDTO("New Menu", 15000L, 1L, 1L, 1L);
     cartItemDTOList1.add(cartItemDTO1);
 
     OrderReceiptDto orderReceipt1 =
-        new OrderReceiptDto(1L, OrderStatus.APPROVED_ORDER.toString(), 15000L, userInfo1,
-            storeInfo1, cartItemDTOList1);
+        new OrderReceiptDto(
+            1L,
+            OrderStatus.APPROVED_ORDER.toString(),
+            15000L,
+            userInfo1,
+            storeInfo1,
+            cartItemDTOList1);
 
     MemberInfoDto userInfo2 =
         new MemberInfoDto("user2@example.com", "User Two", "010-8765-4321", "고등동");
-    StoreInfoDTO storeInfo2 =
-        new StoreInfoDTO(1L, "Burger King", "456 Elm St", "123-456-7890");
+    StoreInfoDTO storeInfo2 = new StoreInfoDTO(1L, "Burger King", "456 Elm St", "123-456-7890");
 
     List<CartItemDTO> cartItemDTOList2 = new ArrayList<>();
     CartItemDTO cartItemDTO2 = new CartItemDTO("New Menu2", 10000L, 2L, 1L, 2L);
     cartItemDTOList2.add(cartItemDTO2);
 
     OrderReceiptDto orderReceipt2 =
-        new OrderReceiptDto(2L, OrderStatus.APPROVED_ORDER.toString(), 20000L, userInfo2,
-            storeInfo2, cartItemDTOList2);
+        new OrderReceiptDto(
+            2L,
+            OrderStatus.APPROVED_ORDER.toString(),
+            20000L,
+            userInfo2,
+            storeInfo2,
+            cartItemDTOList2);
 
     deliveryDao.insertStandbyOrder(1L, orderReceipt1);
     deliveryDao.insertStandbyOrder(2L, orderReceipt2);
@@ -226,15 +237,19 @@ public class DeliveryDaoTest {
     // Given
     MemberInfoDto userInfo =
         new MemberInfoDto("user1@example.com", "User One", "010-1234-5678", "고등동");
-    StoreInfoDTO storeInfo =
-        new StoreInfoDTO(1L, "Burger King", "456 Elm St", "123-456-7890");
+    StoreInfoDTO storeInfo = new StoreInfoDTO(1L, "Burger King", "456 Elm St", "123-456-7890");
 
     List<CartItemDTO> cartItemDTOList = new ArrayList<>();
     CartItemDTO cartItemDTO = new CartItemDTO("New Menu2", 10000L, 2L, 1L, 1L);
     cartItemDTOList.add(cartItemDTO);
 
     OrderReceiptDto orderReceipt =
-        new OrderReceiptDto(1L, OrderStatus.APPROVED_ORDER.toString(), 10000L, userInfo, storeInfo,
+        new OrderReceiptDto(
+            1L,
+            OrderStatus.APPROVED_ORDER.toString(),
+            10000L,
+            userInfo,
+            storeInfo,
             cartItemDTOList);
 
     deliveryDao.registerRiderWhenStartWork(riderDto, rider);
@@ -258,15 +273,19 @@ public class DeliveryDaoTest {
     // Given
     MemberInfoDto userInfo =
         new MemberInfoDto("user1@example.com", "User One", "010-1234-5678", "고등동");
-    StoreInfoDTO storeInfo =
-        new StoreInfoDTO(1L, "Burger King", "456 Elm St", "123-456-7890");
+    StoreInfoDTO storeInfo = new StoreInfoDTO(1L, "Burger King", "456 Elm St", "123-456-7890");
 
     List<CartItemDTO> cartItemDTOList = new ArrayList<>();
     CartItemDTO cartItemDTO = new CartItemDTO("New Menu2", 10000L, 2L, 1L, 1L);
     cartItemDTOList.add(cartItemDTO);
 
     OrderReceiptDto orderReceipt =
-        new OrderReceiptDto(1L, OrderStatus.APPROVED_ORDER.toString(), 10000L, userInfo, storeInfo,
+        new OrderReceiptDto(
+            1L,
+            OrderStatus.APPROVED_ORDER.toString(),
+            10000L,
+            userInfo,
+            storeInfo,
             cartItemDTOList);
 
     deliveryDao.insertStandbyOrder(1L, orderReceipt);

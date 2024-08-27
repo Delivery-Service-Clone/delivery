@@ -19,12 +19,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 @DisplayName("MenuRepository 테스트")
 class MenuRepositoryTest {
 
-  @Autowired
-  private MenuRepository menuRepository;
-  @Autowired
-  private OwnerRepository ownerRepository;
-  @Autowired
-  private StoreRepository storeRepository;
+  @Autowired private MenuRepository menuRepository;
+  @Autowired private OwnerRepository ownerRepository;
+  @Autowired private StoreRepository storeRepository;
 
   @Test
   @DisplayName("특정 가게에 대한 메뉴를 조회할 수 있다")

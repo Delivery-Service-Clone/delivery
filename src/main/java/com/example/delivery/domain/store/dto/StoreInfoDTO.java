@@ -15,7 +15,8 @@ public class StoreInfoDTO {
   private String StorePhone;
 
   @JsonCreator
-  public StoreInfoDTO(@JsonProperty("storeId") Long storeId,
+  public StoreInfoDTO(
+      @JsonProperty("storeId") Long storeId,
       @JsonProperty("storeName") String storeName,
       @JsonProperty("storeAddress") String storeAddress,
       @JsonProperty("storePhone") String storePhone) {

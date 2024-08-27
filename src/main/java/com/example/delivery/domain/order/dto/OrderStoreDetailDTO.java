@@ -21,6 +21,4 @@ public class OrderStoreDetailDTO {
   private MemberInfoDto memberInfo;
 
   private List<CartItemDTO> cartList;
-
-
 }

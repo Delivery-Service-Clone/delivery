@@ -25,11 +25,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 @ExtendWith(MockitoExtension.class)
 class MenuControllerTest {
 
-  @Mock
-  private MenuService menuService;
+  @Mock private MenuService menuService;
 
-  @InjectMocks
-  private MenuController menuController;
+  @InjectMocks private MenuController menuController;
 
   private MockMvc mockMvc;
   private ObjectMapper objectMapper;
