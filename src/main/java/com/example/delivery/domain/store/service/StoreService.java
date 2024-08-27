@@ -90,12 +90,13 @@ public class StoreService {
 
   public StoreInfoDTO getStoreInfo(Long storeId) {
     Store store = storeRepository.findById(storeId).orElseThrow(StoreNotFoundException::new);
-    StoreInfoDTO storeInfoDTO = StoreInfoDTO.builder()
-        .StoreId(storeId)
-        .StoreAddress(store.getAddress())
-        .StorePhone(store.getPhone())
-        .StoreName(store.getName())
-        .build();
+    StoreInfoDTO storeInfoDTO =
+        StoreInfoDTO.builder()
+            .StoreId(storeId)
+            .StoreAddress(store.getAddress())
+            .StorePhone(store.getPhone())
+            .StoreName(store.getName())
+            .build();
     return storeInfoDTO;
   }
 }

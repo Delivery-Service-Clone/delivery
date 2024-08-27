@@ -16,12 +16,13 @@ public class NaverPayService implements PayService {
 
   @Override
   public void pay(long price, Order order) {
-    Pay pay = Pay.builder()
-        .payType(PayType.NAVER_PAY)
-        .price(price)
-        .order(order)
-        .status(PayStatus.COMPLETE_PAY)
-        .build();
+    Pay pay =
+        Pay.builder()
+            .payType(PayType.NAVER_PAY)
+            .price(price)
+            .order(order)
+            .status(PayStatus.COMPLETE_PAY)
+            .build();
 
     payRepository.save(pay);
   }

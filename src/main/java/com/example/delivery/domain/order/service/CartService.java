@@ -30,13 +30,14 @@ public class CartService {
     List<CartItemDTO> cartItemDTOList = new ArrayList<>();
 
     for (OrderMenu orderMenu : orderMenuList) {
-      CartItemDTO cartItemDTO = CartItemDTO.builder()
-          .name(orderMenu.getMenu().getName())
-          .price(orderMenu.getMenu().getPrice())
-          .menuId(orderMenu.getMenu().getId())
-          .storeId(storeId)
-          .count(orderMenu.getCount())
-          .build();
+      CartItemDTO cartItemDTO =
+          CartItemDTO.builder()
+              .name(orderMenu.getMenu().getName())
+              .price(orderMenu.getMenu().getPrice())
+              .menuId(orderMenu.getMenu().getId())
+              .storeId(storeId)
+              .count(orderMenu.getCount())
+              .build();
 
       cartItemDTOList.add(cartItemDTO);
     }

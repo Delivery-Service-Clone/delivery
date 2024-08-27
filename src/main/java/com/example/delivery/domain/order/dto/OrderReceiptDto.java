@@ -1,9 +1,7 @@
 package com.example.delivery.domain.order.dto;
 
-import com.example.delivery.domain.order.entity.OrderStatus;
 import com.example.delivery.domain.store.dto.StoreInfoDTO;
 import com.example.delivery.domain.user.dto.MemberInfoDto;
-import com.example.delivery.domain.user.entity.Member;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
@@ -31,7 +29,8 @@ public class OrderReceiptDto {
   private List<CartItemDTO> cartList;
 
   @JsonCreator
-  public OrderReceiptDto(@JsonProperty(value = "orderId") Long orderId,
+  public OrderReceiptDto(
+      @JsonProperty(value = "orderId") Long orderId,
       @JsonProperty(value = "orderStatus") String orderStatus,
       @JsonProperty(value = "userInfo") MemberInfoDto memberInfo,
       @JsonProperty(value = "totalPrice") Long totalPrice,

@@ -115,12 +115,13 @@ public class OrderService {
     List<OrderMenu> orderMenuList = orderMenuRepository.findByOrderId(orderId);
     List<CartItemDTO> cartList = cartService.makeCartListByOrderMenu(orderMenuList, storeId);
 
-    MemberInfoDto memberInfo = MemberInfoDto.builder()
-        .email(member.getEmail())
-        .name(member.getName())
-        .phone(member.getPhone())
-        .address(member.getAddress())
-        .build();
+    MemberInfoDto memberInfo =
+        MemberInfoDto.builder()
+            .email(member.getEmail())
+            .name(member.getName())
+            .phone(member.getPhone())
+            .address(member.getAddress())
+            .build();
 
     return OrderReceiptDto.builder()
         .orderId(order.getId())
@@ -141,19 +142,21 @@ public class OrderService {
       List<OrderMenu> orderMenuList = orderMenuRepository.findByOrderId(order.getId());
       List<CartItemDTO> cartList = cartService.makeCartListByOrderMenu(orderMenuList, storeId);
 
-      OrderStoreDetailDTO dto = OrderStoreDetailDTO.builder()
-          .orderId(order.getId())
-          .orderCreatedAt(order.getCreatedAt())
-          .orderStatus(order.getOrderStatus().toString())
-          .totalPrice(order.getTotalPrice())
-          .memberInfo(MemberInfoDto.builder()
-              .email(order.getMember().getEmail())
-              .name(order.getMember().getName())
-              .phone(order.getMember().getPhone())
-              .address(order.getMember().getAddress())
-              .build())
-          .cartList(cartList)
-          .build();
+      OrderStoreDetailDTO dto =
+          OrderStoreDetailDTO.builder()
+              .orderId(order.getId())
+              .orderCreatedAt(order.getCreatedAt())
+              .orderStatus(order.getOrderStatus().toString())
+              .totalPrice(order.getTotalPrice())
+              .memberInfo(
+                  MemberInfoDto.builder()
+                      .email(order.getMember().getEmail())
+                      .name(order.getMember().getName())
+                      .phone(order.getMember().getPhone())
+                      .address(order.getMember().getAddress())
+                      .build())
+              .cartList(cartList)
+              .build();
 
       orderStoreDetailDTOs.add(dto);
     }
@@ -175,17 +178,18 @@ public class OrderService {
     return order;
   }
 
-  private OrderReceiptDto getOrderReceipt(Order order, List<CartItemDTO> cartList, long totalPrice,
-      Long storeId, Member member) {
+  private OrderReceiptDto getOrderReceipt(
+      Order order, List<CartItemDTO> cartList, long totalPrice, Long storeId, Member member) {
 
     StoreInfoDTO storeInfo = storeService.getStoreInfo(storeId);
 
-    MemberInfoDto memberInfo = MemberInfoDto.builder()
-        .email(member.getEmail())
-        .name(member.getName())
-        .phone(member.getPhone())
-        .address(member.getAddress())
-        .build();
+    MemberInfoDto memberInfo =
+        MemberInfoDto.builder()
+            .email(member.getEmail())
+            .name(member.getName())
+            .phone(member.getPhone())
+            .address(member.getAddress())
+            .build();
 
     return OrderReceiptDto.builder()
         .orderId(order.getId())
@@ -196,6 +200,4 @@ public class OrderService {
         .cartList(cartList)
         .build();
   }
-
-
 }

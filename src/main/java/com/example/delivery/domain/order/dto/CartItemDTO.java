@@ -10,20 +10,15 @@ import lombok.Getter;
 @Builder
 public class CartItemDTO {
 
-  @NotNull
-  private String name;
+  @NotNull private String name;
 
-  @NotNull
-  private Long price;
+  @NotNull private Long price;
 
-  @NotNull
-  private Long menuId;
+  @NotNull private Long menuId;
 
-  @NotNull
-  private Long storeId;
+  @NotNull private Long storeId;
 
-  @NotNull
-  private Long count;
+  @NotNull private Long count;
 
   @JsonCreator
   public CartItemDTO(

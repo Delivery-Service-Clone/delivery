@@ -46,8 +46,10 @@ public class OrderController {
       summary = "사용자 주문 직접 조회",
       description = "사용자가 주문을 조회한다.",
       security = {@SecurityRequirement(name = "jwtAuth")})
-  public ResponseEntity<ResultResponse> loadOrder(@AuthenticationPrincipal Member member,
-      @PathVariable Long storeId, @PathVariable Long orderId) {
+  public ResponseEntity<ResultResponse> loadOrder(
+      @AuthenticationPrincipal Member member,
+      @PathVariable Long storeId,
+      @PathVariable Long orderId) {
     OrderReceiptDto order = orderService.getOrderInfoByOrderId(member, storeId, orderId);
     return ResponseEntity.ok(ResultResponse.of(ResultCode.ORDER_USER_GET_SUCCESS, order));
   }
@@ -57,8 +59,8 @@ public class OrderController {
       summary = "가게주인 주문 직접 조회",
       description = "가게 주인이 주문들을 조회한다.",
       security = {@SecurityRequirement(name = "jwtAuth")})
-  public ResponseEntity<ResultResponse> loadStoreOrder(@AuthenticationPrincipal Owner owner,
-      @PathVariable Long storeId) {
+  public ResponseEntity<ResultResponse> loadStoreOrder(
+      @AuthenticationPrincipal Owner owner, @PathVariable Long storeId) {
     List<OrderStoreDetailDTO> response = orderService.getStoreOrderInfoByStoreId(storeId);
     return ResponseEntity.ok(ResultResponse.of(ResultCode.ORDER_STORE_GET_SUCCESS, response));
   }

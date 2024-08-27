@@ -16,12 +16,13 @@ public class CardPayService implements PayService {
 
   @Override
   public void pay(long price, Order order) {
-    Pay pay = Pay.builder()
-        .payType(PayType.CARD)
-        .price(price)
-        .order(order)
-        .status(PayStatus.COMPLETE_PAY)
-        .build();
+    Pay pay =
+        Pay.builder()
+            .payType(PayType.CARD)
+            .price(price)
+            .order(order)
+            .status(PayStatus.COMPLETE_PAY)
+            .build();
 
     payRepository.save(pay);
   }
