@@ -45,7 +45,7 @@ public class Menu extends BaseEntity {
   private String name;
 
   @Column(nullable = false)
-  private Integer price;
+  private Long price;
 
   @Column(nullable = false, length = 255)
   private String description;
@@ -54,7 +54,7 @@ public class Menu extends BaseEntity {
   private String photo;
 
   @Builder
-  public Menu(Store store, String name, Integer price, String description, String photo) {
+  public Menu(Store store, String name, Long price, String description, String photo) {
     this.store = store;
     this.name = name;
     this.price = price;
