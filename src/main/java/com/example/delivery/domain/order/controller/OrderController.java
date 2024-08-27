@@ -36,7 +36,8 @@ public class OrderController {
       description = "주문을 등록한다.",
       security = {@SecurityRequirement(name = "jwtAuth")})
   public ResponseEntity<ResultResponse> registerOrder(
-      @AuthenticationPrincipal Member member, @PathVariable Long storeId,
+      @AuthenticationPrincipal Member member,
+      @PathVariable Long storeId,
       @RequestParam PayType payType) {
     OrderReceiptDto orderReceipt = orderService.registerOrder(member, storeId, payType);
     return ResponseEntity.ok(
