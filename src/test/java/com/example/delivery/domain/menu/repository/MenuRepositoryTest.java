@@ -55,7 +55,7 @@ class MenuRepositoryTest {
         Menu.builder()
             .store(store)
             .name("Menu 1")
-            .price(10000)
+            .price(10000L)
             .description("Delicious food")
             .photo("photo1.jpg")
             .build();
@@ -64,7 +64,7 @@ class MenuRepositoryTest {
         Menu.builder()
             .store(store)
             .name("Menu 2")
-            .price(15000)
+            .price(15000L)
             .description("Even more delicious food")
             .photo("photo2.jpg")
             .build();

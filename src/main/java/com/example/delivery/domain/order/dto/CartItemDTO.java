@@ -3,9 +3,11 @@ package com.example.delivery.domain.order.dto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+@Builder
 public class CartItemDTO {
 
   @NotNull private String name;

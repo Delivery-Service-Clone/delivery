@@ -4,6 +4,8 @@ import com.example.delivery.domain.order.entity.Order;
 import com.example.delivery.global.common.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -29,12 +32,20 @@ public class Pay extends BaseEntity {
   @JoinColumn(name = "order_id")
   private Order order;
 
-  @Column(nullable = false, length = 45)
-  private String payType;
+  @Enumerated(EnumType.STRING)
+  private PayType payType;
 
   @Column(nullable = false)
-  private Integer price;
+  private Long price;
 
-  @Column(nullable = false, length = 45)
-  private String status;
+  @Enumerated(EnumType.STRING)
+  private PayStatus status;
+
+  @Builder
+  public Pay(Order order, PayType payType, Long price, PayStatus status) {
+    this.order = order;
+    this.payType = payType;
+    this.price = price;
+    this.status = status;
+  }
 }

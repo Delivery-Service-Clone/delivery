@@ -66,7 +66,7 @@ public class DeliveryDao {
     redisTemplate
         .opsForHash()
         .put(
-            generateStandbyOrderKey(orderReceipt.getUserInfo().getAddress()),
+            generateStandbyOrderKey(orderReceipt.getMemberInfo().getAddress()),
             generateOrderHashKey(orderId),
             orderReceipt);
   }

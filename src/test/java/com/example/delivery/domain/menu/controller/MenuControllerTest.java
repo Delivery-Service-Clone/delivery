@@ -47,7 +47,7 @@ class MenuControllerTest {
         MenuCreateDto.builder()
             .storeId(1L)
             .menuName("Burger")
-            .price(10000)
+            .price(10000L)
             .description("Delicious burger")
             .photo("burger.jpg")
             .build();
@@ -72,14 +72,14 @@ class MenuControllerTest {
             MenuDto.builder()
                 .id(1L)
                 .name("Burger")
-                .price(10000)
+                .price(10000L)
                 .description("Delicious burger")
                 .photo("burger.jpg")
                 .build(),
             MenuDto.builder()
                 .id(2L)
                 .name("Fries")
-                .price(5000)
+                .price(5000L)
                 .description("Crispy fries")
                 .photo("fries.jpg")
                 .build());

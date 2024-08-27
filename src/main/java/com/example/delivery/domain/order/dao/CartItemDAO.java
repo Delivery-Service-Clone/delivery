@@ -3,7 +3,12 @@ package com.example.delivery.domain.order.dao;
 import com.example.delivery.domain.order.dto.CartItemDTO;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.core.RedisCallback;
+import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SessionCallback;
+import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.stereotype.Repository;
 
 /*
@@ -38,6 +43,59 @@ public class CartItemDAO {
     List<CartItemDTO> cartList = redisTemplate.opsForList().range(key, 0, -1);
 
     return cartList;
+  }
+
+  public List<CartItemDTO> getCartAndDelete(String userId) {
+    final String key = generateCartKey(userId);
+
+    List<Object> cartListObject =
+        redisTemplate.execute(
+            new SessionCallback<List<Object>>() {
+              @Override
+              public List<Object> execute(RedisOperations redisOperations)
+                  throws DataAccessException {
+                try {
+                  redisOperations.watch(key);
+                  redisOperations.multi();
+                  redisOperations.opsForList().range(key, 0, -1);
+                  redisOperations.delete(key);
+                  return redisOperations.exec();
+                } catch (Exception e) {
+                  redisOperations.discard();
+                  throw e;
+                }
+              }
+            });
+
+    List<CartItemDTO> cartList = (List<CartItemDTO>) cartListObject.get(0);
+
+    return cartList;
+  }
+
+  /*
+       레디스 서버에 반복문을 돌며 여러번 리스트의 원소를 push한다면 RTT때문에 오버헤드가 생깁니다.
+       따라서 레디스 서버에 요청을 보낼때 한번에 여러 원소들을 보내야합니다.
+       MySQL에서는 이러한 기능을 위해 bulk insert를 지원하지
+       레디스에서는 bulk(다중) insert가 따로 존재하지 않습니다.
+       따라서 레디스에서 지원해주는 pipeline api인 executePipelined 메소드를 이용해
+       레디스에 연결을 한후 모든 원소들을 push한 뒤 연결을 닫습니다.
+  */
+  public void insertMenuList(String userId, List<CartItemDTO> cartList) {
+    final String key = generateCartKey(userId);
+
+    RedisSerializer keySerializer = redisTemplate.getStringSerializer();
+    RedisSerializer valueSerializer = redisTemplate.getValueSerializer();
+
+    redisTemplate.executePipelined(
+        (RedisCallback<Object>)
+            RedisConnection -> {
+              cartList.forEach(
+                  cart -> {
+                    RedisConnection.rPush(
+                        keySerializer.serialize(key), valueSerializer.serialize(cart));
+                  });
+              return null;
+            });
   }
 
   /*
