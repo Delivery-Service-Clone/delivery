@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -35,7 +36,8 @@ public class OrderController {
       description = "주문을 등록한다.",
       security = {@SecurityRequirement(name = "jwtAuth")})
   public ResponseEntity<ResultResponse> registerOrder(
-      @AuthenticationPrincipal Member member, @PathVariable Long storeId, PayType payType) {
+      @AuthenticationPrincipal Member member, @PathVariable Long storeId,
+      @RequestParam PayType payType) {
     OrderReceiptDto orderReceipt = orderService.registerOrder(member, storeId, payType);
     return ResponseEntity.ok(
         ResultResponse.of(ResultCode.ORDER_REGISTRATION_SUCCESS, orderReceipt));
