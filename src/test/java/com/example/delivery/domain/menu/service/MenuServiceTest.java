@@ -30,13 +30,17 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class MenuServiceTest {
 
-  @Mock private OwnerRepository ownerRepository;
+  @Mock
+  private OwnerRepository ownerRepository;
 
-  @Mock private MenuRepository menuRepository;
+  @Mock
+  private MenuRepository menuRepository;
 
-  @Mock private StoreRepository storeRepository;
+  @Mock
+  private StoreRepository storeRepository;
 
-  @InjectMocks private MenuService menuService;
+  @InjectMocks
+  private MenuService menuService;
 
   private Store store;
 
@@ -71,7 +75,7 @@ class MenuServiceTest {
         MenuCreateDto.builder()
             .storeId(1L)
             .menuName("New Menu")
-            .price(12000)
+            .price(12000L)
             .description("New Menu Description")
             .photo("photo.jpg")
             .build();
@@ -93,7 +97,7 @@ class MenuServiceTest {
         MenuCreateDto.builder()
             .storeId(1L)
             .menuName("New Menu")
-            .price(12000)
+            .price(12000L)
             .description("New Menu Description")
             .photo("photo.jpg")
             .build();
@@ -113,7 +117,7 @@ class MenuServiceTest {
         Menu.builder()
             .store(store)
             .name("Menu 1")
-            .price(10000)
+            .price(10000L)
             .description("Delicious food")
             .photo("photo1.jpg")
             .build();
@@ -122,7 +126,7 @@ class MenuServiceTest {
         Menu.builder()
             .store(store)
             .name("Menu 2")
-            .price(15000)
+            .price(15000L)
             .description("Even more delicious food")
             .photo("photo2.jpg")
             .build();

@@ -19,9 +19,12 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 @DisplayName("MenuRepository 테스트")
 class MenuRepositoryTest {
 
-  @Autowired private MenuRepository menuRepository;
-  @Autowired private OwnerRepository ownerRepository;
-  @Autowired private StoreRepository storeRepository;
+  @Autowired
+  private MenuRepository menuRepository;
+  @Autowired
+  private OwnerRepository ownerRepository;
+  @Autowired
+  private StoreRepository storeRepository;
 
   @Test
   @DisplayName("특정 가게에 대한 메뉴를 조회할 수 있다")
@@ -55,7 +58,7 @@ class MenuRepositoryTest {
         Menu.builder()
             .store(store)
             .name("Menu 1")
-            .price(10000)
+            .price(10000L)
             .description("Delicious food")
             .photo("photo1.jpg")
             .build();
@@ -64,7 +67,7 @@ class MenuRepositoryTest {
         Menu.builder()
             .store(store)
             .name("Menu 2")
-            .price(15000)
+            .price(15000L)
             .description("Even more delicious food")
             .photo("photo2.jpg")
             .build();

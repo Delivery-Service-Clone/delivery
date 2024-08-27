@@ -5,10 +5,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
 @Builder
 public class OrderStoreDetailDTO {
 
@@ -23,4 +21,6 @@ public class OrderStoreDetailDTO {
   private MemberInfoDto memberInfo;
 
   private List<CartItemDTO> cartList;
+
+
 }
