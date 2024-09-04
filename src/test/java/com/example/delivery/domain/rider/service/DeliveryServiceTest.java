@@ -21,11 +21,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class DeliveryServiceTest {
 
-  @Mock
-  private DeliveryDao deliveryDao;
+  @Mock private DeliveryDao deliveryDao;
 
-  @InjectMocks
-  private DeliveryService deliveryService;
+  @InjectMocks private DeliveryService deliveryService;
 
   @Test
   @DisplayName("주문 승인 시 StandbyOrder에 올바르게 등록되는지 검증")
@@ -35,14 +33,15 @@ class DeliveryServiceTest {
     StoreInfoDTO storeInfo = new StoreInfoDTO(1L, "치킨", "고등동", "02-0000-0000");
     List<CartItemDTO> cartList = new ArrayList<>();
 
-    OrderReceiptDto orderReceipt = OrderReceiptDto.builder()
-        .orderId(orderId)
-        .orderStatus("APPROVED")
-        .memberInfo(memberInfo)
-        .storeInfo(storeInfo)
-        .totalPrice(10000L)
-        .cartList(cartList)
-        .build();
+    OrderReceiptDto orderReceipt =
+        OrderReceiptDto.builder()
+            .orderId(orderId)
+            .orderStatus("APPROVED")
+            .memberInfo(memberInfo)
+            .storeInfo(storeInfo)
+            .totalPrice(10000L)
+            .cartList(cartList)
+            .build();
 
     deliveryService.registerOrderWhenOrderApprove(orderId, orderReceipt);
 
