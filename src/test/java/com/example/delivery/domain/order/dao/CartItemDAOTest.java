@@ -7,6 +7,7 @@ import com.example.delivery.domain.order.dto.CartItemDTO;
 import com.example.delivery.domain.user.entity.Member;
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -40,6 +41,12 @@ public class CartItemDAOTest {
             .phone("010-1234-5678")
             .address("San Francisco, CA")
             .build();
+  }
+
+  @AfterEach
+  public void tearDown() {
+    String cartKey = member.getEmail() + ":CART";
+    redisTemplate.delete(cartKey);
   }
 
   @Test
