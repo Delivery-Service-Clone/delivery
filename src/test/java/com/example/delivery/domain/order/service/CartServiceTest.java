@@ -1,7 +1,6 @@
 package com.example.delivery.domain.order.service;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -26,15 +25,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 public class CartServiceTest {
 
   // 테스트 주체의 외부 의존성들 -> Mock 객체로 생성하기
-  @Mock
-  private CartItemDAO cartItemDAO;
-  @Mock
-  private StoreRepository storeRepository;
-  @Mock
-  private MenuRepository menuRepository;
+  @Mock private CartItemDAO cartItemDAO;
+  @Mock private StoreRepository storeRepository;
+  @Mock private MenuRepository menuRepository;
   // 단위 테스트의 주체 -> @InjectMocks로 가짜 의존성 주입받기
-  @InjectMocks
-  private CartService cartService;
+  @InjectMocks private CartService cartService;
 
   private Member member;
   private CartItemDTO cartItemDTO;
@@ -75,9 +70,11 @@ public class CartServiceTest {
     CartItemDTO nullCartItem = null;
 
     // when + then
-    assertThrows(CartNotFoundException.class, () -> {
-      cartService.registerMenuInCart(member.getEmail(), nullCartItem);
-    });
+    assertThrows(
+        CartNotFoundException.class,
+        () -> {
+          cartService.registerMenuInCart(member.getEmail(), nullCartItem);
+        });
   }
 
   @Test
@@ -87,10 +84,11 @@ public class CartServiceTest {
     when(storeRepository.existsById(cartItemDTO.getStoreId())).thenReturn(false);
 
     // when + Then
-    assertThrows(StoreNotFoundException.class, () -> {
-      cartService.registerMenuInCart(member.getEmail(), cartItemDTO);
-    });
-
+    assertThrows(
+        StoreNotFoundException.class,
+        () -> {
+          cartService.registerMenuInCart(member.getEmail(), cartItemDTO);
+        });
   }
 
   @Test
@@ -101,8 +99,10 @@ public class CartServiceTest {
     when(menuRepository.existsById(cartItemDTO.getMenuId())).thenReturn(false);
 
     // when + then
-    assertThrows(MenuNotFoundException.class, () -> {
-      cartService.registerMenuInCart(member.getEmail(), cartItemDTO);
-    });
+    assertThrows(
+        MenuNotFoundException.class,
+        () -> {
+          cartService.registerMenuInCart(member.getEmail(), cartItemDTO);
+        });
   }
 }

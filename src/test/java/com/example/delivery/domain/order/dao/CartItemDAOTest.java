@@ -1,6 +1,5 @@
 package com.example.delivery.domain.order.dao;
 
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.example.delivery.TestContainerConfig;
@@ -67,17 +66,17 @@ public class CartItemDAOTest {
   @Test
   @DisplayName("장바구니 리스트가 잘 출력되는 지 테스트")
   public void testSelectCartList() {
-    //Given
+    // Given
     String userId = member.getEmail();
     String cartKey = "test1@test.com:CART";
     CartItemDTO newItem1 = new CartItemDTO("New Item1", 5000L, 1L, 1L, 2L);
     CartItemDTO newItem2 = new CartItemDTO("New Item2", 7000L, 2L, 1L, 1L);
 
-    //When
+    // When
     cartItemDAO.insertMenu(userId, newItem1);
     cartItemDAO.insertMenu(userId, newItem2);
 
-    //Then
+    // Then
     List<CartItemDTO> cartList = cartItemDAO.selectCartList(userId);
 
     assertThat(cartList.size()).isEqualTo(2);
@@ -97,7 +96,7 @@ public class CartItemDAOTest {
   @Test
   @DisplayName("장바구니 Redis Pipeline을 통해 여러 개의 메뉴가 한번에 등록되는 지 테스트")
   public void testInsertMenuList() {
-    //Given
+    // Given
     String userId = member.getEmail();
     String cartKey = "test1@test.com:CART";
 
@@ -114,10 +113,10 @@ public class CartItemDAOTest {
     cartList.add(newItem4);
     cartList.add(newItem5);
 
-    //When
+    // When
     cartItemDAO.insertMenuList(userId, cartList);
 
-    //Then
+    // Then
     List<CartItemDTO> storedCartList = cartItemDAO.selectCartList(userId);
     assertThat(storedCartList.size()).isEqualTo(5);
   }
@@ -125,7 +124,7 @@ public class CartItemDAOTest {
   @Test
   @DisplayName("장바구니 목록을 반환하고 나서 Redis에 저장한 Key 값이 사라지는 지 테스트")
   public void testGetCartAndDelete() {
-    //Given
+    // Given
     String userId = member.getEmail();
     String cartKey = "test1@test.com:CART";
 
@@ -136,32 +135,32 @@ public class CartItemDAOTest {
     cartList.add(newItem1);
     cartList.add(newItem2);
 
-    //When
+    // When
     cartItemDAO.insertMenuList(userId, cartList);
     List<CartItemDTO> storedCartList = cartItemDAO.getCartAndDelete(userId);
 
-    //Then
+    // Then
     assertThat(storedCartList.size()).isEqualTo(2);
 
-    //Then
+    // Then
     assertThat(redisTemplate.opsForList().leftPop(cartKey)).isNull();
   }
 
   @Test
   @DisplayName("장바구니 제거를 했을 때 잘 제거되는 지 테스트")
   public void testDeleteMenuList() {
-    //Given
+    // Given
     String userId = member.getEmail();
     String cartKey = "test1@test.com:CART";
     CartItemDTO newItem = new CartItemDTO("New Item", 5000L, 1L, 1L, 2L);
 
-    //When
+    // When
     cartItemDAO.insertMenu(userId, newItem);
 
-    //When
+    // When
     cartItemDAO.deleteMenuList(userId);
 
-    //Then
+    // Then
     assertThat(redisTemplate.opsForList().leftPop(cartKey)).isNull();
   }
 }

@@ -1,7 +1,7 @@
 package com.example.delivery.domain.order.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -24,11 +24,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 @ExtendWith(MockitoExtension.class)
 public class CartControllerTest {
 
-  @Mock
-  private CartService cartService;
+  @Mock private CartService cartService;
 
-  @InjectMocks
-  private CartController cartController;
+  @InjectMocks private CartController cartController;
 
   private MockMvc mockMvc;
   private ObjectMapper objectMapper;
@@ -67,9 +65,7 @@ public class CartControllerTest {
 
     // When & Then
     mockMvc
-        .perform(
-            delete("/api/v1/carts")
-                .principal(() -> member.getEmail()))
+        .perform(delete("/api/v1/carts").principal(() -> member.getEmail()))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.code").value(ResultCode.CART_DELETE_SUCCESS.getCode()));
   }

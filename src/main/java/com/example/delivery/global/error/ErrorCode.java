@@ -3,9 +3,7 @@ package com.example.delivery.global.error;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-/**
- * {주체}_{이유} message 는 동사 명사형으로 마무리
- */
+/** {주체}_{이유} message 는 동사 명사형으로 마무리 */
 @Getter
 @AllArgsConstructor
 public enum ErrorCode {
