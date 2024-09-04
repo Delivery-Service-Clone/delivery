@@ -41,7 +41,10 @@ public enum ErrorCode {
   RIDER_NOT_FOUND_ERROR(400, "R001", "라이더를 찾을 수 없음"),
 
   // Order
-  ORDER_NOT_FOUND_ERROR(400, "OR001", "주문을 찾을 수 없음");
+  ORDER_NOT_FOUND_ERROR(400, "OR001", "주문을 찾을 수 없음"),
+
+  // Cart
+  CART_NOT_FOUND_ERROR(400, "C001", "장바구니를 찾을 수 없음");
 
   private final int status;
   private final String code;
