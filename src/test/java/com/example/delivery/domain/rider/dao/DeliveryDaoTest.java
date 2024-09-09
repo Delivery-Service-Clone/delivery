@@ -2,6 +2,7 @@ package com.example.delivery.domain.rider.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.example.delivery.DeliveryApplication;
 import com.example.delivery.TestContainerConfig;
 import com.example.delivery.domain.order.dto.CartItemDTO;
 import com.example.delivery.domain.order.dto.OrderReceiptDto;
@@ -14,6 +15,7 @@ import com.example.delivery.domain.user.dto.MemberInfoDto;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,8 +24,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.test.context.TestPropertySource;
 
-@SpringBootTest
+@SpringBootTest(classes = DeliveryApplication.class)
 @ExtendWith(TestContainerConfig.class)
 public class DeliveryDaoTest {
 
@@ -150,9 +153,12 @@ public class DeliveryDaoTest {
     DeliveryRiderDTO riderDto1 = new DeliveryRiderDTO("fcmToken123", "고등동");
     DeliveryRiderDTO riderDto2 = new DeliveryRiderDTO("fcmToken456", "고등동");
 
+    String uniqueEmail1 = "example1+" + UUID.randomUUID().toString().substring(0, 8) + "@example.com";
+    String uniqueEmail2 = "example2+" + UUID.randomUUID().toString().substring(0, 8) + "@example.com";
+
     Rider riderEntity1 =
         Rider.builder()
-            .email("example1@example.com")
+            .email(uniqueEmail1)
             .name("John Doe")
             .password("password")
             .phone("010-1234-5678")
@@ -161,7 +167,7 @@ public class DeliveryDaoTest {
 
     Rider riderEntity2 =
         Rider.builder()
-            .email("example2@example.com")
+            .email(uniqueEmail2)
             .name("Jane Smith")
             .password("password")
             .phone("010-8765-4321")
