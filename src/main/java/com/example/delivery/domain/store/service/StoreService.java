@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +23,7 @@ public class StoreService {
   private final StoreRepository storeRepository;
   private final OwnerRepository ownerRepository;
 
+  @Transactional
   public void registerStore(StoreCreateDto storeCreateDto, Owner owner) {
 
     Store store = storeCreateDto.toEntity(storeCreateDto, owner);
@@ -36,6 +38,7 @@ public class StoreService {
     storeRepository.save(store);
   }
 
+  @Transactional(readOnly = true)
   public List<StoreDto> getAllStores() {
 
     List<Store> stores = storeRepository.findAll();
@@ -62,6 +65,7 @@ public class StoreService {
     return storeDtos;
   }
 
+  @Transactional(readOnly = true)
   public List<StoreDto> getStoresByCategory(Category category) {
     List<Store> stores = storeRepository.findByCategory(category);
 
