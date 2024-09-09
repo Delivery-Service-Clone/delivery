@@ -73,10 +73,11 @@ public class OrderController {
       summary = "점장 가게 주문 승인",
       description = "점장이 가게 주문을 승인한다.",
       security = {@SecurityRequirement(name = "jwtAuth")})
-  public ResponseEntity<ResultResponse> approvedOrder(@AuthenticationPrincipal Owner owner
-      , @PathVariable Long storeId, @PathVariable Long orderId) {
+  public ResponseEntity<ResultResponse> approvedOrder(
+      @AuthenticationPrincipal Owner owner,
+      @PathVariable Long storeId,
+      @PathVariable Long orderId) {
     orderService.approveOrder(storeId, orderId);
     return ResponseEntity.ok(ResultResponse.of(ResultCode.ORDER_APPROVED_SUCCESS));
   }
-
 }

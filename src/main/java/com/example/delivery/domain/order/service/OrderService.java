@@ -165,8 +165,10 @@ public class OrderService {
   }
 
   public void approveOrder(Long storeId, Long orderId) {
-    Order order = orderRepository.findByStoreIdAndId(storeId, orderId)
-        .orElseThrow(OrderNotFoundException::new);
+    Order order =
+        orderRepository
+            .findByStoreIdAndId(storeId, orderId)
+            .orElseThrow(OrderNotFoundException::new);
 
     order.updateStatus(OrderStatus.APPROVED_ORDER);
 
