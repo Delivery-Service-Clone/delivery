@@ -44,6 +44,17 @@ public class OrderController {
         ResultResponse.of(ResultCode.ORDER_REGISTRATION_SUCCESS, orderReceipt));
   }
 
+  @GetMapping
+  @Operation(
+      summary = "가게주인 주문 직접 조회",
+      description = "가게 주인이 주문들을 조회한다.",
+      security = {@SecurityRequirement(name = "jwtAuth")})
+  public ResponseEntity<ResultResponse> loadStoreOrder(
+      @AuthenticationPrincipal Owner owner, @PathVariable Long storeId) {
+    List<OrderStoreDetailDTO> response = orderService.getStoreOrderInfoByStoreId(storeId);
+    return ResponseEntity.ok(ResultResponse.of(ResultCode.ORDER_STORE_GET_SUCCESS, response));
+  }
+
   @GetMapping("/{orderId}")
   @Operation(
       summary = "사용자 주문 직접 조회",
@@ -57,14 +68,15 @@ public class OrderController {
     return ResponseEntity.ok(ResultResponse.of(ResultCode.ORDER_USER_GET_SUCCESS, order));
   }
 
-  @GetMapping
+  @PostMapping("/{orderId}")
   @Operation(
-      summary = "가게주인 주문 직접 조회",
-      description = "가게 주인이 주문들을 조회한다.",
+      summary = "점장 가게 주문 승인",
+      description = "점장이 가게 주문을 승인한다.",
       security = {@SecurityRequirement(name = "jwtAuth")})
-  public ResponseEntity<ResultResponse> loadStoreOrder(
-      @AuthenticationPrincipal Owner owner, @PathVariable Long storeId) {
-    List<OrderStoreDetailDTO> response = orderService.getStoreOrderInfoByStoreId(storeId);
-    return ResponseEntity.ok(ResultResponse.of(ResultCode.ORDER_STORE_GET_SUCCESS, response));
+  public ResponseEntity<ResultResponse> approvedOrder(@AuthenticationPrincipal Owner owner
+      , @PathVariable Long storeId, @PathVariable Long orderId) {
+    orderService.approveOrder(storeId, orderId);
+    return ResponseEntity.ok(ResultResponse.of(ResultCode.ORDER_APPROVED_SUCCESS));
   }
+
 }
