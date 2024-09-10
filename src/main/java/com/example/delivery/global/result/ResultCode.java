@@ -33,7 +33,8 @@ public enum ResultCode {
   MENU_IN_CART_SUCCESS("C001", "200", "장바구니에 음식을 정상적으로 담았습니다."),
   CART_GET_SUCCESS("C002", "200", "장바구니 리스트를 불러오는 것에 성공했습니다."),
   CART_DELETE_SUCCESS("C003", "200", "장바구니 리스트 삭제에 성공했습니다."),
-  ORDER_LIST_LOADED_SUCCESSFULLY("O001", "200", "배달 가능한 주문 목록 조회 성공했습니다."),
+  ORDER_LIST_LOADED_SUCCESSFULLY("O004", "200", "배달 가능한 주문 목록 조회 성공했습니다."),
+  ORDER_APPROVED_SUCCESS("O005", "200", "주문 승인이 완료되었습니다."),
   // rider
   RIDER_REGISTRATION_SUCCESS("R001", "200", "라이더가 정상적으로 등록되었습니다."),
   RIDER_WORK_STARTED("R002", "200", "라이더가 근무를 시작했습니다."),

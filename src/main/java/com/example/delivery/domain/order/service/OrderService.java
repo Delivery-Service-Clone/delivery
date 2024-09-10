@@ -164,6 +164,17 @@ public class OrderService {
     return orderStoreDetailDTOs;
   }
 
+  public void approveOrder(Long storeId, Long orderId) {
+    Order order =
+        orderRepository
+            .findByStoreIdAndId(storeId, orderId)
+            .orElseThrow(OrderNotFoundException::new);
+
+    order.updateStatus(OrderStatus.APPROVED_ORDER);
+
+    orderRepository.save(order);
+  }
+
   private Order addUserInfo(Member member, Long storeId) {
     Store store = storeService.getStoreByStoreId(storeId);
     Order order =
