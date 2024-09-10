@@ -1,10 +1,9 @@
 version: "3"
 
 services:
-  mysql:
-    container_name: db-mysql
+  mysql-master:
+    container_name: db-mysql-master
     image: mysql/mysql-server:8.0
-    tty: true
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_USER: ${MYSQL_USER}
@@ -12,14 +11,44 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       TZ: Asia/Seoul
     volumes:
-      - mysql-data:/var/lib/mysql
+      - master-data:/var/lib/mysql
+      - ./master-config:/etc/mysql/conf.d  # 마스터 설정 파일 마운트
     command:
       - '--character-set-server=utf8mb4'
       - '--collation-server=utf8mb4_unicode_ci'
+      - '--server-id=1'  # 마스터의 고유 server-id
+      - '--log-bin=mysql-bin'
+      - '--binlog-do-db=${MYSQL_DATABASE}'  # 복제할 DB 지정
     ports:
-      - '3306:3306'
+      - '3307:3306'
     expose:
       - "3306"
+    networks:
+      - app-tier
+
+  mysql-slave:
+    container_name: db-mysql-slave
+    image: mysql/mysql-server:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      TZ: Asia/Seoul
+    volumes:
+      - slave-data:/var/lib/mysql  # slave-data 볼륨 추가
+      - ./slave-config:/etc/mysql/conf.d  # 슬레이브 설정 파일 마운트
+    command:
+      - '--character-set-server=utf8mb4'
+      - '--collation-server=utf8mb4_unicode_ci'
+      - '--server-id=2'  # 슬레이브의 고유 server-id
+      - '--relay-log=relay-log-bin'
+    ports:
+      - '3308:3306'
+    expose:
+      - "3306"
+    depends_on:
+      - mysql-master
     networks:
       - app-tier
 
@@ -33,31 +62,32 @@ services:
     volumes:
       - redis-data:/data
 
-  backend:
-    container_name: backend-springboot
-    build: .
-    restart: always
-    ports:
-      - "8080:8080"
-    depends_on:
-      - mysql
-      - redis
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db-mysql:3306/delivery
-      SPRING_DATASOURCE_USERNAME: ${MYSQL_USER}
-      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      SPRING_REDIS_HOST: redis
-      SPRING_REDIS_PORT: 6379
-    expose:
-      - 8080
-    networks:
-      - app-tier
+#  backend:
+#    container_name: backend-springboot
+#    build: .
+#    restart: always
+#    ports:
+#      - "8080:8080"
+#    depends_on:
+#      - mysql
+#      - redis
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:mysql://db-mysql:3306/delivery
+#      SPRING_DATASOURCE_USERNAME: ${MYSQL_USER}
+#      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+#      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+#      SPRING_REDIS_HOST: redis
+#      SPRING_REDIS_PORT: 6379
+#    expose:
+#      - 8080
+#    networks:
+#      - app-tier
 
 networks:
   app-tier:
     driver: bridge
 
 volumes:
-  mysql-data:
+  master-data:
+  slave-data:  # 이 줄을 추가하여 slave-data 볼륨 정의
   redis-data:

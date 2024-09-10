@@ -18,3 +18,8 @@ spring:
     generate-ddl: true
 jwt:
   secret: f46399d13753c46d03c1d90971b3d1072f470434a2f8266b0b1021281e46f69a
+
+logging:
+  level:
+    org.springframework: DEBUG
+    com.example.delivery: DEBUG

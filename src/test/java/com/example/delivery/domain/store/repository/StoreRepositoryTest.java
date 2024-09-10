@@ -8,6 +8,7 @@ import com.example.delivery.domain.store.entity.StoreStatus;
 import com.example.delivery.domain.user.entity.Owner;
 import com.example.delivery.domain.user.repository.OwnerRepository;
 import java.util.List;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +25,11 @@ class StoreRepositoryTest {
 
   @BeforeEach
   void setUp() {
-    // 테스트에 사용할 Owner를 미리 저장
+    // 고유한 이메일을 가진 Owner를 미리 저장
+    String uniqueEmail = "owner+" + UUID.randomUUID().toString().substring(0, 8) + "@example.com";
     owner =
         Owner.builder()
-            .email("owner@example.com")
+            .email(uniqueEmail)
             .name("John Doe")
             .password("securepassword")
             .phone("123-456-7890")
