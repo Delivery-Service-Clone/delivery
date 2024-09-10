@@ -24,7 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest(classes = DeliveryApplication.class)
 @ExtendWith(TestContainerConfig.class)
@@ -153,8 +152,10 @@ public class DeliveryDaoTest {
     DeliveryRiderDTO riderDto1 = new DeliveryRiderDTO("fcmToken123", "고등동");
     DeliveryRiderDTO riderDto2 = new DeliveryRiderDTO("fcmToken456", "고등동");
 
-    String uniqueEmail1 = "example1+" + UUID.randomUUID().toString().substring(0, 8) + "@example.com";
-    String uniqueEmail2 = "example2+" + UUID.randomUUID().toString().substring(0, 8) + "@example.com";
+    String uniqueEmail1 =
+        "example1+" + UUID.randomUUID().toString().substring(0, 8) + "@example.com";
+    String uniqueEmail2 =
+        "example2+" + UUID.randomUUID().toString().substring(0, 8) + "@example.com";
 
     Rider riderEntity1 =
         Rider.builder()
