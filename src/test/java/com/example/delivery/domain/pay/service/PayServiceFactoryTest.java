@@ -15,14 +15,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 public class PayServiceFactoryTest {
 
-  @Mock
-  private CardPayService cardPayService;
+  @Mock private CardPayService cardPayService;
 
-  @Mock
-  private NaverPayService naverPayService;
+  @Mock private NaverPayService naverPayService;
 
-  @InjectMocks
-  private PayServiceFactory payServiceFactory;
+  @InjectMocks private PayServiceFactory payServiceFactory;
 
   @BeforeEach
   public void setUp() {
@@ -43,8 +40,10 @@ public class PayServiceFactoryTest {
 
   @Test
   public void testGetPayService_invalidType() {
-    assertThrows(IllegalArgumentException.class, () -> {
-      payServiceFactory.getPayService(null);
-    });
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          payServiceFactory.getPayService(null);
+        });
   }
 }
