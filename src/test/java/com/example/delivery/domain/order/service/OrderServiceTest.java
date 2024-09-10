@@ -1,5 +1,6 @@
 package com.example.delivery.domain.order.service;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -19,43 +20,32 @@ import com.example.delivery.domain.pay.service.PayServiceFactory;
 import com.example.delivery.domain.store.entity.Store;
 import com.example.delivery.domain.store.service.StoreService;
 import com.example.delivery.domain.user.entity.Member;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.transaction.support.TransactionSynchronizationAdapter;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @ExtendWith(MockitoExtension.class)
 public class OrderServiceTest {
 
-  @Mock
-  private CartItemDAO cartItemDAO;
-  @Mock
-  private StoreService storeService;
-  @Mock
-  private MenuService menuService;
-  @Mock
-  private CartService cartService;
-  @Mock
-  private OrderRepository orderRepository;
-  @Mock
-  private OrderMenuRepository orderMenuRepository;
-  @Mock
-  private PayServiceFactory payServiceFactory;
+  @Mock private CartItemDAO cartItemDAO;
+  @Mock private StoreService storeService;
+  @Mock private MenuService menuService;
+  @Mock private CartService cartService;
+  @Mock private OrderRepository orderRepository;
+  @Mock private OrderMenuRepository orderMenuRepository;
+  @Mock private PayServiceFactory payServiceFactory;
 
-  @InjectMocks
-  private OrderService orderService;
+  @InjectMocks private OrderService orderService;
 
   private Member member;
   private Store store;
@@ -67,8 +57,8 @@ public class OrderServiceTest {
 
     store = Store.builder().name("test store").build();
 
-    order = Order.builder().member(member).store(store).orderStatus(OrderStatus.BEFORE_ORDER)
-        .build();
+    order =
+        Order.builder().member(member).store(store).orderStatus(OrderStatus.BEFORE_ORDER).build();
     ReflectionTestUtils.setField(order, "id", 1L);
   }
 
@@ -82,19 +72,24 @@ public class OrderServiceTest {
     when(payServiceFactory.getPayService(any(PayType.class))).thenReturn(mock(PayService.class));
 
     // Mock the TransactionSynchronizationManager to simulate active transaction
-    try (MockedStatic<TransactionSynchronizationManager> mockedTransactionSync = mockStatic(
-        TransactionSynchronizationManager.class)) {
+    try (MockedStatic<TransactionSynchronizationManager> mockedTransactionSync =
+        mockStatic(TransactionSynchronizationManager.class)) {
       // 트랜잭션이 활성화된 것처럼 설정
-      mockedTransactionSync.when(TransactionSynchronizationManager::isSynchronizationActive)
+      mockedTransactionSync
+          .when(TransactionSynchronizationManager::isSynchronizationActive)
           .thenReturn(true);
-      mockedTransactionSync.when(() -> TransactionSynchronizationManager.registerSynchronization(
-              any(TransactionSynchronizationAdapter.class)))
-          .thenAnswer(invocation -> {
-            TransactionSynchronizationAdapter adapter = invocation.getArgument(0);
-            adapter.afterCompletion(
-                TransactionSynchronizationAdapter.STATUS_COMMITTED); // 트랜잭션 커밋된 것처럼 동작
-            return null;
-          });
+      mockedTransactionSync
+          .when(
+              () ->
+                  TransactionSynchronizationManager.registerSynchronization(
+                      any(TransactionSynchronizationAdapter.class)))
+          .thenAnswer(
+              invocation -> {
+                TransactionSynchronizationAdapter adapter = invocation.getArgument(0);
+                adapter.afterCompletion(
+                    TransactionSynchronizationAdapter.STATUS_COMMITTED); // 트랜잭션 커밋된 것처럼 동작
+                return null;
+              });
 
       // When
       OrderReceiptDto receipt = orderService.registerOrder(member, 1L, PayType.CARD);
@@ -103,8 +98,8 @@ public class OrderServiceTest {
       assertNotNull(receipt);
       verify(orderRepository, times(1)).save(any(Order.class));
       verify(cartItemDAO, times(1)).getCartAndDelete(member.getEmail());
-      verify(cartItemDAO, never()).insertMenuList(anyString(),
-          anyList()); // 정상적인 경우 rollback이 발생하지 않음
+      verify(cartItemDAO, never())
+          .insertMenuList(anyString(), anyList()); // 정상적인 경우 rollback이 발생하지 않음
     }
   }
 
