@@ -24,6 +24,10 @@ public class PayServiceFactory {
 
     PayService payService = null;
 
+    if (payType == null) {
+      throw new IllegalArgumentException("PayType cannot be null");
+    }
+
     switch (payType) {
       case CARD:
         payService = cardPayService;
@@ -32,7 +36,7 @@ public class PayServiceFactory {
         payService = naverPayService;
         break;
       default:
-        throw new IllegalArgumentException();
+        throw new IllegalArgumentException("Invalid PayType: " + payType);
     }
     return payService;
   }
