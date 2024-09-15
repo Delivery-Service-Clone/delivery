@@ -27,9 +27,10 @@ public class StoreService {
   private final OwnerRepository ownerRepository;
 
   @Transactional
-  @Caching(evict = {
-      @CacheEvict(value = "storesByCategory", key = "#storeCreateDto.category.name()"),
-  })
+  @Caching(
+      evict = {
+        @CacheEvict(value = "storesByCategory", key = "#storeCreateDto.category.name()"),
+      })
   public void registerStore(StoreCreateDto storeCreateDto, Owner owner) {
 
     Store store = storeCreateDto.toEntity(storeCreateDto, owner);
