@@ -13,6 +13,9 @@ import com.example.delivery.domain.user.repository.OwnerRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +27,9 @@ public class StoreService {
   private final OwnerRepository ownerRepository;
 
   @Transactional
+  @Caching(evict = {
+      @CacheEvict(value = "storesByCategory", key = "#storeCreateDto.category.name()"),
+  })
   public void registerStore(StoreCreateDto storeCreateDto, Owner owner) {
 
     Store store = storeCreateDto.toEntity(storeCreateDto, owner);
@@ -66,6 +72,7 @@ public class StoreService {
   }
 
   @Transactional(readOnly = true)
+  @Cacheable(value = "storesByCategory", key = "#category.name()")
   public List<StoreDto> getStoresByCategory(Category category) {
     List<Store> stores = storeRepository.findByCategory(category);
 
