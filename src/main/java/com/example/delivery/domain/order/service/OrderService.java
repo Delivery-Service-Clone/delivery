@@ -15,6 +15,7 @@ import com.example.delivery.domain.order.repository.OrderRepository;
 import com.example.delivery.domain.pay.entity.PayType;
 import com.example.delivery.domain.pay.service.PayService;
 import com.example.delivery.domain.pay.service.PayServiceFactory;
+import com.example.delivery.domain.rider.service.DeliveryService;
 import com.example.delivery.domain.store.dto.StoreInfoDTO;
 import com.example.delivery.domain.store.entity.Store;
 import com.example.delivery.domain.store.service.StoreService;
@@ -36,6 +37,7 @@ public class OrderService {
   private final StoreService storeService;
   private final MenuService menuService;
   private final CartService cartService;
+  private final DeliveryService deliveryService;
   private final OrderRepository orderRepository;
   private final OrderMenuRepository orderMenuRepository;
   private final PayServiceFactory payServiceFactory;
@@ -56,6 +58,7 @@ public class OrderService {
     order.updateStatus(OrderStatus.COMPLETE_ORDER);
 
     orderReceipt = getOrderReceipt(order, cartList, totalPrice, storeId, member);
+    deliveryService.registerOrderWhenOrderApprove(order.getId(), orderReceipt);
 
     return orderReceipt;
   }
