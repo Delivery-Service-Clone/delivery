@@ -15,25 +15,20 @@ import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.MulticastMessage;
 import java.util.HashSet;
 import java.util.Set;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 class FCMServiceTest {
 
-  @Mock
-  private FirebaseMessaging firebaseMessaging;
+  @Mock private FirebaseMessaging firebaseMessaging;
 
-  @Mock
-  private DeliveryDao deliveryDao;
+  @Mock private DeliveryDao deliveryDao;
 
-  @InjectMocks
-  private FCMService fcmService;
+  @InjectMocks private FCMService fcmService;
 
   @Test
   void sendPushs_successful() throws FirebaseMessagingException {
@@ -64,7 +59,9 @@ class FCMServiceTest {
 
     // Mock FirebaseMessagingException
     FirebaseMessagingException firebaseException = mock(FirebaseMessagingException.class);
-    doThrow(firebaseException).when(firebaseMessaging).sendEachForMulticast(any(MulticastMessage.class));
+    doThrow(firebaseException)
+        .when(firebaseMessaging)
+        .sendEachForMulticast(any(MulticastMessage.class));
 
     // When
     try {
