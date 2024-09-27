@@ -20,10 +20,9 @@ public class FCMService {
   public void sendPushs(PushsRequestDto pushsRequestDto) throws FirebaseMessagingException {
 
     Set<String> tokens = deliveryDao.getRiderTokensByAddress(pushsRequestDto.getAddress());
-
     MulticastMessage message =
         makeMessages(pushsRequestDto.getTitle(), pushsRequestDto.getContent(), tokens);
-    firebaseMessaging.sendMulticast(message);
+    firebaseMessaging.sendEachForMulticast(message);
   }
 
   private MulticastMessage makeMessages(String title, String body, Set<String> targetTokens) {

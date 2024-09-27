@@ -35,7 +35,7 @@ dependencies {
     implementation 'javax.validation:validation-api:2.0.1.Final'
 
     //firebase
-    implementation 'com.google.firebase:firebase-admin:9.1.1'
+    implementation 'com.google.firebase:firebase-admin:9.2.0'
 
     //redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
