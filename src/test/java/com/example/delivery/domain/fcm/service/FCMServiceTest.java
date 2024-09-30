@@ -1,6 +1,5 @@
 package com.example.delivery.domain.fcm.service;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -31,7 +30,7 @@ class FCMServiceTest {
   @InjectMocks private FCMService fcmService;
 
   @Test
-  void sendPushs_successful() throws FirebaseMessagingException {
+  void sendMessageDelivery_successful() throws FirebaseMessagingException {
     // Given
     PushsRequestDto requestDto = new PushsRequestDto("Test Title", "Test Content", "Test Address");
     Set<String> tokens = new HashSet<>();
@@ -40,14 +39,14 @@ class FCMServiceTest {
 
     when(deliveryDao.getRiderTokensByAddress(requestDto.getAddress())).thenReturn(tokens);
 
-    fcmService.sendPushs(requestDto);
+    fcmService.sendMessageDelivery(requestDto);
 
     verify(deliveryDao, times(1)).getRiderTokensByAddress(requestDto.getAddress());
     verify(firebaseMessaging, times(1)).sendEachForMulticast(any(MulticastMessage.class));
   }
 
   @Test
-  void sendPushs_firebaseException() throws FirebaseMessagingException {
+  void sendMessageDelivery_firebaseException() throws FirebaseMessagingException {
     // Given
     PushsRequestDto requestDto = new PushsRequestDto("Test Title", "Test Content", "Test Address");
     Set<String> tokens = new HashSet<>();
@@ -65,7 +64,7 @@ class FCMServiceTest {
 
     // When
     try {
-      fcmService.sendPushs(requestDto);
+      fcmService.sendMessageDelivery(requestDto);
     } catch (FirebaseMessagingException e) {
       // Then
       verify(deliveryDao, times(1)).getRiderTokensByAddress(requestDto.getAddress());
