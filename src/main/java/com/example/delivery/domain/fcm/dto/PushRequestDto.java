@@ -7,4 +7,5 @@ public class PushRequestDto {
 
   private String title;
   private String content;
+  private String token;
 }

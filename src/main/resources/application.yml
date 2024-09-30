@@ -27,6 +27,19 @@ spring:
     redis:
       host: 127.0.0.1
       port: 6379
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: 1111
+
+rabbitmq:
+  queue:
+    name: myQueue
+  exchange:
+    name: myExchange
+  routing:
+    key: my.routing.key
 
 jwt:
   secret: f46399d13753c46d03c1d90971b3d1072f470434a2f8266b0b1021281e46f69a
@@ -47,7 +60,7 @@ springdoc:
   paths-to-match:
     - /**
 
-logging:
-  level:
-    org.springframework: DEBUG
-    com.example.delivery: DEBUG
+#logging:
+#  level:
+#    org.springframework: DEBUG
+#    com.example.delivery: DEBUG
