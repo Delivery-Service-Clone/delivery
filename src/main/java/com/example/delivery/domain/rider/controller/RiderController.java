@@ -85,7 +85,7 @@ public class RiderController {
   public ResponseEntity<ResultResponse> sendPushNotification(
       @RequestBody PushsRequestDto pushsRequestDto) {
     try {
-      fcmService.sendPushs(pushsRequestDto);
+      fcmService.sendMessageDelivery(pushsRequestDto);
       return ResponseEntity.ok(ResultResponse.of(ResultCode.FCM_SEND_SUCCESS));
     } catch (FirebaseMessagingException e) {
       return ResponseEntity.ok(ResultResponse.of(ResultCode.FCM_SEND_FAIL));

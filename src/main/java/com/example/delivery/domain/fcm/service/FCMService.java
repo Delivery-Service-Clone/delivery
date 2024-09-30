@@ -1,23 +1,31 @@
 package com.example.delivery.domain.fcm.service;
 
+import com.example.delivery.domain.fcm.dto.PushRequestDto;
 import com.example.delivery.domain.fcm.dto.PushsRequestDto;
 import com.example.delivery.domain.rider.dao.DeliveryDao;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
+import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.MulticastMessage;
 import com.google.firebase.messaging.Notification;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class FCMService {
 
   private final FirebaseMessaging firebaseMessaging;
   private final DeliveryDao deliveryDao;
 
-  public void sendPushs(PushsRequestDto pushsRequestDto) throws FirebaseMessagingException {
+  //라이더들에게 보낼 메시지 알림 메서드
+  //redis에서 토큰값을 가져오기 때문에 dto에 토큰 제외
+  public void sendMessageDelivery(PushsRequestDto pushsRequestDto)
+      throws FirebaseMessagingException {
 
     Set<String> tokens = deliveryDao.getRiderTokensByAddress(pushsRequestDto.getAddress());
     MulticastMessage message =
@@ -25,11 +33,30 @@ public class FCMService {
     firebaseMessaging.sendEachForMulticast(message);
   }
 
+  //개인별 메시지 알림 전송
+  @RabbitListener(queues = "${rabbitmq.queue.name}")
+  public void sendMessage(PushRequestDto pushRequestDto) {
+    try {
+      Message message = makeMessage(pushRequestDto.getTitle(), pushRequestDto.getContent(), pushRequestDto.getToken());
+      firebaseMessaging.send(message);
+    } catch (FirebaseMessagingException e) {
+      log.info("Failed to send message due to invalid token: " + pushRequestDto.getToken());
+    }
+  }
+
   private MulticastMessage makeMessages(String title, String body, Set<String> targetTokens) {
     Notification notification = Notification.builder().setTitle(title).setBody(body).build();
     return MulticastMessage.builder()
         .setNotification(notification)
         .addAllTokens(targetTokens)
+        .build();
+  }
+
+  private Message makeMessage(String title, String body, String token) {
+    Notification notification = Notification.builder().setTitle(title).setBody(body).build();
+    return Message.builder()
+        .setNotification(notification)
+        .setToken(token)
         .build();
   }
 }
