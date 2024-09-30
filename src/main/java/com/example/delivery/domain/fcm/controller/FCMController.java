@@ -1,18 +1,12 @@
 package com.example.delivery.domain.fcm.controller;
 
 import com.example.delivery.domain.fcm.dto.PushRequestDto;
-import com.example.delivery.domain.fcm.dto.PushsRequestDto;
 import com.example.delivery.domain.fcm.service.FCMService;
 import com.example.delivery.domain.fcm.service.RabbitMQSender;
 import com.example.delivery.global.result.ResultCode;
 import com.example.delivery.global.result.ResultResponse;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
-import com.google.firebase.messaging.MulticastMessage;
-import com.google.firebase.messaging.Notification;
-import java.util.Set;
 import lombok.RequiredArgsConstructor;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,9 +22,9 @@ public class FCMController {
   private final RabbitMQSender rabbitMQSender;
 
   @PostMapping("/send")
-  public ResponseEntity<ResultResponse> sendPushNotification(@RequestBody PushRequestDto pushRequestDto)
-      throws FirebaseMessagingException {
-      rabbitMQSender.send(pushRequestDto);
-      return ResponseEntity.ok(ResultResponse.of(ResultCode.FCM_SEND_SUCCESS, ""));
+  public ResponseEntity<ResultResponse> sendPushNotification(
+      @RequestBody PushRequestDto pushRequestDto) throws FirebaseMessagingException {
+    rabbitMQSender.send(pushRequestDto);
+    return ResponseEntity.ok(ResultResponse.of(ResultCode.FCM_SEND_SUCCESS, ""));
   }
 }

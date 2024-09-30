@@ -1,7 +1,5 @@
 package com.example.delivery.global.config.rabbitMq;
 
-import org.springframework.context.annotation.Configuration;
-
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
@@ -13,6 +11,7 @@ import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMQConfig {
@@ -61,7 +60,7 @@ public class RabbitMQConfig {
   /**
    * 주어진 큐와 익스체인지를 바인딩하고 라우팅 키를 사용하여 Binding 빈을 생성
    *
-   * @param queue    바인딩할 Queue
+   * @param queue 바인딩할 Queue
    * @param exchange 바인딩할 TopicExchange
    * @return Binding 빈 객체
    */

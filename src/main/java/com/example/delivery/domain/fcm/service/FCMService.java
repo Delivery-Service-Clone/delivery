@@ -22,8 +22,8 @@ public class FCMService {
   private final FirebaseMessaging firebaseMessaging;
   private final DeliveryDao deliveryDao;
 
-  //라이더들에게 보낼 메시지 알림 메서드
-  //redis에서 토큰값을 가져오기 때문에 dto에 토큰 제외
+  // 라이더들에게 보낼 메시지 알림 메서드
+  // redis에서 토큰값을 가져오기 때문에 dto에 토큰 제외
   public void sendMessageDelivery(PushsRequestDto pushsRequestDto)
       throws FirebaseMessagingException {
 
@@ -33,11 +33,13 @@ public class FCMService {
     firebaseMessaging.sendEachForMulticast(message);
   }
 
-  //개인별 메시지 알림 전송
+  // 개인별 메시지 알림 전송
   @RabbitListener(queues = "${rabbitmq.queue.name}")
   public void sendMessage(PushRequestDto pushRequestDto) {
     try {
-      Message message = makeMessage(pushRequestDto.getTitle(), pushRequestDto.getContent(), pushRequestDto.getToken());
+      Message message =
+          makeMessage(
+              pushRequestDto.getTitle(), pushRequestDto.getContent(), pushRequestDto.getToken());
       firebaseMessaging.send(message);
     } catch (FirebaseMessagingException e) {
       log.info("Failed to send message due to invalid token: " + pushRequestDto.getToken());
@@ -54,9 +56,6 @@ public class FCMService {
 
   private Message makeMessage(String title, String body, String token) {
     Notification notification = Notification.builder().setTitle(title).setBody(body).build();
-    return Message.builder()
-        .setNotification(notification)
-        .setToken(token)
-        .build();
+    return Message.builder().setNotification(notification).setToken(token).build();
   }
 }
