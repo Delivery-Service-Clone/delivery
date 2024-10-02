@@ -1,6 +1,5 @@
 package com.example.delivery.global.config.aop;
 
-import static com.mysql.cj.conf.PropertyKey.logger;
 
 import com.example.delivery.global.config.datasource.DataSourceContextHolder;
 import com.example.delivery.global.config.datasource.DataSourceType;
@@ -19,7 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 public class DataSourceAspect {
 
-  @Before("execution(* com.example.delivery.domain..*.*(..)) && @annotation(org.springframework.transaction.annotation.Transactional)")
+  @Before(
+      "execution(* com.example.delivery.domain..*.*(..)) &&"
+          + " @annotation(org.springframework.transaction.annotation.Transactional)")
   public void setDataSource(JoinPoint joinPoint) {
     MethodSignature signature = (MethodSignature) joinPoint.getSignature();
     Transactional transactional = signature.getMethod().getAnnotation(Transactional.class);
@@ -34,7 +35,9 @@ public class DataSourceAspect {
     log.info("AOP 실행");
   }
 
-  @After("execution(* com.example.delivery.domain..*.*(..)) && @annotation(org.springframework.transaction.annotation.Transactional)")
+  @After(
+      "execution(* com.example.delivery.domain..*.*(..)) &&"
+          + " @annotation(org.springframework.transaction.annotation.Transactional)")
   public void clearDataSource(JoinPoint joinPoint) {
     DataSourceContextHolder.clearDataSourceKey();
     log.info("AOP 종료");

@@ -4,5 +4,8 @@ import lombok.Getter;
 
 @Getter
 public enum DataSourceType {
-  MASTER, SLAVE1, SLAVE2, SLAVE3;
+  MASTER,
+  SLAVE1,
+  SLAVE2,
+  SLAVE3;
 }

@@ -13,7 +13,10 @@ public class ReplicationRoutingDataSource extends AbstractRoutingDataSource {
     // 명시적으로 설정된 데이터 소스가 없으면 트랜잭션의 읽기 전용 여부에 따라 결정
     if (dataSourceKey == null) {
       boolean isReadOnly = TransactionSynchronizationManager.isCurrentTransactionReadOnly();
-      dataSourceKey = isReadOnly ? LoadBalancedDataSourceSelector.selectSlaveDataSource() : DataSourceType.MASTER;
+      dataSourceKey =
+          isReadOnly
+              ? LoadBalancedDataSourceSelector.selectSlaveDataSource()
+              : DataSourceType.MASTER;
 
       logger.info("Automatically using DataSource: " + dataSourceKey);
     } else {

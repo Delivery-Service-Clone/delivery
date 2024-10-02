@@ -90,12 +90,12 @@ public class DataSourceConfig {
     em.setPackagesToScan("com.example.delivery.domain");
 
     Map<String, Object> properties = new HashMap<>();
-    properties.put("hibernate.implicit_naming_strategy",
-        SpringImplicitNamingStrategy.class.getName());
+    properties.put(
+        "hibernate.implicit_naming_strategy", SpringImplicitNamingStrategy.class.getName());
     properties.put("hibernate.hbm2ddl.auto", "update");
-    properties.put("hibernate.show_sql", "true");    // SQL 쿼리 출력
-    properties.put("hibernate.format_sql", "true");  // 출력된 SQL 포맷팅
-    properties.put("hibernate.use_sql_comments", "true");  // 쿼리에 주석 추가
+    properties.put("hibernate.show_sql", "true"); // SQL 쿼리 출력
+    properties.put("hibernate.format_sql", "true"); // 출력된 SQL 포맷팅
+    properties.put("hibernate.use_sql_comments", "true"); // 쿼리에 주석 추가
 
     em.setJpaPropertyMap(properties);
 
