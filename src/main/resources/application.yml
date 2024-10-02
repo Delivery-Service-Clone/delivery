@@ -6,10 +6,22 @@ spring:
         jdbc-url: jdbc:mysql://localhost:3307/delivery?&serverTimezone=Asia/Seoul
         username: root
         password: 1111
-    slave:
+    slave1:
       hikari:
         driver-class-name: com.mysql.cj.jdbc.Driver
         jdbc-url: jdbc:mysql://localhost:3308/delivery?&serverTimezone=Asia/Seoul
+        username: root
+        password: 1111
+    slave2:
+      hikari:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://localhost:3309/delivery?&serverTimezone=Asia/Seoul
+        username: root
+        password: 1111
+    slave3:
+      hikari:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://localhost:3310/delivery?&serverTimezone=Asia/Seoul
         username: root
         password: 1111
 #  jpa:

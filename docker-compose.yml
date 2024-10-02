@@ -26,8 +26,8 @@ services:
     networks:
       - app-tier
 
-  mysql-slave:
-    container_name: db-mysql-slave
+  mysql-slave1:
+    container_name: db-mysql-slave1
     image: mysql/mysql-server:8.0
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -36,7 +36,7 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       TZ: Asia/Seoul
     volumes:
-      - slave-data:/var/lib/mysql  # slave-data 볼륨 추가
+      - slave1-data:/var/lib/mysql
       - ./slave-config:/etc/mysql/conf.d  # 슬레이브 설정 파일 마운트
     command:
       - '--character-set-server=utf8mb4'
@@ -45,6 +45,58 @@ services:
       - '--relay-log=relay-log-bin'
     ports:
       - '3308:3306'
+    expose:
+      - "3306"
+    depends_on:
+      - mysql-master
+    networks:
+      - app-tier
+
+  mysql-slave2:
+    container_name: db-mysql-slave2
+    image: mysql/mysql-server:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      TZ: Asia/Seoul
+    volumes:
+      - slave2-data:/var/lib/mysql
+      - ./slave-config:/etc/mysql/conf.d
+    command:
+      - '--character-set-server=utf8mb4'
+      - '--collation-server=utf8mb4_unicode_ci'
+      - '--server-id=3'
+      - '--relay-log=relay-log-bin'
+    ports:
+      - '3309:3306'
+    expose:
+      - "3306"
+    depends_on:
+      - mysql-master
+    networks:
+      - app-tier
+
+  mysql-slave3:
+    container_name: db-mysql-slave3
+    image: mysql/mysql-server:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      TZ: Asia/Seoul
+    volumes:
+      - slave3-data:/var/lib/mysql
+      - ./slave-config:/etc/mysql/conf.d
+    command:
+      - '--character-set-server=utf8mb4'
+      - '--collation-server=utf8mb4_unicode_ci'
+      - '--server-id=4'
+      - '--relay-log=relay-log-bin'
+    ports:
+      - '3310:3306'
     expose:
       - "3306"
     depends_on:
@@ -61,6 +113,7 @@ services:
       - app-tier
     volumes:
       - redis-data:/data
+
   rabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: rabbitmq-stream
@@ -75,26 +128,6 @@ services:
       RABBITMQ_ERLANG_COOKIE: "RabbitMQ-My-Cookies"
       RABBITMQ_DEFAULT_USER: "admin"
       RABBITMQ_DEFAULT_PASS: "1111"
-#  backend:
-#    container_name: backend-springboot
-#    build: .
-#    restart: always
-#    ports:
-#      - "8080:8080"
-#    depends_on:
-#      - mysql
-#      - redis
-#    environment:
-#      SPRING_DATASOURCE_URL: jdbc:mysql://db-mysql:3306/delivery
-#      SPRING_DATASOURCE_USERNAME: ${MYSQL_USER}
-#      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
-#      SPRING_JPA_HIBERNATE_DDL_AUTO: update
-#      SPRING_REDIS_HOST: redis
-#      SPRING_REDIS_PORT: 6379
-#    expose:
-#      - 8080
-#    networks:
-#      - app-tier
 
 networks:
   app-tier:
@@ -102,5 +135,7 @@ networks:
 
 volumes:
   master-data:
-  slave-data:  # 이 줄을 추가하여 slave-data 볼륨 정의
+  slave1-data:  # 첫 번째 슬레이브에 대한 볼륨
+  slave2-data:  # 두 번째 슬레이브에 대한 볼륨
+  slave3-data:  # 세 번째 슬레이브에 대한 볼륨
   redis-data:
