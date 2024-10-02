@@ -1,6 +1,5 @@
 package com.example.delivery.global.config.aop;
 
-
 import com.example.delivery.global.config.datasource.DataSourceContextHolder;
 import com.example.delivery.global.config.datasource.DataSourceType;
 import com.example.delivery.global.config.datasource.LoadBalancedDataSourceSelector;
