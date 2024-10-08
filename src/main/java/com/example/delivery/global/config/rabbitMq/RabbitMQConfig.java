@@ -1,9 +1,5 @@
 package com.example.delivery.global.config.rabbitMq;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -28,47 +24,6 @@ public class RabbitMQConfig {
   @Value("${spring.rabbitmq.password}")
   private String rabbitmqPassword;
 
-  @Value("${rabbitmq.queue.name}")
-  private String queueName;
-
-  @Value("${rabbitmq.exchange.name}")
-  private String exchangeName;
-
-  @Value("${rabbitmq.routing.key}")
-  private String routingKey;
-
-  /**
-   * 지정된 큐 이름으로 Queue 빈을 생성
-   *
-   * @return Queue 빈 객체
-   */
-  @Bean
-  public Queue queue() {
-    return new Queue(queueName);
-  }
-
-  /**
-   * 지정된 익스체인지 이름으로 TopicExchange 빈을 생성
-   *
-   * @return TopicExchange 빈 객체
-   */
-  @Bean
-  public TopicExchange exchange() {
-    return new TopicExchange(exchangeName);
-  }
-
-  /**
-   * 주어진 큐와 익스체인지를 바인딩하고 라우팅 키를 사용하여 Binding 빈을 생성
-   *
-   * @param queue 바인딩할 Queue
-   * @param exchange 바인딩할 TopicExchange
-   * @return Binding 빈 객체
-   */
-  @Bean
-  public Binding binding(Queue queue, TopicExchange exchange) {
-    return BindingBuilder.bind(queue).to(exchange).with(routingKey);
-  }
-
   /**
    * RabbitMQ 연결을 위한 ConnectionFactory 빈을 생성하여 반환
    *
@@ -83,6 +38,12 @@ public class RabbitMQConfig {
     connectionFactory.setPassword(rabbitmqPassword);
     return connectionFactory;
   }
+
+  //  @Bean
+  //  @Primary
+  //  public RabbitListenerEndpointRegistry rabbitListenerEndpointRegistry() {
+  //    return new RabbitListenerEndpointRegistry();
+  //  }
 
   /**
    * RabbitTemplate을 생성하여 반환

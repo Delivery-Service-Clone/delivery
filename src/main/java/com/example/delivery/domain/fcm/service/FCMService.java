@@ -33,17 +33,26 @@ public class FCMService {
     firebaseMessaging.sendEachForMulticast(message);
   }
 
-  // 개인별 메시지 알림 전송
-  @RabbitListener(queues = "${rabbitmq.queue.name}")
-  public void sendMessage(PushRequestDto pushRequestDto) {
+  private void sendFirebaseMessage(PushRequestDto pushRequestDto, String logMessage) {
     try {
       Message message =
           makeMessage(
               pushRequestDto.getTitle(), pushRequestDto.getContent(), pushRequestDto.getToken());
       firebaseMessaging.send(message);
+      log.info(logMessage);
     } catch (FirebaseMessagingException e) {
-      log.info("Failed to send message due to invalid token: " + pushRequestDto.getToken());
+      log.info("Failed to send message due to invalid token: " + pushRequestDto.getToken(), e);
     }
+  }
+
+  @RabbitListener(queues = "processingQueue")
+  public void sendMessage(PushRequestDto pushRequestDto) {
+    sendFirebaseMessage(pushRequestDto, "정상 실행");
+  }
+
+  @RabbitListener(queues = "deadLetterQueue")
+  public void receiveErrorMessage(PushRequestDto pushRequestDto) {
+    sendFirebaseMessage(pushRequestDto, "오류가 발생했을 때");
   }
 
   private MulticastMessage makeMessages(String title, String body, Set<String> targetTokens) {
