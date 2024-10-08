@@ -8,7 +8,6 @@ import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.MulticastMessage;
 import com.google.firebase.messaging.Notification;
-import jakarta.annotation.PostConstruct;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +35,9 @@ public class FCMService {
 
   private void sendFirebaseMessage(PushRequestDto pushRequestDto, String logMessage) {
     try {
-      Message message = makeMessage(pushRequestDto.getTitle(), pushRequestDto.getContent(), pushRequestDto.getToken());
+      Message message =
+          makeMessage(
+              pushRequestDto.getTitle(), pushRequestDto.getContent(), pushRequestDto.getToken());
       firebaseMessaging.send(message);
       log.info(logMessage);
     } catch (FirebaseMessagingException e) {
