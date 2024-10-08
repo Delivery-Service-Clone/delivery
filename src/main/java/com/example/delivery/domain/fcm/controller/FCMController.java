@@ -23,7 +23,7 @@ public class FCMController {
 
   @PostMapping("/send")
   public ResponseEntity<ResultResponse> sendPushNotification(
-      @RequestBody PushRequestDto pushRequestDto) throws FirebaseMessagingException {
+      @RequestBody PushRequestDto pushRequestDto) {
     rabbitMQSender.send(pushRequestDto);
     return ResponseEntity.ok(ResultResponse.of(ResultCode.FCM_SEND_SUCCESS, ""));
   }
