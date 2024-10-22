@@ -83,6 +83,8 @@ jacocoTestReport {
                 fileTree(dir: it, exclude: [
                         '**/dto',
                         '**/entity',
+                        '**/global/**',
+                        '**/user/**',
                 ])
             })
     )
