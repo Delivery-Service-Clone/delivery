@@ -16,6 +16,7 @@ import com.example.delivery.domain.order.exception.CartNotFoundException;
 import com.example.delivery.domain.store.exception.StoreNotFoundException;
 import com.example.delivery.domain.store.repository.StoreRepository;
 import com.example.delivery.domain.user.entity.Member;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,8 +24,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 public class CartServiceTest {
@@ -40,13 +39,14 @@ public class CartServiceTest {
 
   @BeforeEach
   void setUp() {
-    member = Member.builder()
-        .email("example@example.com")
-        .name("테스트")
-        .password("password")
-        .phone("010-1234-5678")
-        .address("Paris")
-        .build();
+    member =
+        Member.builder()
+            .email("example@example.com")
+            .name("테스트")
+            .password("password")
+            .phone("010-1234-5678")
+            .address("Paris")
+            .build();
 
     cartItemDTO = new CartItemDTO("new Item", 7000L, 1L, 1L, 2L);
   }
@@ -119,16 +119,9 @@ public class CartServiceTest {
   @Test
   @DisplayName("주문 메뉴로 장바구니 항목 생성 테스트")
   void testMakeCartListByOrderMenu_Success() {
-    Menu menu = Menu.builder()
-        .id(1L)
-        .name("테스트 메뉴")
-        .price(10000L)
-        .build();
+    Menu menu = Menu.builder().id(1L).name("테스트 메뉴").price(10000L).build();
 
-    OrderMenu orderMenu = OrderMenu.builder()
-        .menu(menu)
-        .count(2L)
-        .build();
+    OrderMenu orderMenu = OrderMenu.builder().menu(menu).count(2L).build();
 
     List<OrderMenu> orderMenuList = List.of(orderMenu);
     Long storeId = 1L;
