@@ -61,7 +61,8 @@ public class StoreController {
       @RequestParam(defaultValue = "10") int limit) {
 
     // 커서 기반으로 가게 조회
-    List<StoreDto> stores = storeService.getStoresByCursor(address, category, lastId == null ? 0L : lastId, limit);
+    List<StoreDto> stores =
+        storeService.getStoresByCursor(address, category, lastId == null ? 0L : lastId, limit);
 
     return ResponseEntity.ok(ResultResponse.of(GET_STORES_SUCCESS, stores));
   }

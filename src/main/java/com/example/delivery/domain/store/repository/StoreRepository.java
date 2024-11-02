@@ -10,5 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface StoreRepository extends JpaRepository<Store, Long> {
 
   List<Store> findByCategory(Category category);
-  Slice<Store> findByAddressAndCategoryAndIdGreaterThan(String address, Category category, Long id, Pageable pageable);
+
+  Slice<Store> findByAddressAndCategoryAndIdGreaterThan(
+      String address, Category category, Long id, Pageable pageable);
 }
