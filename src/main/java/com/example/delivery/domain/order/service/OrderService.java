@@ -110,6 +110,7 @@ public class OrderService {
     payService.pay(totalPrice, order);
   }
 
+  @Transactional
   public OrderReceiptDto getOrderInfoByOrderId(Member member, Long storeId, Long orderId) {
 
     Order order = orderRepository.findById(orderId).orElseThrow(OrderNotFoundException::new);
@@ -136,6 +137,7 @@ public class OrderService {
         .build();
   }
 
+  @Transactional
   public List<OrderStoreDetailDTO> getStoreOrderInfoByStoreId(Long storeId) {
     List<OrderStoreDetailDTO> orderStoreDetailDTOs = new ArrayList<>();
     List<Order> orderList = orderRepository.findByStoreId(storeId);

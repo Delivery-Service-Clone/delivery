@@ -16,6 +16,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,6 +73,36 @@ public class StoreService {
                         .build())
             .collect(Collectors.toList());
 
+    return storeDtos;
+  }
+
+  @Transactional(readOnly = true)
+  public List<StoreDto> getStoresByCursor(String address, Category category, Long lastId, int limit) {
+
+    // Pageable 객체 생성 (페이지 크기와 정렬 설정)
+    Pageable pageable = PageRequest.of(0, limit, Sort.by(Sort.Direction.ASC, "id"));
+
+    // 커서 기반으로 조건에 맞는 데이터 조회
+    Slice<Store> storesSlice = storeRepository.findByAddressAndCategoryAndIdGreaterThan(address, category, lastId, pageable);
+
+    // 조회된 Store 리스트가 비어 있는 경우 예외 처리
+    if (storesSlice.isEmpty()) {
+      throw new StoreNotFoundException();
+    }
+
+    // Store 엔티티 리스트를 StoreDto 리스트로 변환
+    List<StoreDto> storeDtos = storesSlice.stream()
+        .map(store -> StoreDto.builder()
+            .storeId(store.getId())
+            .ownerId(store.getOwner().getId())
+            .storeAddress(store.getAddress())
+            .storeName(store.getName())
+            .storePhone(store.getPhone())
+            .storeStatus(store.getStoreStatus())
+            .introduction(store.getIntroduction())
+            .category(store.getCategory())
+            .build())
+        .collect(Collectors.toList());
     return storeDtos;
   }
 

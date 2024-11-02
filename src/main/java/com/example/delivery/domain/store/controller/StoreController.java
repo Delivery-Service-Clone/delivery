@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -48,6 +49,20 @@ public class StoreController {
   @Operation(summary = "카테고리별 가게 조회", description = "카테고리별 가게를 조회한다.")
   public ResponseEntity<ResultResponse> getStoresByCategory(@PathVariable Category category) {
     List<StoreDto> stores = storeService.getStoresByCategory(category);
+    return ResponseEntity.ok(ResultResponse.of(GET_STORES_SUCCESS, stores));
+  }
+
+  @GetMapping("/{category}/paging")
+  @Operation(summary = "카테고리별 가게 조회", description = "카테고리별 가게를 커서 기반으로 페이지네이션하여 조회한다.")
+  public ResponseEntity<ResultResponse> getStoresByCategory(
+      @PathVariable Category category,
+      @RequestParam String address,
+      @RequestParam(required = false) Long lastId,
+      @RequestParam(defaultValue = "10") int limit) {
+
+    // 커서 기반으로 가게 조회
+    List<StoreDto> stores = storeService.getStoresByCursor(address, category, lastId == null ? 0L : lastId, limit);
+
     return ResponseEntity.ok(ResultResponse.of(GET_STORES_SUCCESS, stores));
   }
 
